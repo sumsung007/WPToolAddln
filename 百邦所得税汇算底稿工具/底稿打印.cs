@@ -24,6 +24,7 @@ namespace 百邦所得税汇算底稿工具
             {
                 img = System.Windows.Forms.Clipboard.GetImage();
                 pictureBox1.Image = img;
+
             }
         }
 

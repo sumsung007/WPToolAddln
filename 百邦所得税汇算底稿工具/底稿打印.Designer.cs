@@ -32,19 +32,19 @@
             this.lv待选 = new System.Windows.Forms.ListView();
             this.lv选中 = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btn选中 = new System.Windows.Forms.Button();
-            this.btn全选 = new System.Windows.Forms.Button();
-            this.btn移出 = new System.Windows.Forms.Button();
-            this.btn全移 = new System.Windows.Forms.Button();
-            this.btn识别 = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btn打印 = new System.Windows.Forms.Button();
-            this.btn取消 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btn识别 = new System.Windows.Forms.Button();
+            this.btn全移 = new System.Windows.Forms.Button();
+            this.btn移出 = new System.Windows.Forms.Button();
+            this.btn全选 = new System.Windows.Forms.Button();
+            this.btn选中 = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btn取消 = new System.Windows.Forms.Button();
+            this.btn打印 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -100,32 +100,23 @@
             this.panel1.Size = new System.Drawing.Size(113, 346);
             this.panel1.TabIndex = 3;
             // 
-            // btn选中
+            // pictureBox1
             // 
-            this.btn选中.Location = new System.Drawing.Point(8, 75);
-            this.btn选中.Name = "btn选中";
-            this.btn选中.Size = new System.Drawing.Size(93, 23);
-            this.btn选中.TabIndex = 0;
-            this.btn选中.Text = "选中-->";
-            this.btn选中.UseVisualStyleBackColor = true;
+            this.pictureBox1.Location = new System.Drawing.Point(8, 9);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // btn全选
+            // btn识别
             // 
-            this.btn全选.Location = new System.Drawing.Point(8, 104);
-            this.btn全选.Name = "btn全选";
-            this.btn全选.Size = new System.Drawing.Size(93, 23);
-            this.btn全选.TabIndex = 0;
-            this.btn全选.Text = "选中全部->";
-            this.btn全选.UseVisualStyleBackColor = true;
-            // 
-            // btn移出
-            // 
-            this.btn移出.Location = new System.Drawing.Point(8, 143);
-            this.btn移出.Name = "btn移出";
-            this.btn移出.Size = new System.Drawing.Size(93, 23);
-            this.btn移出.TabIndex = 0;
-            this.btn移出.Text = "<--移出";
-            this.btn移出.UseVisualStyleBackColor = true;
+            this.btn识别.Location = new System.Drawing.Point(8, 252);
+            this.btn识别.Name = "btn识别";
+            this.btn识别.Size = new System.Drawing.Size(93, 23);
+            this.btn识别.TabIndex = 0;
+            this.btn识别.Text = "智能识别";
+            this.btn识别.UseVisualStyleBackColor = true;
             // 
             // btn全移
             // 
@@ -136,14 +127,32 @@
             this.btn全移.Text = "<-移出全部";
             this.btn全移.UseVisualStyleBackColor = true;
             // 
-            // btn识别
+            // btn移出
             // 
-            this.btn识别.Location = new System.Drawing.Point(8, 252);
-            this.btn识别.Name = "btn识别";
-            this.btn识别.Size = new System.Drawing.Size(93, 23);
-            this.btn识别.TabIndex = 0;
-            this.btn识别.Text = "智能识别";
-            this.btn识别.UseVisualStyleBackColor = true;
+            this.btn移出.Location = new System.Drawing.Point(8, 143);
+            this.btn移出.Name = "btn移出";
+            this.btn移出.Size = new System.Drawing.Size(93, 23);
+            this.btn移出.TabIndex = 0;
+            this.btn移出.Text = "<--移出";
+            this.btn移出.UseVisualStyleBackColor = true;
+            // 
+            // btn全选
+            // 
+            this.btn全选.Location = new System.Drawing.Point(8, 104);
+            this.btn全选.Name = "btn全选";
+            this.btn全选.Size = new System.Drawing.Size(93, 23);
+            this.btn全选.TabIndex = 0;
+            this.btn全选.Text = "选中全部->";
+            this.btn全选.UseVisualStyleBackColor = true;
+            // 
+            // btn选中
+            // 
+            this.btn选中.Location = new System.Drawing.Point(8, 75);
+            this.btn选中.Name = "btn选中";
+            this.btn选中.Size = new System.Drawing.Size(93, 23);
+            this.btn选中.TabIndex = 0;
+            this.btn选中.Text = "选中-->";
+            this.btn选中.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -155,16 +164,6 @@
             this.panel2.Size = new System.Drawing.Size(386, 43);
             this.panel2.TabIndex = 4;
             // 
-            // btn打印
-            // 
-            this.btn打印.Location = new System.Drawing.Point(21, 11);
-            this.btn打印.Name = "btn打印";
-            this.btn打印.Size = new System.Drawing.Size(75, 23);
-            this.btn打印.TabIndex = 0;
-            this.btn打印.Text = "批量打印";
-            this.btn打印.UseVisualStyleBackColor = true;
-            this.btn打印.Click += new System.EventHandler(this.btn打印_Click);
-            // 
             // btn取消
             // 
             this.btn取消.Location = new System.Drawing.Point(251, 11);
@@ -174,14 +173,15 @@
             this.btn取消.Text = "取消打印";
             this.btn取消.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // btn打印
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(1, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.btn打印.Location = new System.Drawing.Point(21, 11);
+            this.btn打印.Name = "btn打印";
+            this.btn打印.Size = new System.Drawing.Size(75, 23);
+            this.btn打印.TabIndex = 0;
+            this.btn打印.Text = "批量打印";
+            this.btn打印.UseVisualStyleBackColor = true;
+            this.btn打印.Click += new System.EventHandler(this.btn打印_Click);
             // 
             // 底稿打印
             // 
@@ -193,8 +193,8 @@
             this.Text = "Form1";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
