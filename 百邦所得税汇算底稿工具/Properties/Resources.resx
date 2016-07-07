@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LOGO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QQ图片20150321151211-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_content_copy_black_24dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_content_copy_black_24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_assignment_ind_black_48dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_assignment_ind_black_48dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_border_color_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_border_color_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_cloud_upload_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_cloud_upload_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_flip_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_flip_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_info_outline_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_info_outline_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_insert_chart_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_insert_chart_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_list_black_48dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_list_black_48dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_local_print_shop_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_local_print_shop_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_question_answer_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_question_answer_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_receipt_black_24dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_receipt_black_24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_search_black_24dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_search_black_24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_settings_applications_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_settings_applications_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_vpn_key_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_vpn_key_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="assignment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\assignment.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="border" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\border.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cloud" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cloud.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="content" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\content.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\flip.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info_outline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info_outline.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="insert_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\insert_chart.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="list" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\list.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="print" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\print.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="QQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QQ.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="question_answe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\question_answe.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="receipt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\receipt.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\search.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="vpn_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\vpn_key.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tag1" xml:space="preserve">
+    <value>档案封面||档案索引||签发单||三级复核||业务约定||当局声明||计划||内控||审核问卷||重大问题||交换意见||资料清单||审核标识||地税、基本情况||基本情况||资产负债||利润||余额表||盘点表||检查表||待办事项||主页||通用记录||税审收费标准||使用说明</value>
+    <comment>综合类底稿</comment>
+  </data>
+  <data name="Tag2" xml:space="preserve">
+    <value>凭证检查||工资福利||招待||固资折旧||折旧测算||无形长摊||社保||社保明细工资人数||广宣||捐赠||利息||租金||补亏||其他事项||无限期结转扣除项目审核表||跨年度确认所得情况表||视同销售和房地产开发企业特定业务审核表||未按权责发生制确认收入审核表||投资收益审核表||专项用途财政性资金审核表||固定资产加速折旧审核表||资产损失税前扣除审核表||资产损失（专项申报）税前扣除审核表||企业重组审核表||政策性搬迁审核表||特殊行业准备金审核表||免税、减计收入及加计扣除优惠审核表||股息红利优惠审核表||综合利用资源生产产品取得的收入优惠审核表||金融保险等机构取得涉农利息保费收入优惠审核表||研发费用加计扣除优惠审核表||所得减免优惠审核表||抵扣应纳税所得额审核表||减免所得税优惠审核表||高新技术企业优惠情况审核表||软件、集成电路企业优惠情况审核表||税额抵免优惠审核表||境外所得税收抵免审核表||境外所得纳税调整后所得审核表||境外分支机构弥补亏损审核表||跨年度结转抵免境外所得税审核表||跨地区经营汇总纳税企业年度分摊企业所得税审核表||企业所得税汇总纳税分支机构所得税分配表||减值准备审核表||公允价值变动审定表</value>
+    <comment>调整类底稿</comment>
+  </data>
+  <data name="Tag3" xml:space="preserve">
+    <value>主营收支||纳税申报数据||收入与申报核对表||毛利分析||制造费用、生产成本||成本倒轧||存货计价测试||主营税金||税费缴纳测算||税金申报明细||其他业务||营业费用||管理费用||财务费用||营外收支</value>
+    <comment>损益类底稿</comment>
+  </data>
+  <data name="Tag4" xml:space="preserve">
+    <value>基本情况（封面）||1.保留意见||2.否定意见||3.无保留意见||4.无法表明意见||(二)企业基本情况和审核事项说明||(二)附表-科目说明||(二)附表-纳税调整额的审核||（三）企业所得税年度纳税申报表填报表单||A000000企业基础信息表||A100000中华人民共和国企业所得税年度纳税申报表（A类）||A101010一般企业收入明细表||A101020金融企业收入明细表||A102010一般企业成本支出明细表||A102020金融企业支出明细表||A103000事业单位、民间非营利组织收入、支出明细表||A104000期间费用明细表||A105000纳税调整项目明细表||A105010视同销售和房地产开发企业特定业务纳税调整明细表||A105020未按权责发生制确认收入纳税调整明细表||A105030投资收益纳税调整明细表||A105040专项用途财政性资金纳税调整表||A105050职工薪酬纳税调整明细表||A105060广告费和业务宣传费跨年度纳税调整明细表||A105070捐赠支出纳税调整明细表||A105080资产折旧、摊销情况及纳税调整明细表||A105081固定资产加速折旧、扣除明细表||A105090资产损失税前扣除及纳税调整明细表||A105091资产损失（专项申报）税前扣除及纳税调整明细表||A105100企业重组纳税调整明细表||A105110政策性搬迁纳税调整明细表||A105120特殊行业准备金纳税调整明细表||A106000企业所得税弥补亏损明细表||A107010免税、减计收入及加计扣除优惠明细表||A107011股息红利优惠明细表||A107012综合利用资源生产产品取得的收入优惠明细表||A107013金融保险等机构取得涉农利息保费收入优惠明细表||A107014研发费用加计扣除优惠明细表||A107020所得减免优惠明细表||A107030抵扣应纳税所得额明细表||A107040减免所得税优惠明细表||A107041高新技术企业优惠情况及明细表||A107042软件、集成电路企业优惠情况及明细表||A107050税额抵免优惠明细表||A108000境外所得税收抵免明细表||A108010境外所得纳税调整后所得明细表||A108020境外分支机构弥补亏损明细表||A108030跨年度结转抵免境外所得税明细表||A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表||A109010企业所得税汇总纳税分支机构所得税分配表||A110010特殊性处理报告表||A110011债务重组报告表||A110012股权收购报告表 ||A110013资产收购报告表||A110014企业合并报告表 ||A110015企业分立申报表||A110016非货币资产投资递延纳税调整表||A110017居民企业资产（股权）划转特殊性税务处理申报表||分支机构企业所得税申报表（A类）||（四）企业各税（费）审核汇总表||（五）社会保险费明细表</value>
+    <comment>审核报告</comment>
+  </data>
+  <data name="Tag5" xml:space="preserve">
+    <value>货币资金||现金证明||银行调节||应收||预付||其他应收||存货||待摊预提||在建工程审核表</value>
+    <comment>资产类底稿</comment>
+  </data>
+  <data name="Tag6" xml:space="preserve">
+    <value>应付||预收||其他应付||实收公积||未分利润</value>
+    <comment>负债及权益类底稿</comment>
+  </data>
+  <data name="Text1" xml:space="preserve">
+    <value>工作底稿档案封面||业务档案索引||审核签发单||三级复核表||业务约定书||管理当局声明书||审核整体工作计划||内部控制制度调查问卷||审核调查问卷||重大问题请示报告||与客户交换意见记录||客户提供资料一览表||审核标识说明表||地税税务登记表||取数用基本情况表||资产负债表（小企业准则）||利润及利润分配表（小企业准则）||末级科目余额表||资产盘点明细表||工作底稿勾稽关系检查表||待办事项||工作底稿主页||通用工作记录表||收费计算表||使用说明</value>
+    <comment>综合类底稿</comment>
+  </data>
+  <data name="Text2" xml:space="preserve">
+    <value>原始凭证检查底稿||工资薪金、三项经费审核表||业务招待费审核表||固定资产及累计折旧审核表||固定资产折旧验算表（直线法）||无形资产、长期待摊费用审核表||各类社会保障性缴款和住房公积金审核表||社保明细和工资人数审核表||广告费、业务宣传费支出审核表||捐赠、赞助支出审核表||利息支出审核表||租金支出审核表||弥补亏损审核表||其他事项审核表||无限期结转扣除项目审核表||跨年度确认所得情况表||视同销售和房地产开发企业特定业务审核表||未按权责发生制确认收入审核表||投资收益审核表||专项用途财政性资金审核表||固定资产加速折旧、扣除审核表||资产损失税前扣除审核表||资产损失（专项申报）税前扣除审核表||企业重组审核表||政策性搬迁审核表||特殊行业准备金审核表||免税、减计收入及加计扣除优惠审核表||股息红利等权益性投资收益优惠审核表||综合利用资源生产产品取得的收入优惠审核表||金融、保险等机构取得涉农利息、保费收入优惠审核表||研发费用加计扣除优惠审核表||所得减免优惠审核表||抵扣应纳税所得额审核表||减免所得税优惠审核表||高新技术企业优惠情况审核表||软件、集成电路企业优惠情况审核表||税额抵免优惠审核表||境外所得税收抵免审核表||境外所得纳税调整后所得审核表||境外分支机构弥补亏损审核表||跨年度结转抵免境外所得税审核表||跨地区经营汇总纳税企业年度分摊企业所得税审核表||企业所得税汇总纳税分支机构所得税分配表||资产减值准备审核表||公允价值变动审定表</value>
+    <comment>调整类底稿</comment>
+  </data>
+  <data name="Text3" xml:space="preserve">
+    <value>主营业务收支审核表||纳税申报数据||收入与纳税申报核对审核表||主营业务毛利分析表||制造费用、生产成本审核表||主营业务成本倒轧审核表||存货计价测试表(加权平均)||主营业务及税金附加审核表||各税费缴纳情况审核表||地税网上申报明细查询结果||其他业务收支审核表||营业费用审核表||管理费用审核表||财务费用审核表||营业外收支审核表</value>
+    <comment>损益类底稿</comment>
+  </data>
+  <data name="Text4" xml:space="preserve">
+    <value>基本情况（封面）||1.保留意见||2.否定意见||3.无保留意见||4.无法表明意见||(二)企业基本情况和审核事项说明||(二)附表-科目说明||(二)附表-纳税调整额的审核||（三）企业所得税年度纳税申报表填报表单||A000000企业基础信息表||A100000中华人民共和国企业所得税年度纳税申报表（A类）||A101010一般企业收入明细表||A101020金融企业收入明细表||A102010一般企业成本支出明细表||A102020金融企业支出明细表||A103000事业单位、民间非营利组织收入、支出明细表||A104000期间费用明细表||A105000纳税调整项目明细表||A105010视同销售和房地产开发企业特定业务纳税调整明细表||A105020未按权责发生制确认收入纳税调整明细表||A105030投资收益纳税调整明细表||A105040专项用途财政性资金纳税调整表||A105050职工薪酬纳税调整明细表||A105060广告费和业务宣传费跨年度纳税调整明细表||A105070捐赠支出纳税调整明细表||A105080资产折旧、摊销情况及纳税调整明细表||A105081固定资产加速折旧、扣除明细表||A105090资产损失税前扣除及纳税调整明细表||A105091资产损失（专项申报）税前扣除及纳税调整明细表||A105100企业重组纳税调整明细表||A105110政策性搬迁纳税调整明细表||A105120特殊行业准备金纳税调整明细表||A106000企业所得税弥补亏损明细表||A107010免税、减计收入及加计扣除优惠明细表||A107011股息红利优惠明细表||A107012综合利用资源生产产品取得的收入优惠明细表||A107013金融保险等机构取得涉农利息保费收入优惠明细表||A107014研发费用加计扣除优惠明细表||A107020所得减免优惠明细表||A107030抵扣应纳税所得额明细表||A107040减免所得税优惠明细表||A107041高新技术企业优惠情况及明细表||A107042软件、集成电路企业优惠情况及明细表||A107050税额抵免优惠明细表||A108000境外所得税收抵免明细表||A108010境外所得纳税调整后所得明细表||A108020境外分支机构弥补亏损明细表||A108030跨年度结转抵免境外所得税明细表||A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表||A109010企业所得税汇总纳税分支机构所得税分配表||A110010特殊性处理报告表||A110011债务重组报告表||A110012股权收购报告表||A110013资产收购报告表||A110014企业合并报告表||A110015企业分立申报表||A110016非货币资产投资递延纳税调整表||A110017居民企业资产（股权）划转特殊性税务处理申报表||分支机构企业所得税申报表（A类）||（四）企业各税（费）审核汇总表||（五）社会保险费明细表</value>
+    <comment>审核报告</comment>
+  </data>
+  <data name="Text5" xml:space="preserve">
+    <value>货币资金审核表||现金证明书||银行存款余额调节表||应收账款审核表||预付账款审核表||其他应收款审核表||存货审核表||待摊费用、预提费用审核表||在建工程审核表</value>
+    <comment>资产类底稿</comment>
+  </data>
+  <data name="Text6" xml:space="preserve">
+    <value>应付账款审核表||预收账款审核表||其他应付款审核表||实收资本、资本公积、盈余公积审核表||未分配利润审核表</value>
+    <comment>负债及权益类底稿</comment>
+  </data>
+  <data name="ic_launch_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_launch_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="launch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\launch.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="excel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\excel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ms_excel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ms-excel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pdf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+</root>
