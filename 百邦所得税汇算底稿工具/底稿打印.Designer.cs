@@ -28,6 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("必须打印", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("选择打印", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("无需打印", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "333",
+            "有数"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("xuanzeda");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("无需打印");
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lv待选 = new System.Windows.Forms.ListView();
             this.lv选中 = new System.Windows.Forms.ListView();
@@ -41,6 +49,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btn取消 = new System.Windows.Forms.Button();
             this.btn打印 = new System.Windows.Forms.Button();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -68,7 +78,30 @@
             // 
             // lv待选
             // 
+            this.lv待选.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
             this.lv待选.Dock = System.Windows.Forms.DockStyle.Fill;
+            listViewGroup1.Header = "必须打印";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup1.Name = "MustGroup";
+            listViewGroup2.Header = "选择打印";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup2.Name = "ChooseGroup";
+            listViewGroup3.Header = "无需打印";
+            listViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup3.Name = "NonGroup";
+            this.lv待选.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
+            listViewItem1.Group = listViewGroup1;
+            listViewItem2.Group = listViewGroup2;
+            listViewItem3.Group = listViewGroup3;
+            this.lv待选.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
             this.lv待选.Location = new System.Drawing.Point(3, 3);
             this.lv待选.Name = "lv待选";
             this.lv待选.Size = new System.Drawing.Size(386, 346);
@@ -183,6 +216,15 @@
             this.btn打印.UseVisualStyleBackColor = true;
             this.btn打印.Click += new System.EventHandler(this.btn打印_Click);
             // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "表名";
+            this.columnHeader1.Width = 310;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "有效性";
+            // 
             // 底稿打印
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -214,5 +256,7 @@
         private System.Windows.Forms.Button btn取消;
         private System.Windows.Forms.Button btn打印;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
