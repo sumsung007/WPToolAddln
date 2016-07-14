@@ -95,10 +95,9 @@ namespace 百邦所得税汇算底稿工具
                         Wb.Worksheets[Target.Range.Value].Select();
                     Globals.WPToolAddln.Application.ScreenUpdating = true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Globals.WPToolAddln.Application.ScreenUpdating = true;
-                    MessageBox.Show("用户操作出现错误：" + ex.Message);
                 }
             }
         }

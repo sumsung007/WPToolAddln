@@ -36,9 +36,18 @@
             "有数"}, -1);
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("xuanzeda");
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("无需打印");
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("必须打印", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("选择打印", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("无需打印", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            "333",
+            "有数"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("xuanzeda");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("无需打印");
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lv待选 = new System.Windows.Forms.ListView();
-            this.lv选中 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btn识别 = new System.Windows.Forms.Button();
@@ -49,8 +58,9 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btn取消 = new System.Windows.Forms.Button();
             this.btn打印 = new System.Windows.Forms.Button();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lv选中 = new System.Windows.Forms.ListView();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -64,9 +74,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 119F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.lv待选, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lv选中, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lv选中, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -82,6 +92,7 @@
             this.columnHeader1,
             this.columnHeader2});
             this.lv待选.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv待选.FullRowSelect = true;
             listViewGroup1.Header = "必须打印";
             listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             listViewGroup1.Name = "MustGroup";
@@ -109,15 +120,14 @@
             this.lv待选.UseCompatibleStateImageBehavior = false;
             this.lv待选.View = System.Windows.Forms.View.Details;
             // 
-            // lv选中
+            // columnHeader1
             // 
-            this.lv选中.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lv选中.Location = new System.Drawing.Point(514, 3);
-            this.lv选中.Name = "lv选中";
-            this.lv选中.Size = new System.Drawing.Size(386, 346);
-            this.lv选中.TabIndex = 2;
-            this.lv选中.UseCompatibleStateImageBehavior = false;
-            this.lv选中.View = System.Windows.Forms.View.Details;
+            this.columnHeader1.Text = "表名";
+            this.columnHeader1.Width = 310;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "有效性";
             // 
             // panel1
             // 
@@ -216,14 +226,48 @@
             this.btn打印.UseVisualStyleBackColor = true;
             this.btn打印.Click += new System.EventHandler(this.btn打印_Click);
             // 
-            // columnHeader1
+            // lv选中
             // 
-            this.columnHeader1.Text = "表名";
-            this.columnHeader1.Width = 310;
+            this.lv选中.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3,
+            this.columnHeader4});
+            this.lv选中.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv选中.FullRowSelect = true;
+            listViewGroup4.Header = "必须打印";
+            listViewGroup4.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup4.Name = "MustGroup";
+            listViewGroup5.Header = "选择打印";
+            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup5.Name = "ChooseGroup";
+            listViewGroup6.Header = "无需打印";
+            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup6.Name = "NonGroup";
+            this.lv选中.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
+            listViewItem4.Group = listViewGroup4;
+            listViewItem5.Group = listViewGroup5;
+            listViewItem6.Group = listViewGroup6;
+            this.lv选中.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
+            this.lv选中.Location = new System.Drawing.Point(514, 3);
+            this.lv选中.Name = "lv选中";
+            this.lv选中.Size = new System.Drawing.Size(386, 346);
+            this.lv选中.TabIndex = 5;
+            this.lv选中.UseCompatibleStateImageBehavior = false;
+            this.lv选中.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeader2
+            // columnHeader3
             // 
-            this.columnHeader2.Text = "有效性";
+            this.columnHeader3.Text = "表名";
+            this.columnHeader3.Width = 310;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "有效性";
             // 
             // 底稿打印
             // 
@@ -245,7 +289,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ListView lv待选;
-        private System.Windows.Forms.ListView lv选中;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btn识别;
         private System.Windows.Forms.Button btn全移;
@@ -258,5 +301,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ListView lv选中;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
     }
 }
