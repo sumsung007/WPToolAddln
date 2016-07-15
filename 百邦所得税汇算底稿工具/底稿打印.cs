@@ -11,6 +11,17 @@ namespace 百邦所得税汇算底稿工具
 {
     public partial class 底稿打印 : Form
     {
+
+        string[] MustName, MustArea, MustDirection, MustZoom, ChooseName, ChooseArea, ChooseCondition, 
+            ChooseDirection, ChooseZoom, NonName;
+
+        private void btn选中_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(lv选中.Items[0].Text);
+            MessageBox.Show(lv选中.Items[0].SubItems[0].Text);
+            MessageBox.Show(lv选中.Items[0].SubItems[1].Text);
+        }
+
         public 底稿打印()
         {
             InitializeComponent();
@@ -30,16 +41,17 @@ namespace 百邦所得税汇算底稿工具
                 Properties.Settings.Default.MustD != "" ||
                 Properties.Settings.Default.MustZ != "")
             {
-                string[] MustName = Properties.Settings.Default.MustN.Split(new char[] { '/' });
-                string[] MustArea = Properties.Settings.Default.MustA.Split(new char[] { '/' });
-                string[] MustDirection = Properties.Settings.Default.MustD.Split(new char[] { '/' });
-                string[] MustZoom = Properties.Settings.Default.MustZ.Split(new char[] { '/' });
+                MustName = Properties.Settings.Default.MustN.Split(new char[] { '/' });
+                MustArea = Properties.Settings.Default.MustA.Split(new char[] { '/' });
+                MustDirection = Properties.Settings.Default.MustD.Split(new char[] { '/' });
+                MustZoom = Properties.Settings.Default.MustZ.Split(new char[] { '/' });
                 for (int i = 0; i < MustName.Length; i++)
                 {
                     ListViewItem lvi = new ListViewItem();
                     lvi.Group = lv选中.Groups["MustGroup"];
                     lvi.Text = MustName[i];
                     lvi.SubItems.Add("必选");
+                    lvi.SubItems.Add(i.ToString());
                     this.lv选中.Items.Add(lvi);
                 }
             }
@@ -51,11 +63,11 @@ namespace 百邦所得税汇算底稿工具
                 Properties.Settings.Default.ChooseD != "" ||
                 Properties.Settings.Default.ChooseZ != "")
             {
-                string[] ChooseName = Properties.Settings.Default.ChooseN.Split(new char[] { '/' });
-                string[] ChooseArea = Properties.Settings.Default.ChooseA.Split(new char[] { '/' });
-                string[] ChooseCondition = Properties.Settings.Default.ChooseC.Split(new char[] { '/' });
-                string[] ChooseDirection = Properties.Settings.Default.ChooseD.Split(new char[] { '/' });
-                string[] ChooseZoom = Properties.Settings.Default.ChooseZ.Split(new char[] { '/' });
+                ChooseName = Properties.Settings.Default.ChooseN.Split(new char[] { '/' });
+                ChooseArea = Properties.Settings.Default.ChooseA.Split(new char[] { '/' });
+                ChooseCondition = Properties.Settings.Default.ChooseC.Split(new char[] { '/' });
+                ChooseDirection = Properties.Settings.Default.ChooseD.Split(new char[] { '/' });
+                ChooseZoom = Properties.Settings.Default.ChooseZ.Split(new char[] { '/' });
                 string[,] Condition = new string[ChooseName.Length, 1];
                 for (int i = 0; i < ChooseName.Length; i++)
                 {
@@ -71,6 +83,7 @@ namespace 百邦所得税汇算底稿工具
                         lvi.Group = lv待选.Groups["ChooseGroup"];
                         lvi.Text = ChooseName[i];
                         lvi.SubItems.Add("无数");
+                        lvi.SubItems.Add(i.ToString());
                         this.lv待选.Items.Add(lvi);
 
                     }
@@ -80,6 +93,7 @@ namespace 百邦所得税汇算底稿工具
                         lvi.Group = lv选中.Groups["ChooseGroup"];
                         lvi.Text = ChooseName[i];
                         lvi.SubItems.Add("有数");
+                        lvi.SubItems.Add(i.ToString());
                         this.lv选中.Items.Add(lvi);
                     }
                 }
@@ -90,13 +104,14 @@ namespace 百邦所得税汇算底稿工具
             {
 
                 this.lv待选.BeginUpdate();
-                string[] NonName = Properties.Settings.Default.NonN.Split(new char[] { '/' });
+                NonName = Properties.Settings.Default.NonN.Split(new char[] { '/' });
                 for (int i = 0; i < NonName.Length; i++)
                 {
                     ListViewItem lvi = new ListViewItem();
                     lvi.Group = lv待选.Groups["NonGroup"];
                     lvi.Text = NonName[i];
                     lvi.SubItems.Add("无需");
+                    lvi.SubItems.Add(i.ToString());
                     this.lv待选.Items.Add(lvi);
                 }
             }
@@ -107,19 +122,49 @@ namespace 百邦所得税汇算底稿工具
 
         private void btn打印_Click(object sender, EventArgs e)
         {
-            Globals.WPToolAddln.Application.ActiveWorkbook.ActiveSheet.Range["A1:D10"].Copy();
+            /*Globals.WPToolAddln.Application.ActiveWorkbook.ActiveSheet.Range["A1:D10"].Copy();
             Image img;
             if (System.Windows.Forms.Clipboard.ContainsImage())
             {
                 img = System.Windows.Forms.Clipboard.GetImage();
                 pictureBox1.Image = img;
 
+            }*/
+            
+            for (int i = 0; i < lv选中.Items.Count; i++)
+            {
+                //处理Item 
+                string iName = lv选中.Items[i].SubItems[0].Text;
+                int iNo = Convert.ToInt16(lv选中.Items[i].SubItems[2].Text);
+                string iGroup = lv选中.Items[i].Group.Name;
+                if (iGroup == "MustGroup")
+                {
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = MustArea[iNo];
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.Orientation =
+                        MustDirection[iNo] == "竖向" ? Orientation.Vertical : Orientation.Horizontal;
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.Zoom = false;
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesWide = 1;
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = 1;
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.BlackAndWhite = true;
+                }
+                else if(iGroup == "ChooseGroup")
+                {
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = ChooseArea[iNo];
+                }
             }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn识别_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("是否清除当前筛选的表格，自动选择有数数据？","警告",MessageBoxButtons.YesNo,MessageBoxIcon.Warning)==DialogResult.Yes)
+            {
+
+            }
         }
     }
 }
