@@ -1539,7 +1539,10 @@ namespace 百邦所得税汇算底稿工具
         private void btn底稿打印_Click(object sender, RibbonControlEventArgs e)
         {
             底稿打印 dgdy = new 底稿打印();
-            dgdy.ShowDialog();
+            if (dgdy.ShowDialog() == DialogResult.Yes)
+            {
+                WorkingPaper.Wb.PrintPreview();
+            }
     //        Range("A1:K27").Select
     //Selection.Copy
     //Sheets("Sheet2").Select

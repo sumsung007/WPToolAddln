@@ -50,10 +50,12 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btn识别 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn全移 = new System.Windows.Forms.Button();
             this.btn移出 = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btn识别 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn全选 = new System.Windows.Forms.Button();
             this.btn选中 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -62,14 +64,13 @@
             this.lv选中 = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -82,6 +83,7 @@
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.lv选中, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -147,6 +149,36 @@
             this.panel1.Size = new System.Drawing.Size(124, 415);
             this.panel1.TabIndex = 3;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btn全移);
+            this.groupBox1.Controls.Add(this.btn移出);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.groupBox1.Location = new System.Drawing.Point(3, 216);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(118, 121);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "移出";
+            // 
+            // btn全移
+            // 
+            this.btn全移.Location = new System.Drawing.Point(9, 73);
+            this.btn全移.Name = "btn全移";
+            this.btn全移.Size = new System.Drawing.Size(103, 34);
+            this.btn全移.TabIndex = 0;
+            this.btn全移.Text = "<-移出全部";
+            this.btn全移.UseVisualStyleBackColor = true;
+            // 
+            // btn移出
+            // 
+            this.btn移出.Location = new System.Drawing.Point(9, 24);
+            this.btn移出.Name = "btn移出";
+            this.btn移出.Size = new System.Drawing.Size(103, 34);
+            this.btn移出.TabIndex = 0;
+            this.btn移出.Text = "<--移出";
+            this.btn移出.UseVisualStyleBackColor = true;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
@@ -166,23 +198,17 @@
             this.btn识别.UseVisualStyleBackColor = true;
             this.btn识别.Click += new System.EventHandler(this.btn识别_Click);
             // 
-            // btn全移
+            // groupBox2
             // 
-            this.btn全移.Location = new System.Drawing.Point(9, 73);
-            this.btn全移.Name = "btn全移";
-            this.btn全移.Size = new System.Drawing.Size(103, 34);
-            this.btn全移.TabIndex = 0;
-            this.btn全移.Text = "<-移出全部";
-            this.btn全移.UseVisualStyleBackColor = true;
-            // 
-            // btn移出
-            // 
-            this.btn移出.Location = new System.Drawing.Point(9, 24);
-            this.btn移出.Name = "btn移出";
-            this.btn移出.Size = new System.Drawing.Size(103, 34);
-            this.btn移出.TabIndex = 0;
-            this.btn移出.Text = "<--移出";
-            this.btn移出.UseVisualStyleBackColor = true;
+            this.groupBox2.Controls.Add(this.btn全选);
+            this.groupBox2.Controls.Add(this.btn选中);
+            this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.groupBox2.Location = new System.Drawing.Point(3, 71);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(118, 121);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "选中";
             // 
             // btn全选
             // 
@@ -278,29 +304,16 @@
             // 
             this.columnHeader4.Text = "有效性";
             // 
-            // groupBox1
+            // label1
             // 
-            this.groupBox1.Controls.Add(this.btn全移);
-            this.groupBox1.Controls.Add(this.btn移出);
-            this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox1.Location = new System.Drawing.Point(3, 216);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(118, 121);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "移出";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.btn全选);
-            this.groupBox2.Controls.Add(this.btn选中);
-            this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox2.Location = new System.Drawing.Point(3, 71);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(118, 121);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "选中";
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(3, 421);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(443, 49);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "STEP.1  选择需要打印的工作表";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // 底稿打印
             // 
@@ -313,10 +326,10 @@
             this.Text = "♪(^∇^*)  底稿打印";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -342,5 +355,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label1;
     }
 }

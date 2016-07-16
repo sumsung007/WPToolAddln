@@ -130,28 +130,65 @@ namespace 百邦所得税汇算底稿工具
                 pictureBox1.Image = img;
 
             }*/
-            
-            for (int i = 0; i < lv选中.Items.Count; i++)
-            {
+            //try
+            //{
+                string[] HW;
+                Globals.WPToolAddln.Application.PrintCommunication = false;
+                Globals.WPToolAddln.Application.ScreenUpdating = false;
+
+            List<string> lists = new List<string>();
+            int n = lv选中.Items.Count;
+            for (int i = 0; i < n; i++)
+                {
                 //处理Item 
+
+                label1.Text = "STEP.2  正在设置打印区域..." + (i+1).ToString() + "/" + n.ToString();
+                this.Refresh();
                 string iName = lv选中.Items[i].SubItems[0].Text;
+                lists.Add(iName);
                 int iNo = Convert.ToInt16(lv选中.Items[i].SubItems[2].Text);
-                string iGroup = lv选中.Items[i].Group.Name;
-                if (iGroup == "MustGroup")
-                {
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = MustArea[iNo];
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.Orientation =
-                        MustDirection[iNo] == "竖向" ? Orientation.Vertical : Orientation.Horizontal;
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.Zoom = false;
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesWide = 1;
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = 1;
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.BlackAndWhite = true;
-                }
-                else if(iGroup == "ChooseGroup")
-                {
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = ChooseArea[iNo];
-                }
+                    string iGroup = lv选中.Items[i].Group.Name;
+                    if (iGroup == "MustGroup")
+                    {
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = MustArea[iNo];
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.Orientation =
+                            MustDirection[iNo] == "竖向" ? Orientation.Vertical : Orientation.Horizontal;
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.Zoom = false;
+                        HW = MustZoom[iNo].Split(new char[] { '-' });
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesWide = Convert.ToInt16(HW[0]);
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = Convert.ToInt16(HW[1]);
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.BlackAndWhite = true;
+                        WorkingPaper.Wb.Worksheets[iName].Visible = true;
+                    }
+                    else if (iGroup == "ChooseGroup")
+                    {
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = ChooseArea[iNo];
+                    }
             }
+            label1.Text = "STEP.3  正在进行打印预览...";
+            this.Refresh();
+            string[] s = lists.ToArray();
+            /*for (int i = 0; i < lv待选.Items.Count; i++)
+                {
+                    //处理Item 
+                    string iName = lv待选.Items[i].SubItems[0].Text;
+                    WorkingPaper.Wb.Worksheets[iName].Visible = false;
+                }*/
+                Globals.WPToolAddln.Application.PrintCommunication = true;
+                Globals.WPToolAddln.Application.ScreenUpdating = true;
+            WorkingPaper.Wb.Worksheets[s].Select();
+
+            this.DialogResult = DialogResult.Yes;
+            this.Close();
+            /*}
+            catch (Exception)
+            { }
+            finally
+            {
+                Globals.WPToolAddln.Application.PrintCommunication = true;
+                Globals.WPToolAddln.Application.ScreenUpdating = true;
+            }*/
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -163,7 +200,7 @@ namespace 百邦所得税汇算底稿工具
         {
             if(MessageBox.Show("是否清除当前筛选的表格，自动选择有数数据？","警告",MessageBoxButtons.YesNo,MessageBoxIcon.Warning)==DialogResult.Yes)
             {
-
+                刷新();
             }
         }
     }

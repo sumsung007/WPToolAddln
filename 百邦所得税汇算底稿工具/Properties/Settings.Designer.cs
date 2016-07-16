@@ -173,7 +173,7 @@ namespace 百邦所得税汇算底稿工具.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1-1/100%/1-1/1-1/1-1/1-1/1-1/1-1/1-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1-1/1-0/1-1/1-1/1-1/1-1/1-1/1-1/1-1")]
         public string MustZ {
             get {
                 return ((string)(this["MustZ"]));
