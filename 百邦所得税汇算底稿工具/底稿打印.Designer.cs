@@ -169,6 +169,7 @@
             this.btn全移.TabIndex = 0;
             this.btn全移.Text = "<-移出全部";
             this.btn全移.UseVisualStyleBackColor = true;
+            this.btn全移.Click += new System.EventHandler(this.btn全移_Click);
             // 
             // btn移出
             // 
@@ -178,6 +179,7 @@
             this.btn移出.TabIndex = 0;
             this.btn移出.Text = "<--移出";
             this.btn移出.UseVisualStyleBackColor = true;
+            this.btn移出.Click += new System.EventHandler(this.btn移出_Click);
             // 
             // pictureBox1
             // 
@@ -218,6 +220,7 @@
             this.btn全选.TabIndex = 0;
             this.btn全选.Text = "选中全部->";
             this.btn全选.UseVisualStyleBackColor = true;
+            this.btn全选.Click += new System.EventHandler(this.btn全选_Click);
             // 
             // btn选中
             // 
@@ -248,6 +251,7 @@
             this.btn取消.TabIndex = 0;
             this.btn取消.Text = "取消打印";
             this.btn取消.UseVisualStyleBackColor = true;
+            this.btn取消.Click += new System.EventHandler(this.btn取消_Click);
             // 
             // btn打印
             // 

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 
 namespace 百邦所得税汇算底稿工具
@@ -14,12 +15,188 @@ namespace 百邦所得税汇算底稿工具
 
         string[] MustName, MustArea, MustDirection, MustZoom, ChooseName, ChooseArea, ChooseCondition, 
             ChooseDirection, ChooseZoom, NonName;
+        string group;
+
+        private void lv待选_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (lv待选.SelectedItems.Count > 0)
+            {
+                this.lv选中.BeginUpdate();
+                this.lv待选.BeginUpdate();
+                foreach (ListViewItem lvi in lv待选.SelectedItems)
+                {
+                    group = lvi.Group.Name;
+                    lv待选.Items.Remove(lvi);
+                    switch (group)
+                    {
+                        case "MustGroup":
+                            lvi.Group = lv选中.Groups["MustGroup"];
+                            break;
+                        case "ChooseGroup":
+                            lvi.Group = lv选中.Groups["ChooseGroup"];
+                            break;
+                        case "NonGroup":
+                            lvi.Group = lv选中.Groups["NonGroup"];
+                            break;
+                    }
+                    lv选中.Items.Add(lvi);
+                }
+                this.lv选中.EndUpdate();
+                this.lv待选.EndUpdate();
+            }
+        }
+        private void lv选中_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (lv选中.SelectedItems.Count > 0)
+            {
+                this.lv选中.BeginUpdate();
+                this.lv待选.BeginUpdate();
+                foreach (ListViewItem lvi in lv选中.SelectedItems)
+                {
+                    group = lvi.Group.Name;
+                    lv选中.Items.Remove(lvi);
+                    switch (group)
+                    {
+                        case "MustGroup":
+                            lvi.Group = lv待选.Groups["MustGroup"];
+                            break;
+                        case "ChooseGroup":
+                            lvi.Group = lv待选.Groups["ChooseGroup"];
+                            break;
+                        case "NonGroup":
+                            lvi.Group = lv待选.Groups["NonGroup"];
+                            break;
+                    }
+                    lv待选.Items.Add(lvi);
+                }
+                this.lv选中.EndUpdate();
+                this.lv待选.EndUpdate();
+            }
+
+        }
+
+        private void btn取消_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btn全移_Click(object sender, EventArgs e)
+        {
+            if (lv选中.Items.Count > 0)
+            {
+                this.lv选中.BeginUpdate();
+                this.lv待选.BeginUpdate();
+                foreach (ListViewItem lvi in lv选中.Items)
+                {
+                    group = lvi.Group.Name;
+                    lv选中.Items.Remove(lvi);
+                    switch (group)
+                    {
+                        case "MustGroup":
+                            lvi.Group = lv待选.Groups["MustGroup"];
+                            break;
+                        case "ChooseGroup":
+                            lvi.Group = lv待选.Groups["ChooseGroup"];
+                            break;
+                        case "NonGroup":
+                            lvi.Group = lv待选.Groups["NonGroup"];
+                            break;
+                    }
+                    lv待选.Items.Add(lvi);
+                }
+                this.lv选中.EndUpdate();
+                this.lv待选.EndUpdate();
+            }
+
+        }
+
+        private void btn全选_Click(object sender, EventArgs e)
+        {
+            if (lv待选.Items.Count > 0)
+            {
+                this.lv选中.BeginUpdate();
+                this.lv待选.BeginUpdate();
+                foreach (ListViewItem lvi in lv待选.Items)
+                {
+                    group = lvi.Group.Name;
+                    lv待选.Items.Remove(lvi);
+                    switch (group)
+                    {
+                        case "MustGroup":
+                            lvi.Group = lv选中.Groups["MustGroup"];
+                            break;
+                        case "ChooseGroup":
+                            lvi.Group = lv选中.Groups["ChooseGroup"];
+                            break;
+                        case "NonGroup":
+                            lvi.Group = lv选中.Groups["NonGroup"];
+                            break;
+                    }
+                    lv选中.Items.Add(lvi);
+                }
+                this.lv选中.EndUpdate();
+                this.lv待选.EndUpdate();
+            }
+
+        }
+
+        private void btn移出_Click(object sender, EventArgs e)
+        {
+            if (lv选中.SelectedItems.Count > 0)
+            {
+                this.lv选中.BeginUpdate();
+                this.lv待选.BeginUpdate();
+                foreach (ListViewItem lvi in lv选中.SelectedItems)
+                {
+                    group = lvi.Group.Name;
+                    lv选中.Items.Remove(lvi);
+                    switch (group)
+                    {
+                        case "MustGroup":
+                            lvi.Group = lv待选.Groups["MustGroup"];
+                            break;
+                        case "ChooseGroup":
+                            lvi.Group = lv待选.Groups["ChooseGroup"];
+                            break;
+                        case "NonGroup":
+                            lvi.Group = lv待选.Groups["NonGroup"];
+                            break;
+                    }
+                    lv待选.Items.Add(lvi);
+                }
+                this.lv选中.EndUpdate();
+                this.lv待选.EndUpdate();
+            }
+
+        }
 
         private void btn选中_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(lv选中.Items[0].Text);
-            MessageBox.Show(lv选中.Items[0].SubItems[0].Text);
-            MessageBox.Show(lv选中.Items[0].SubItems[1].Text);
+            if (lv待选.SelectedItems.Count > 0)
+            {
+                this.lv选中.BeginUpdate();
+                this.lv待选.BeginUpdate();
+                foreach (ListViewItem lvi in lv待选.SelectedItems)
+                {
+                    group = lvi.Group.Name;
+                    lv待选.Items.Remove(lvi);
+                    switch(group)
+                    {
+                        case "MustGroup":
+                            lvi.Group = lv选中.Groups["MustGroup"];
+                            break;
+                        case "ChooseGroup":
+                            lvi.Group = lv选中.Groups["ChooseGroup"];
+                            break;
+                        case "NonGroup":
+                            lvi.Group = lv选中.Groups["NonGroup"];
+                            break;
+                    }
+                    lv选中.Items.Add(lvi);
+                }
+                this.lv选中.EndUpdate();
+                this.lv待选.EndUpdate();
+            }
         }
 
         public 底稿打印()
@@ -102,8 +279,6 @@ namespace 百邦所得税汇算底稿工具
             //不用打印
             if (Properties.Settings.Default.NonN != "")
             {
-
-                this.lv待选.BeginUpdate();
                 NonName = Properties.Settings.Default.NonN.Split(new char[] { '/' });
                 for (int i = 0; i < NonName.Length; i++)
                 {
@@ -118,6 +293,7 @@ namespace 百邦所得税汇算底稿工具
 
             this.lv选中.EndUpdate();
             this.lv待选.EndUpdate();
+            this.Refresh();
         }
 
         private void btn打印_Click(object sender, EventArgs e)
@@ -133,6 +309,7 @@ namespace 百邦所得税汇算底稿工具
             //try
             //{
                 string[] HW;
+            int j;
                 Globals.WPToolAddln.Application.PrintCommunication = false;
                 Globals.WPToolAddln.Application.ScreenUpdating = false;
 
@@ -163,7 +340,39 @@ namespace 百邦所得税汇算底稿工具
                     else if (iGroup == "ChooseGroup")
                     {
                         WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = ChooseArea[iNo];
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.Orientation =
+                        ChooseDirection[iNo] == "竖向" ? Orientation.Vertical : Orientation.Horizontal;
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.Zoom = false;
+                    HW = ChooseZoom[iNo].Split(new char[] { '-' });
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesWide = Convert.ToInt16(HW[0]);
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = Convert.ToInt16(HW[1]);
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.BlackAndWhite = true;
+                    WorkingPaper.Wb.Worksheets[iName].Visible = true;
+                    switch(iName)
+                    {
+                        case "凭证检查":
+                            j=WorkingPaper.Wb.Worksheets[iName].Range["M205"].End[XlDirection.xlUp].Row+1;
+                            WorkingPaper.Wb.Worksheets[iName].Rows["1:206"].EntireRow.Hidden = false;
+                            WorkingPaper.Wb.Worksheets[iName].Rows[j + ":205"].EntireRow.Hidden = true;
+                            break;
+                        case "折旧测算":
+                            j = WorkingPaper.Wb.Worksheets[iName].Range["A65586"].End[XlDirection.xlUp].Row ;
+                            WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = "$A$1:$O$" + j;
+                            break;
+                        case "应收":
+                        case "预付":
+                        case "其他应收":
+                        case "应付":
+                        case "预收":
+                        case "其他应付":
+                            j = Math.Max(WorkingPaper.Wb.Worksheets[iName].Range["A65586"].End[XlDirection.xlUp].Row,
+                                Math.Max(WorkingPaper.Wb.Worksheets[iName].Range["B65586"].End[XlDirection.xlUp].Row,
+                                Math.Max(WorkingPaper.Wb.Worksheets[iName].Range["C65586"].End[XlDirection.xlUp].Row,
+                                WorkingPaper.Wb.Worksheets[iName].Range["D65586"].End[XlDirection.xlUp].Row)));
+                            WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = "$A$1:$F$" + j;
+                            break;
                     }
+                }
             }
             label1.Text = "STEP.3  正在进行打印预览...";
             this.Refresh();
