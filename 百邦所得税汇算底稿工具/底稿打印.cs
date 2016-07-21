@@ -17,9 +17,9 @@ namespace 百邦所得税汇算底稿工具
             ChooseDirection, ChooseZoom, NonName;
         string group;
 
-        private void lv待选_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void Lv待选_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (lv待选.SelectedItems.Count > 0)
+            if (lv待选.SelectedItems.Count > 0 && e.Button==MouseButtons.Left)
             {
                 this.lv选中.BeginUpdate();
                 this.lv待选.BeginUpdate();
@@ -45,9 +45,9 @@ namespace 百邦所得税汇算底稿工具
                 this.lv待选.EndUpdate();
             }
         }
-        private void lv选中_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void Lv选中_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (lv选中.SelectedItems.Count > 0)
+            if (lv选中.SelectedItems.Count > 0 && e.Button == MouseButtons.Left)
             {
                 this.lv选中.BeginUpdate();
                 this.lv待选.BeginUpdate();
@@ -203,8 +203,10 @@ namespace 百邦所得税汇算底稿工具
         {
             InitializeComponent();
             刷新();
+            lv待选.MouseDoubleClick += Lv待选_MouseDoubleClick;
+            lv选中.MouseDoubleClick += Lv选中_MouseDoubleClick;
         }
-
+        
         public void 刷新()
         {
             this.lv选中.BeginUpdate();
@@ -306,57 +308,61 @@ namespace 百邦所得税汇算底稿工具
                 pictureBox1.Image = img;
 
             }*/
-            //try
-            //{
-                string[] HW;
+            try
+            {
+            string[] HW;
             int j;
-                Globals.WPToolAddln.Application.PrintCommunication = false;
-                Globals.WPToolAddln.Application.ScreenUpdating = false;
+            Globals.WPToolAddln.Application.ScreenUpdating = false;
 
             List<string> lists = new List<string>();
             int n = lv选中.Items.Count;
             for (int i = 0; i < n; i++)
-                {
+            {
                 //处理Item 
 
-                label1.Text = "STEP.2  正在设置打印区域..." + (i+1).ToString() + "/" + n.ToString();
+                Globals.WPToolAddln.Application.PrintCommunication = false;
+                label1.Text = "STEP.2  正在设置打印区域..." + (i + 1).ToString() + "/" + n.ToString();
                 this.Refresh();
                 string iName = lv选中.Items[i].SubItems[0].Text;
                 lists.Add(iName);
                 int iNo = Convert.ToInt16(lv选中.Items[i].SubItems[2].Text);
-                    string iGroup = lv选中.Items[i].Group.Name;
-                    if (iGroup == "MustGroup")
-                    {
-                        WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = MustArea[iNo];
-                        WorkingPaper.Wb.Worksheets[iName].PageSetup.Orientation =
-                            MustDirection[iNo] == "竖向" ? Orientation.Vertical : Orientation.Horizontal;
+                WorkingPaper.Wb.Worksheets[iName].PageSetup.BlackAndWhite = true;
+                WorkingPaper.Wb.Worksheets[iName].Visible = true;
+                string iGroup = lv选中.Items[i].Group.Name;
+                if (iGroup == "MustGroup")
+                {
+
                         WorkingPaper.Wb.Worksheets[iName].PageSetup.Zoom = false;
-                        HW = MustZoom[iNo].Split(new char[] { '-' });
-                        WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesWide = Convert.ToInt16(HW[0]);
-                        WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = Convert.ToInt16(HW[1]);
-                        WorkingPaper.Wb.Worksheets[iName].PageSetup.BlackAndWhite = true;
-                        WorkingPaper.Wb.Worksheets[iName].Visible = true;
-                    }
-                    else if (iGroup == "ChooseGroup")
-                    {
-                        WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = ChooseArea[iNo];
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.Orientation =
-                        ChooseDirection[iNo] == "竖向" ? Orientation.Vertical : Orientation.Horizontal;
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.Zoom = false;
-                    HW = ChooseZoom[iNo].Split(new char[] { '-' });
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.Orientation =
+                            MustDirection[iNo] == "竖向" ? XlPageOrientation.xlPortrait : XlPageOrientation.xlLandscape;
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = MustArea[iNo];
+                    HW = MustZoom[iNo].Split(new char[] { '-' });
                     WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesWide = Convert.ToInt16(HW[0]);
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = Convert.ToInt16(HW[1]);
-                    WorkingPaper.Wb.Worksheets[iName].PageSetup.BlackAndWhite = true;
-                    WorkingPaper.Wb.Worksheets[iName].Visible = true;
-                    switch(iName)
+                    if (HW[1] == "0")
+                    {
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = false;
+                    }
+                    else
+                    {
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = Convert.ToInt16(HW[1]);
+                    }
+                }
+                else if (iGroup == "ChooseGroup")
+                {
+
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.Zoom = false;
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.Orientation =
+                            ChooseDirection[iNo] == "竖向" ? XlPageOrientation.xlPortrait : XlPageOrientation.xlLandscape;
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = ChooseArea[iNo];
+                    switch (iName)
                     {
                         case "凭证检查":
-                            j=WorkingPaper.Wb.Worksheets[iName].Range["M205"].End[XlDirection.xlUp].Row+1;
+                            j = WorkingPaper.Wb.Worksheets[iName].Range["M205"].End[XlDirection.xlUp].Row + 1;
                             WorkingPaper.Wb.Worksheets[iName].Rows["1:206"].EntireRow.Hidden = false;
                             WorkingPaper.Wb.Worksheets[iName].Rows[j + ":205"].EntireRow.Hidden = true;
                             break;
                         case "折旧测算":
-                            j = WorkingPaper.Wb.Worksheets[iName].Range["A65586"].End[XlDirection.xlUp].Row ;
+                            j = WorkingPaper.Wb.Worksheets[iName].Range["A65586"].End[XlDirection.xlUp].Row;
                             WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = "$A$1:$O$" + j;
                             break;
                         case "应收":
@@ -372,33 +378,46 @@ namespace 百邦所得税汇算底稿工具
                             WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = "$A$1:$F$" + j;
                             break;
                     }
+
+                    HW = ChooseZoom[iNo].Split(new char[] { '-' });
+                    WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesWide = Convert.ToInt16(HW[0]);
+                    if (HW[1] == "0")
+                    {
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = false;
+                    }
+                    else
+                    {
+                        WorkingPaper.Wb.Worksheets[iName].PageSetup.FitToPagesTall = Convert.ToInt16(HW[1]);
+                    }
                 }
+
+                Globals.WPToolAddln.Application.PrintCommunication = true;
             }
-            label1.Text = "STEP.3  正在进行打印预览...";
-            this.Refresh();
-            string[] s = lists.ToArray();
-            /*for (int i = 0; i < lv待选.Items.Count; i++)
+                label1.Text = "STEP.3  正在进行打印预览...";
+                this.Refresh();
+                string[] s = lists.ToArray();
+                /*for (int i = 0; i < lv待选.Items.Count; i++)
+                    {
+                        //处理Item 
+                        string iName = lv待选.Items[i].SubItems[0].Text;
+                        WorkingPaper.Wb.Worksheets[iName].Visible = false;
+                    }*/
+
+                WorkingPaper.Wb.Worksheets[s].Select();
+            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                this.DialogResult = DialogResult.Yes;
+                this.Close();
+                }
+                catch (Exception)
                 {
-                    //处理Item 
-                    string iName = lv待选.Items[i].SubItems[0].Text;
-                    WorkingPaper.Wb.Worksheets[iName].Visible = false;
-                }*/
-                Globals.WPToolAddln.Application.PrintCommunication = true;
-                Globals.WPToolAddln.Application.ScreenUpdating = true;
-            WorkingPaper.Wb.Worksheets[s].Select();
 
-            this.DialogResult = DialogResult.Yes;
-            this.Close();
-            /*}
-            catch (Exception)
-            { }
-            finally
-            {
-                Globals.WPToolAddln.Application.PrintCommunication = true;
-                Globals.WPToolAddln.Application.ScreenUpdating = true;
-            }*/
+                }
+                finally
+                {
+                    Globals.WPToolAddln.Application.ScreenUpdating = true;
+                }
 
-        }
+            }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {

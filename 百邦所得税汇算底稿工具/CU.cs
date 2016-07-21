@@ -93,14 +93,16 @@ namespace 百邦所得税汇算底稿工具
                 {
                     return true;
                 }
-                /*else
+                /*
+                else
                 {
                     if(DateTime.Now<Convert.ToDateTime("2016-07-31"))
                     {
                         
                         return true;
                     }
-                }*/
+                }
+                */
             }
             return false;
         }

@@ -90,7 +90,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1029, 470);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1077, 493);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lv待选
@@ -123,7 +123,7 @@
             listViewItem3});
             this.lv待选.Location = new System.Drawing.Point(3, 3);
             this.lv待选.Name = "lv待选";
-            this.lv待选.Size = new System.Drawing.Size(443, 415);
+            this.lv待选.Size = new System.Drawing.Size(467, 438);
             this.lv待选.TabIndex = 0;
             this.lv待选.UseCompatibleStateImageBehavior = false;
             this.lv待选.View = System.Windows.Forms.View.Details;
@@ -144,9 +144,9 @@
             this.panel1.Controls.Add(this.btn识别);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(452, 3);
+            this.panel1.Location = new System.Drawing.Point(476, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(124, 415);
+            this.panel1.Size = new System.Drawing.Size(124, 438);
             this.panel1.TabIndex = 3;
             // 
             // groupBox1
@@ -237,15 +237,15 @@
             this.panel2.Controls.Add(this.btn取消);
             this.panel2.Controls.Add(this.btn打印);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(582, 424);
+            this.panel2.Location = new System.Drawing.Point(606, 447);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(444, 43);
+            this.panel2.Size = new System.Drawing.Size(468, 43);
             this.panel2.TabIndex = 4;
             // 
             // btn取消
             // 
             this.btn取消.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn取消.Location = new System.Drawing.Point(243, 3);
+            this.btn取消.Location = new System.Drawing.Point(255, 3);
             this.btn取消.Name = "btn取消";
             this.btn取消.Size = new System.Drawing.Size(103, 34);
             this.btn取消.TabIndex = 0;
@@ -292,9 +292,9 @@
             listViewItem4,
             listViewItem5,
             listViewItem6});
-            this.lv选中.Location = new System.Drawing.Point(582, 3);
+            this.lv选中.Location = new System.Drawing.Point(606, 3);
             this.lv选中.Name = "lv选中";
-            this.lv选中.Size = new System.Drawing.Size(444, 415);
+            this.lv选中.Size = new System.Drawing.Size(468, 438);
             this.lv选中.TabIndex = 5;
             this.lv选中.UseCompatibleStateImageBehavior = false;
             this.lv选中.View = System.Windows.Forms.View.Details;
@@ -312,9 +312,9 @@
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(3, 421);
+            this.label1.Location = new System.Drawing.Point(3, 444);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(443, 49);
+            this.label1.Size = new System.Drawing.Size(467, 49);
             this.label1.TabIndex = 6;
             this.label1.Text = "STEP.1  选择需要打印的工作表";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -323,7 +323,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1029, 470);
+            this.ClientSize = new System.Drawing.Size(1077, 493);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "底稿打印";
@@ -337,6 +337,7 @@
             this.ResumeLayout(false);
 
         }
+               
 
         #endregion
 

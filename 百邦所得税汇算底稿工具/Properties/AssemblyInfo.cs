@@ -7,7 +7,7 @@ using System.Security;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("百邦所得税汇算底稿工具")]
-[assembly: AssemblyDescription("5.8母亲节版")]
+[assembly: AssemblyDescription("7.22 大暑版")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("厦门百邦税务师事务所有限公司")]
 [assembly: AssemblyProduct("百邦所得税汇算底稿工具")]
@@ -33,6 +33,6 @@ using System.Security;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.4.0")]
+[assembly: AssemblyVersion("1.2.1.0")]
 [assembly: AssemblyFileVersion("1.1.0.0")]
 
