@@ -308,6 +308,7 @@ namespace 百邦所得税汇算底稿工具
                 pictureBox1.Image = img;
 
             }*/
+            Boolean o = Globals.WPToolAddln.Application.Version.ToString() == "12.0" ? false : true;
             try
             {
             string[] HW;
@@ -318,9 +319,8 @@ namespace 百邦所得税汇算底稿工具
             int n = lv选中.Items.Count;
             for (int i = 0; i < n; i++)
             {
-                //处理Item 
-
-                Globals.WPToolAddln.Application.PrintCommunication = false;
+                    //处理Item 
+                    if (o) Globals.WPToolAddln.Application.PrintCommunication = false;
                 label1.Text = "STEP.2  正在设置打印区域..." + (i + 1).ToString() + "/" + n.ToString();
                 this.Refresh();
                 string iName = lv选中.Items[i].SubItems[0].Text;
@@ -391,7 +391,7 @@ namespace 百邦所得税汇算底稿工具
                     }
                 }
 
-                Globals.WPToolAddln.Application.PrintCommunication = true;
+                    if (o) Globals.WPToolAddln.Application.PrintCommunication = true;
             }
                 label1.Text = "STEP.3  正在进行打印预览...";
                 this.Refresh();
@@ -421,7 +421,7 @@ namespace 百邦所得税汇算底稿工具
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show(Globals.WPToolAddln.Application.Version.ToString());
         }
 
         private void btn识别_Click(object sender, EventArgs e)

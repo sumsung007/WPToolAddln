@@ -216,7 +216,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.btnHelp);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "关于程序 V7.22大暑版";
+            this.group2.Label = "V7.22大暑版 设配2007";
             this.group2.Name = "group2";
             // 
             // sb导出数据
