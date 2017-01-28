@@ -6,11 +6,11 @@ using System.Security;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("百邦所得税汇算底稿工具")]
-[assembly: AssemblyDescription("7.22 大暑版")]
+[assembly: AssemblyTitle("所得税汇算底稿工具")]
+[assembly: AssemblyDescription("20170128 春节版")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("厦门百邦税务师事务所有限公司")]
-[assembly: AssemblyProduct("百邦所得税汇算底稿工具")]
+[assembly: AssemblyCompany("中汇百邦（厦门）税务师事务所有限公司&厦门明正税务师事务所有限公司")]
+[assembly: AssemblyProduct("百邦·明正所得税汇算底稿工具")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,6 +33,6 @@ using System.Security;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.1.0")]
+[assembly: AssemblyVersion("2.1.1.0")]
 [assembly: AssemblyFileVersion("1.1.0.0")]
 

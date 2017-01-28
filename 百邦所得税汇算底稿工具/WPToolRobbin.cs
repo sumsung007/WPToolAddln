@@ -11,20 +11,25 @@ namespace 百邦所得税汇算底稿工具
 {
     public partial class WorkingPaper
     {
-        //
-        Microsoft.Office.Tools.CustomTaskPane MyTaskpane;
+        //Microsoft.Office.Tools.CustomTaskPane MyTaskpane;
         public static Workbook Wb;
         public static Boolean OOO=false;
-        Contents Con;
+
+        public Dictionary<int, Microsoft.Office.Tools.CustomTaskPane> TaskPanels =
+            new Dictionary<int, Microsoft.Office.Tools.CustomTaskPane>();
+
+        public Dictionary<int, Contents> Cons =
+            new Dictionary<int, Contents>();
+        //Contents Con;
         CommandBarButton Cd;
         //
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
-            Con = new Contents();
-            MyTaskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Con, "税审底稿工具");
-            MyTaskpane.Width = 300;
-            MyTaskpane.VisibleChanged+=new EventHandler(MyTaskpane_VisibleChanged);
+            //Con = new Contents();
+            //MyTaskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Con, "税审底稿工具");
+            //MyTaskpane.Width = 300;
+            //MyTaskpane.VisibleChanged+=new EventHandler(MyTaskpane_VisibleChanged);
             if (! CU.授权检测())
             {
                 tb显示目录.Enabled = false;
@@ -50,24 +55,29 @@ namespace 百邦所得税汇算底稿工具
             if(OOO)
             {
                 string ss = Wb.ActiveSheet.Name;
-
-                switch (ss)
+                int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+                Contents con;
+                Cons.TryGetValue(hwnd,out con);
+                if (con != null)
                 {
-                    case "余额表":
-                    case "税金申报明细":
-                        Con.显示选项卡(ss);
-                        break;
-                    case "检查表":
-                        Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
-                        break;
-                    case "A000000企业基础信息表":
-                        Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange; 
-                        break;
-                    default:
-                        Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
-                        Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
-                        Con.显示选项卡("");
-                        break;
+                    switch (ss)
+                    {
+                        case "余额表":
+                        case "税金申报明细":
+                            con.显示选项卡(ss);
+                            break;
+                        case "检查表":
+                            Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
+                            break;
+                        case "A000000企业基础信息表":
+                            Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
+                            break;
+                        default:
+                            Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
+                            Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
+                            con.显示选项卡("");
+                            break;
+                    }
                 }
             }
         }
@@ -149,35 +159,61 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-        private void Application_WorkbookActivate(Workbook Wb)
+        private void Application_WorkbookActivate(Workbook wb)
         {
+
             if (CU.文件判断())
             {
-                MyTaskpane.Visible = true;
-                Globals.WPToolAddln.Application.SheetActivate += Application_SheetActivate;
-                string ss = Wb.ActiveSheet.Name;
-                switch (ss)
+                //MyTaskpane.Visible = true;
+                int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+                Contents Con = new Contents();
+                Microsoft.Office.Tools.CustomTaskPane mypane;
+                    TaskPanels.TryGetValue(hwnd, out mypane);
+                if (mypane != null)
                 {
-                    case "余额表":
-                    case "税金申报明细":
-                        Con.显示选项卡(ss);
-                        break;
-                    case "检查表":
-                        Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
-                        break;
-                    case "A000000企业基础信息表":
-                        Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
-                        break;
-                    default:
-                        Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
-                        Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
-                        Con.显示选项卡("");
-                        break;
+                    tb显示目录.Checked = mypane.Visible;
+                }
+                else
+                {
+                    Microsoft.Office.Tools.CustomTaskPane pane = Globals.WPToolAddln.CustomTaskPanes.Add(Con, "税审底稿工具",
+                        Globals.WPToolAddln.Application.ActiveWindow);
+                    //这一步很重要将决定是否显示到当前窗口，第三个参数的意思就是依附到那个窗口
+                    //pane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
+                    pane.Width = 300;
+                    TaskPanels.Add(hwnd, pane);
+                    Cons.Add(hwnd, Con);
+                    pane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+                    pane.Visible = tb显示目录.Checked;
+                }
+                Globals.WPToolAddln.Application.SheetActivate += Application_SheetActivate;
+                string ss = wb.ActiveSheet.Name;
+                Cons.TryGetValue(hwnd, out Con);
+                if (Con != null)
+                {
+                    switch (ss)
+                    {
+                        case "余额表":
+                        case "税金申报明细":
+                            Con.显示选项卡(ss);
+                            break;
+                        case "检查表":
+                            Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
+                            break;
+                        case "A000000企业基础信息表":
+                            Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
+                            break;
+                        default:
+                            Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
+                            Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
+                            Con.显示选项卡("");
+                            break;
+                    }
                 }
             }
             else
             {
-                if (MyTaskpane != null) MyTaskpane.Visible = false;
+                //if (MyTaskpane != null) MyTaskpane.Visible = false;
+                tb显示目录.Checked = false;
                 Globals.WPToolAddln.Application.SheetActivate -= Application_SheetActivate;
                 Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
             }
@@ -186,7 +222,10 @@ namespace 百邦所得税汇算底稿工具
 
         private void MyTaskpane_VisibleChanged(object sender, EventArgs e)
         {
-            tb显示目录.Checked=MyTaskpane.Visible;
+            int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+            Microsoft.Office.Tools.CustomTaskPane mypane;
+            TaskPanels.TryGetValue(hwnd, out mypane);
+            if (mypane != null) tb显示目录.Checked = mypane.Visible;
         }
 
         private void btnHelp_Click(object sender, RibbonControlEventArgs e)         //关于程序
@@ -203,8 +242,8 @@ namespace 百邦所得税汇算底稿工具
             if (dr == DialogResult.Yes)
             {
                 SaveFileDialog Sv = new SaveFileDialog();
-                Sv.Filter = "百邦税审底稿(*.xlsx)|*.xlsx";
-                Sv.FileName = "税审2015年底稿";
+                Sv.Filter = "税审底稿(*.xlsx)|*.xlsx";
+                Sv.FileName = "税审2016年底稿";
                 Sv.Title = "保存新的税审底稿";
                 Sv.OverwritePrompt = true;
                 Sv.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
@@ -231,17 +270,38 @@ namespace 百邦所得税汇算底稿工具
             }
 
         }
+        
 
-        private void toggleButton1_Click(object sender, RibbonControlEventArgs e)
+        private void tb显示目录_Click(object sender, RibbonControlEventArgs e)
         {
-            if(MyTaskpane ==null)
+            int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+            Microsoft.Office.Tools.CustomTaskPane mypane;
+            TaskPanels.TryGetValue(hwnd, out mypane);
+            if (mypane != null)
             {
-                Con = new Contents();
-                MyTaskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Con, "税审底稿工具");
-                MyTaskpane.Width = 300;
-                MyTaskpane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+                mypane.Visible= tb显示目录.Checked;
             }
-            MyTaskpane.Visible = tb显示目录.Checked;
+            else
+            {
+                Contents con = new Contents();
+                Microsoft.Office.Tools.CustomTaskPane pane = Globals.WPToolAddln.CustomTaskPanes.Add(con, "税审底稿工具",
+                    Globals.WPToolAddln.Application.ActiveWindow);
+                //这一步很重要将决定是否显示到当前窗口，第三个参数的意思就是依附到那个窗口
+                //pane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
+                pane.Width = 300;
+                TaskPanels.Add(hwnd, pane);
+                pane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+                pane.Visible = tb显示目录.Checked;
+            }
+
+            //if (MyTaskpane ==null)
+            //{
+            //    Con = new Contents();
+            //    MyTaskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Con, "税审底稿工具");
+            //    MyTaskpane.Width = 300;
+            //    MyTaskpane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+            //}
+            //MyTaskpane.Visible = tb显示目录.Checked;
         }
 
         private void button8_Click(object sender, RibbonControlEventArgs e)
@@ -309,9 +369,12 @@ namespace 百邦所得税汇算底稿工具
                 if ((Wb.Sheets["余额表"].Range["A2"] != null) && (Globals.WPToolAddln.Application.ActiveSheet.Name == "余额表") &&
                     (MessageBox.Show("是否填写报表？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes))
                 {
-                    if (Wb.Sheets["基本情况"].Cells[8, 2].Value == "中汇百邦（厦门）税务师事务所有限公司" &&
+                    if ((Wb.Sheets["基本情况"].Cells[8, 2].Value == "中汇百邦（厦门）税务师事务所有限公司" &&
                         Wb.Sheets["档案封面"].Cells[6, 1].Value == "中汇百邦（厦门）税务师事务所有限公司" &&
-                        Wb.Sheets["基本情况（封面）"].Cells[16, 2].Value == "中汇百邦（厦门）税务师事务所有限公司")
+                        Wb.Sheets["基本情况（封面）"].Cells[16, 2].Value == "中汇百邦（厦门）税务师事务所有限公司")||
+                        (Wb.Sheets["基本情况"].Cells[8, 2].Value == "厦门明正税务师事务所有限公司" &&
+                        Wb.Sheets["档案封面"].Cells[6, 1].Value == "厦门明正税务师事务所有限公司" &&
+                        Wb.Sheets["基本情况（封面）"].Cells[16, 2].Value == "厦门明正税务师事务所有限公司"))
                     {
                         try
                         {

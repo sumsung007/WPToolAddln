@@ -39,8 +39,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.LogoPictureBox = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -70,22 +72,22 @@
             // Label1
             // 
             this.Label1.AutoSize = true;
-            this.Label1.Font = new System.Drawing.Font("隶书", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label1.Font = new System.Drawing.Font("微软雅黑", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Label1.Location = new System.Drawing.Point(184, 40);
             this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(563, 38);
+            this.Label1.Size = new System.Drawing.Size(706, 50);
             this.Label1.TabIndex = 7;
-            this.Label1.Text = "厦门百邦税务师事务所有限公司";
+            this.Label1.Text = "中汇百邦（厦门）税务师事务所有限公司";
             // 
             // Label2
             // 
             this.Label2.AutoSize = true;
-            this.Label2.Font = new System.Drawing.Font("隶书", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label2.Font = new System.Drawing.Font("微软雅黑", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Label2.Location = new System.Drawing.Point(184, 112);
             this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(563, 38);
+            this.Label2.Size = new System.Drawing.Size(554, 50);
             this.Label2.TabIndex = 8;
-            this.Label2.Text = "厦门普和会计师事务所有限公司";
+            this.Label2.Text = "厦门明正税务师事务所有限公司";
             // 
             // UsernameLabel
             // 
@@ -135,11 +137,11 @@
             // 
             // LogoPictureBox
             // 
-            this.LogoPictureBox.BackgroundImage = global::百邦所得税汇算底稿工具.Properties.Resources.LOGO;
             this.LogoPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.LogoPictureBox.Location = new System.Drawing.Point(12, 12);
+            this.LogoPictureBox.Image = global::百邦所得税汇算底稿工具.Properties.Resources.中汇LOGO;
+            this.LogoPictureBox.Location = new System.Drawing.Point(70, 40);
             this.LogoPictureBox.Name = "LogoPictureBox";
-            this.LogoPictureBox.Size = new System.Drawing.Size(151, 163);
+            this.LogoPictureBox.Size = new System.Drawing.Size(93, 50);
             this.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.LogoPictureBox.TabIndex = 2;
             this.LogoPictureBox.TabStop = false;
@@ -154,12 +156,23 @@
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::百邦所得税汇算底稿工具.Properties.Resources.明正LOGO;
+            this.pictureBox1.Location = new System.Drawing.Point(70, 112);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(93, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 15;
+            this.pictureBox1.TabStop = false;
+            // 
             // REGForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(770, 351);
+            this.ClientSize = new System.Drawing.Size(913, 357);
             this.ControlBox = false;
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.PasswordTextBox);
@@ -176,6 +189,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -194,5 +208,6 @@
         internal System.Windows.Forms.TextBox PasswordTextBox;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -140,7 +140,7 @@
             this.textBoxDescription.Size = new System.Drawing.Size(391, 164);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
-            this.textBoxDescription.Text = resources.GetString("textBoxDescription.Text");
+            this.textBoxDescription.Text = "2017-01-28\r\n\r\n新增明正所底稿";
             // 
             // okButton
             // 

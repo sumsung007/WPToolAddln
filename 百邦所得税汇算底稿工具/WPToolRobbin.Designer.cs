@@ -103,7 +103,7 @@
             this.tb显示目录.Label = "侧边工具";
             this.tb显示目录.Name = "tb显示目录";
             this.tb显示目录.ShowImage = true;
-            this.tb显示目录.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toggleButton1_Click);
+            this.tb显示目录.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.tb显示目录_Click);
             // 
             // group1
             // 

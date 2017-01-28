@@ -26,7 +26,7 @@
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>百邦所得税汇算底稿工具</RootNamespace>
-    <AssemblyName>百邦所得税汇算底稿工具</AssemblyName>
+    <AssemblyName>百邦·明正所得税汇算底稿工具</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -409,6 +409,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ms-excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\中汇LOGO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\中汇标题.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\明正LOGO.jpg" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

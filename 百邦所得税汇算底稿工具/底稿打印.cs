@@ -429,6 +429,7 @@ namespace 百邦所得税汇算底稿工具
             if(MessageBox.Show("是否清除当前筛选的表格，自动选择有数数据？","警告",MessageBoxButtons.YesNo,MessageBoxIcon.Warning)==DialogResult.Yes)
             {
                 刷新();
+                
             }
         }
     }
