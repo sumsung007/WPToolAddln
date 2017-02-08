@@ -199,6 +199,14 @@
     <Compile Include="Contents.Designer.cs">
       <DependentUpon>Contents.cs</DependentUpon>
     </Compile>
+    <Compile Include="HtmlTableService.cs" />
+    <Compile Include="HttpHelper.cs" />
+    <Compile Include="验证码.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="验证码.Designer.cs">
+      <DependentUpon>验证码.cs</DependentUpon>
+    </Compile>
     <Compile Include="底稿打印.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -238,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Contents.resx">
       <DependentUpon>Contents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="验证码.resx">
+      <DependentUpon>验证码.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="REGForm.resx">
       <DependentUpon>REGForm.cs</DependentUpon>

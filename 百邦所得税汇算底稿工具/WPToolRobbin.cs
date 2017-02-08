@@ -50,7 +50,7 @@ namespace 百邦所得税汇算底稿工具
             
         }
 
-        private void Application_SheetActivate(object Sh)
+        private void Application_SheetActivate(object sh)
         {
             if(OOO)
             {
@@ -64,6 +64,7 @@ namespace 百邦所得税汇算底稿工具
                     {
                         case "余额表":
                         case "税金申报明细":
+                        case "基本情况":
                             con.显示选项卡(ss);
                             break;
                         case "检查表":
@@ -82,9 +83,9 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-        private void Application_SheetSelectionChange(object Sh, Range Target)
+        private void Application_SheetSelectionChange(object sh, Range target)
         {
-            if (Target.Address == "$B$15:$F$15")
+            if (target.Address == "$B$15:$F$15")
             {
                 存货计价 ch= new 存货计价();
                 
@@ -93,16 +94,16 @@ namespace 百邦所得税汇算底稿工具
         }
         
 
-        private void Application_SheetFollowHyperlink(object Sh, Hyperlink Target)
+        private void Application_SheetFollowHyperlink(object sh, Hyperlink target)
         {
             if (WorkingPaper.OOO)
             {
                 try
                 {
                     Globals.WPToolAddln.Application.ScreenUpdating = false;
-                    Wb.Worksheets[Target.Range.Value].Visible = true;
+                    Wb.Worksheets[target.Range.Value].Visible = true;
                     if (Wb.ActiveSheet.Cells[1, 7].Value.ToString() == "跳转超链接所选页面")
-                        Wb.Worksheets[Target.Range.Value].Select();
+                        Wb.Worksheets[target.Range.Value].Select();
                     Globals.WPToolAddln.Application.ScreenUpdating = true;
                 }
                 catch (Exception)
@@ -868,6 +869,7 @@ namespace 百邦所得税汇算底稿工具
                 }
             }
         }
+        
 
         private void btn注册_Click(object sender, RibbonControlEventArgs e)
         {

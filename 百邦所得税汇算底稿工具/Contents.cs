@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -97,20 +98,27 @@ namespace 百邦所得税汇算底稿工具
                 case "余额表":
                     //tP余额表.Parent = tabControl1;
                     splitContainer1.Panel1Collapsed = false;
-                    button6.Visible = true;
-                    button7.Visible = true;
-                    button8.Visible = true;
-                    button9.Visible = false;
+                    splitContainer3.Panel1Collapsed = false;
+                    splitContainer3.Panel2Collapsed = true;
                     groupBox1.Text = "余额表";
                     break;
                 case "税金申报明细":
                     //tP税费.Parent= tabControl1;
                     splitContainer1.Panel1Collapsed = false;
-                    button6.Visible = false;
-                    button7.Visible = false;
-                    button8.Visible = false;
-                    button9.Visible = true;
+                    splitContainer3.Panel2Collapsed = false;
+                    splitContainer3.Panel1Collapsed = true;
+                    splitContainer4.Panel1Collapsed = false;
+                    splitContainer4.Panel2Collapsed = true;
                     groupBox1.Text = "税费测算";
+                    break;
+                case "基本情况":
+                    //tP税费.Parent= tabControl1;
+                    splitContainer1.Panel1Collapsed = false;
+                    splitContainer3.Panel2Collapsed = false;
+                    splitContainer3.Panel1Collapsed = true;
+                    splitContainer4.Panel2Collapsed = false;
+                    splitContainer4.Panel1Collapsed = true;
+                    groupBox1.Text = "基本情况";
                     break;
                 default:
                     splitContainer1.Panel1Collapsed = true;
@@ -762,6 +770,111 @@ namespace 百邦所得税汇算底稿工具
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn基础信息_Click(object sender, EventArgs e)
+        {
+            string strText, strName, strPass, scookie;
+            strName = "91350200MA2XNB2C78";
+            strPass = "xwb088016";
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem()
+            {
+                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/", //URL     必需项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            HttpResult result = http.GetHtml(item);
+            scookie = result.Cookie;
+
+            item = new HttpItem
+            {
+                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/login/checkcode.do?r=Math.random()&ct=bsfw",
+                //URL     必需项
+                Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/", //来源URL     可选项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                Cookie = scookie,
+                ResultType = ResultType.Byte, //返回数据类型，是Byte还是String
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            result = http.GetHtml(item);
+
+            //把得到的Byte转成图片
+            Image img = byteArrayToImage(result.ResultByte);
+            验证码 pic = new 验证码(img);
+            pic.ShowDialog();
+            strText = pic.pictext;
+
+            item = new HttpItem
+            {
+                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/login/checkAndLogin.do", //URL     必需项
+                Method = "post", //URL     可选项 默认为Get
+                Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/", //来源URL     可选项
+                Cookie = scookie,
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                Postdata =
+                    @"{""login"":{""nsrsbh"":""" + strName + @""",""yhmm"":""" + strPass + @""",""checkCode"":""" +
+                    strText + @""",""loginType"":""bsfw""}}", //Post数据
+            };
+            item.Header.Add("x-requested-with", "XMLHttpRequest");
+
+            result = http.GetHtml(item);
+
+            if (result.Html.ToString().IndexOf("登录成功") > 0)
+            {
+                item = new HttpItem
+                {
+                    URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/index.do", //URL     必需项
+                    Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/sscx_index.do", //URL     必需项
+                    Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/nsrgl/queryNsrjbxx.do", //URL     必需项
+                    Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/sscx_index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                string html = result.Html;
+                Regex reg = new Regex(@"<table[^>]*>[\s\S]*</table>",
+                    RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+                html = reg.Match(html).Value;
+                html =
+                    Regex.Replace(html, @"&nbsp;", "",
+                        RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+                html =
+                    Regex.Replace(html, @"^\s+|(\>)\s+(\<)|\s+$", "$1$2",
+                        RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled).Replace("\r","").Replace("\n","");
+                HtmlTableService ht = new HtmlTableService();
+                string[,] dt = ht.ToArray(html, Encoding.UTF8);
+                Range rng = WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["W1"].Resize[dt.GetLength(0),dt.GetLength(1)];
+                rng.Value2 = dt;
+                //rng.Value2= Globals.WPToolAddln.Application.WorksheetFunction.Transpose( Arr);
+                //rng.TextToColumns(Tab:true,FieldInfo:new int[,] { {3,2} });
+            }
+            else
+            {
+                MessageBox.Show("登录失败！");
+            }
+        }
+        private Image byteArrayToImage(byte[] Bytes)
+        {
+            MemoryStream ms = new MemoryStream(Bytes);
+            Image outputImg = Image.FromStream(ms);
+            return outputImg;
         }
     }
 }
