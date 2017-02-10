@@ -11,25 +11,34 @@ namespace 百邦所得税汇算底稿工具
 {
     public partial class WorkingPaper
     {
-        //Microsoft.Office.Tools.CustomTaskPane MyTaskpane;
+        Microsoft.Office.Tools.CustomTaskPane Excel10Taskpane;
         public static Workbook Wb;
         public static Boolean OOO=false;
+        public static int 版本号;
+        public static int Excel版本;
 
         public Dictionary<int, Microsoft.Office.Tools.CustomTaskPane> TaskPanels =
             new Dictionary<int, Microsoft.Office.Tools.CustomTaskPane>();
 
         public Dictionary<int, Contents> Cons =
             new Dictionary<int, Contents>();
-        //Contents Con;
+        Contents Excel10Con;
         CommandBarButton Cd;
         //
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
-            //Con = new Contents();
-            //MyTaskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Con, "税审底稿工具");
-            //MyTaskpane.Width = 300;
-            //MyTaskpane.VisibleChanged+=new EventHandler(MyTaskpane_VisibleChanged);
+            if (Globals.WPToolAddln.Application.Version == "15.0" || Globals.WPToolAddln.Application.Version == "16.0")
+                Excel版本 = 13;
+            else
+                Excel版本 = 10;
+            if (Excel版本 == 10)
+            {
+                Excel10Con = new Contents();
+                Excel10Taskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Excel10Con, "税审底稿工具");
+                Excel10Taskpane.Width = 300;
+                Excel10Taskpane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+            }
             if (! CU.授权检测())
             {
                 tb显示目录.Enabled = false;
@@ -55,9 +64,14 @@ namespace 百邦所得税汇算底稿工具
             if(OOO)
             {
                 string ss = Wb.ActiveSheet.Name;
-                int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
                 Contents con;
-                Cons.TryGetValue(hwnd,out con);
+                if (Excel版本 == 13)
+                {
+                    int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+                    Cons.TryGetValue(hwnd, out con);
+                }
+                else
+                    con = Excel10Con;
                 if (con != null)
                 {
                     switch (ss)
@@ -165,37 +179,48 @@ namespace 百邦所得税汇算底稿工具
 
             if (CU.文件判断())
             {
-                //MyTaskpane.Visible = true;
-                int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
-                Contents Con = new Contents();
-                Microsoft.Office.Tools.CustomTaskPane mypane;
-                    TaskPanels.TryGetValue(hwnd, out mypane);
-                if (mypane != null)
+                
+                Contents con = new Contents();
+                if (Excel版本 == 13)
                 {
-                    tb显示目录.Checked = mypane.Visible;
+                    int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+                    Microsoft.Office.Tools.CustomTaskPane mypane;
+                    TaskPanels.TryGetValue(hwnd, out mypane);
+                    if (mypane != null)
+                    {
+                        tb显示目录.Checked = mypane.Visible;
+                    }
+                    else
+                    {
+                        Microsoft.Office.Tools.CustomTaskPane pane = Globals.WPToolAddln.CustomTaskPanes.Add(con,
+                            "税审底稿工具",
+                            Globals.WPToolAddln.Application.ActiveWindow);
+                        //这一步很重要将决定是否显示到当前窗口，第三个参数的意思就是依附到那个窗口
+                        //pane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
+                        pane.Width = 300;
+                        TaskPanels.Add(hwnd, pane);
+                        Cons.Add(hwnd, con);
+                        pane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+                        pane.Visible = tb显示目录.Checked;
+                    }
+                    Cons.TryGetValue(hwnd, out con);
                 }
                 else
                 {
-                    Microsoft.Office.Tools.CustomTaskPane pane = Globals.WPToolAddln.CustomTaskPanes.Add(Con, "税审底稿工具",
-                        Globals.WPToolAddln.Application.ActiveWindow);
-                    //这一步很重要将决定是否显示到当前窗口，第三个参数的意思就是依附到那个窗口
-                    //pane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
-                    pane.Width = 300;
-                    TaskPanels.Add(hwnd, pane);
-                    Cons.Add(hwnd, Con);
-                    pane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
-                    pane.Visible = tb显示目录.Checked;
+                    con = Excel10Con;
+                    Excel10Taskpane.Visible = true;
+                    tb显示目录.Checked = true;
                 }
                 Globals.WPToolAddln.Application.SheetActivate += Application_SheetActivate;
                 string ss = wb.ActiveSheet.Name;
-                Cons.TryGetValue(hwnd, out Con);
-                if (Con != null)
+                if (con != null)
                 {
                     switch (ss)
                     {
                         case "余额表":
                         case "税金申报明细":
-                            Con.显示选项卡(ss);
+                        case "基本情况":
+                            con.显示选项卡(ss);
                             break;
                         case "检查表":
                             Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
@@ -206,14 +231,15 @@ namespace 百邦所得税汇算底稿工具
                         default:
                             Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
                             Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
-                            Con.显示选项卡("");
+                            con.显示选项卡("");
                             break;
                     }
                 }
             }
             else
             {
-                //if (MyTaskpane != null) MyTaskpane.Visible = false;
+                if(Excel版本==10)
+                    if (Excel10Taskpane != null) Excel10Taskpane.Visible = false;
                 tb显示目录.Checked = false;
                 Globals.WPToolAddln.Application.SheetActivate -= Application_SheetActivate;
                 Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
@@ -223,10 +249,15 @@ namespace 百邦所得税汇算底稿工具
 
         private void MyTaskpane_VisibleChanged(object sender, EventArgs e)
         {
-            int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
-            Microsoft.Office.Tools.CustomTaskPane mypane;
-            TaskPanels.TryGetValue(hwnd, out mypane);
-            if (mypane != null) tb显示目录.Checked = mypane.Visible;
+            if (Excel版本 == 13)
+            {
+                int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+                Microsoft.Office.Tools.CustomTaskPane mypane;
+                TaskPanels.TryGetValue(hwnd, out mypane);
+                if (mypane != null) tb显示目录.Checked = mypane.Visible;
+            }
+            else if (Excel10Taskpane != null) tb显示目录.Checked = Excel10Taskpane.Visible;
+
         }
 
         private void btnHelp_Click(object sender, RibbonControlEventArgs e)         //关于程序
@@ -275,34 +306,39 @@ namespace 百邦所得税汇算底稿工具
 
         private void tb显示目录_Click(object sender, RibbonControlEventArgs e)
         {
-            int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
-            Microsoft.Office.Tools.CustomTaskPane mypane;
-            TaskPanels.TryGetValue(hwnd, out mypane);
-            if (mypane != null)
+            if (Excel版本 == 13)
             {
-                mypane.Visible= tb显示目录.Checked;
+                int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+                Microsoft.Office.Tools.CustomTaskPane mypane;
+                TaskPanels.TryGetValue(hwnd, out mypane);
+                if (mypane != null)
+                {
+                    mypane.Visible = tb显示目录.Checked;
+                }
+                else
+                {
+                    Contents con = new Contents();
+                    Microsoft.Office.Tools.CustomTaskPane pane = Globals.WPToolAddln.CustomTaskPanes.Add(con, "税审底稿工具",
+                        Globals.WPToolAddln.Application.ActiveWindow);
+                    //这一步很重要将决定是否显示到当前窗口，第三个参数的意思就是依附到那个窗口
+                    //pane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
+                    pane.Width = 300;
+                    TaskPanels.Add(hwnd, pane);
+                    pane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+                    pane.Visible = tb显示目录.Checked;
+                }
             }
             else
             {
-                Contents con = new Contents();
-                Microsoft.Office.Tools.CustomTaskPane pane = Globals.WPToolAddln.CustomTaskPanes.Add(con, "税审底稿工具",
-                    Globals.WPToolAddln.Application.ActiveWindow);
-                //这一步很重要将决定是否显示到当前窗口，第三个参数的意思就是依附到那个窗口
-                //pane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
-                pane.Width = 300;
-                TaskPanels.Add(hwnd, pane);
-                pane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
-                pane.Visible = tb显示目录.Checked;
+                if (Excel10Taskpane == null)
+                {
+                    Excel10Con = new Contents();
+                    Excel10Taskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Excel10Con, "税审底稿工具");
+                    Excel10Taskpane.Width = 300;
+                    Excel10Taskpane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+                }
+                Excel10Taskpane.Visible = tb显示目录.Checked;
             }
-
-            //if (MyTaskpane ==null)
-            //{
-            //    Con = new Contents();
-            //    MyTaskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Con, "税审底稿工具");
-            //    MyTaskpane.Width = 300;
-            //    MyTaskpane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
-            //}
-            //MyTaskpane.Visible = tb显示目录.Checked;
         }
 
         private void button8_Click(object sender, RibbonControlEventArgs e)
@@ -321,7 +357,8 @@ namespace 百邦所得税汇算底稿工具
         //菜单按键
         private void btn基本情况_Click(object sender, RibbonControlEventArgs e)
         {
-            CU.工作表切换(new string[] { "地税、基本情况", "A000000企业基础信息表", "基本情况" });
+            CU.工作表切换(new string[] { "基本情况", "地税、基本情况", "A000000企业基础信息表" });
+            Wb.Worksheets["基本情况"].Select();
         }
 
         private void btn余额报表_Click(object sender, RibbonControlEventArgs e)
@@ -918,7 +955,7 @@ namespace 百邦所得税汇算底稿工具
 
         void 查看报告()
         {
-            CU.工作表切换(new string[] { "基本情况（封面）", "1.保留意见", "2.否定意见", "3.无保留意见", "4.无法表明意见", "(二)企业基本情况和审核事项说明", "(二)附表-科目说明",
+            CU.工作表切换(new string[] { "报告封面","报告正文","基本情况（封面）", "1.保留意见", "2.否定意见", "3.无保留意见", "4.无法表明意见", "(二)企业基本情况和审核事项说明", "(二)附表-科目说明",
                 "(二)附表-纳税调整额的审核", "（三）企业所得税年度纳税申报表填报表单", "A000000企业基础信息表", "A100000中华人民共和国企业所得税年度纳税申报表（A类）", "A101010一般企业收入明细表",
                 "A101020金融企业收入明细表", "A102010一般企业成本支出明细表", "A102020金融企业支出明细表", "A103000事业单位、民间非营利组织收入、支出明细表", "A104000期间费用明细表",
                 "A105000纳税调整项目明细表", "A105010视同销售和房地产开发企业特定业务纳税调整明细表", "A105020未按权责发生制确认收入纳税调整明细表", "A105030投资收益纳税调整明细表",
@@ -1561,43 +1598,7 @@ namespace 百邦所得税汇算底稿工具
         {
             if(WorkingPaper.OOO)
             {
-                if (MessageBox.Show("是否自动修复 A107014研发费用加计扣除优惠明细表 和 研发费用加计扣除优惠审核表 错误？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    bool ll = false;
-                    if (CU.Zifu(WorkingPaper.Wb.Worksheets["研发费用加计扣除优惠审核表"].Range["A15"].Value2) != "10（1+2+3+4+5+6+7+8+9）")
-                    {
-                        Worksheet SH = WorkingPaper.Wb.Worksheets["研发费用加计扣除优惠审核表"];
-                        SH.Range["A15:B15,U15"].Interior.Color = 13434828;//绿色
-                        SH.Range["C15:T15"].Interior.Color = 12632256;//灰色
-                        SH.Range["A15"].Value2 = "10（1+2+3+4+5+6+7+8+9）";
-                        SH.Range["B15"].Value2 = "合计";
-                        SH.Range["U15"].Value2 = "第10行第19列＝表A107010第22行";
-                        SH.Range["C15:T15"].FormulaR1C1 = "=SUM(R[-9]C:R[-1]C)";
-                        SH.Range["A15:U15"].Font.Size = 10;
-                        SH.Range["A15:U15"].Borders.LineStyle = XlLineStyle.xlContinuous;
-                        SH.Range["A15,U15"].WrapText = true;
-                        ll = true;
-                    }
-                    if (CU.Zifu(WorkingPaper.Wb.Worksheets["A107014研发费用加计扣除优惠明细表"].Range["A15"].Value2) != "10（1+2+3+4+5+6+7+8+9）")
-                    {
-                        Worksheet SH = WorkingPaper.Wb.Worksheets["A107014研发费用加计扣除优惠明细表"];
-                        SH.Range["A15:B15,U15"].Interior.Color = 13434828;//绿色
-                        SH.Range["C15:T15"].Interior.Color = 16764057;//蓝色
-                        SH.Range["A15"].Value2 = "10（1+2+3+4+5+6+7+8+9）";
-                        SH.Range["B15"].Value2 = "合计";
-                        SH.Range["U15"].Value2 = "第10行第19列＝表A107010第22行";
-                        SH.Range["C15:T15"].FormulaR1C1 = "=研发费用加计扣除优惠审核表!RC";
-                        WorkingPaper.Wb.Worksheets["免税、减计收入及加计扣除优惠审核表"].Range["C25"].Formula = "=A107014研发费用加计扣除优惠明细表!T15";
-                        SH.Range["A15:U15"].Font.Size = 10;
-                        SH.Range["A15:U15"].Borders.LineStyle = XlLineStyle.xlContinuous;
-                        SH.Range["A15,U15"].WrapText = true;
-                        ll = true;
-                    }
-                    if (ll)
-                        MessageBox.Show("修复完成，请检查。");
-                    else
-                        MessageBox.Show("此底稿无需修复。");
-                }
+                WorkingPaper.Wb.Application.ScreenUpdating = true;
             }
         }
 

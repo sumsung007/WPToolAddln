@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.Excel;
 using System.Management;
+using System.Windows.Forms;
 
 namespace 百邦所得税汇算底稿工具
 {
@@ -185,10 +186,26 @@ namespace 百邦所得税汇算底稿工具
                     if (Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
                         == "中汇百邦（厦门）税务师事务所有限公司"||
                         Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
-                        == "厦门百邦税务师事务所有限公司" )
+                        == "厦门百邦税务师事务所有限公司" ||
+                        Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
+                        == "厦门明正税务师事务所有限公司")
                     {
-                        if (Zifu(Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["首页"].Range["A1"].Value2).IndexOf("V20160508") <0)
-                            System.Windows.Forms.MessageBox.Show("该底稿非最新版本，请升级后使用，以免出现未知错误。");
+                        string 版本 =
+                            Zifu(Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["首页"].Range["A1"].Value2);
+                        if (版本.IndexOf("V2016") >= 0)
+                        {
+                            if (版本.IndexOf("V20160508") >= 0)
+                                MessageBox.Show("该底稿为2016版本，新版本只提供查看功能。");
+                            else
+                                MessageBox.Show("该底稿非2016最终版本，请使用7.22大暑版对底稿进行升级。");
+                            WorkingPaper.版本号 = 2016;
+                        }
+                        else if (版本.IndexOf("V2017") >= 0)
+                        {
+                            if (版本.IndexOf("V20170210") < 0)
+                                MessageBox.Show("该底稿非最新版本，请升级后使用，以免出现未知错误。");
+                            WorkingPaper.版本号 = 2017;
+                        }
                         WorkingPaper.Wb = Globals.WPToolAddln.Application.ActiveWorkbook;
                         WorkingPaper.OOO = true;
                         return true;

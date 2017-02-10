@@ -12,10 +12,11 @@ namespace 百邦所得税汇算底稿工具
     public partial class 验证码 : Form
     {
         public string pictext;
-        public 验证码(Image img)
+        public 验证码(Image img,string cp)
         {
             InitializeComponent();
             pictureBox1.Image = img;
+            this.Text = cp;
         }
 
         private void button1_Click(object sender, EventArgs e)

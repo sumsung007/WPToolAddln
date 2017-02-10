@@ -9,6 +9,10 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
+using DataTable = System.Data.DataTable;
+using HtmlDocument = HtmlAgilityPack.HtmlDocument;
+using Newtonsoft.Json;
 
 namespace 百邦所得税汇算底稿工具
 {
@@ -148,9 +152,12 @@ namespace 百邦所得税汇算底稿工具
             if (!CU.文件判断())
                 return;
             string str;
-            if (WorkingPaper.Wb.Worksheets["基本情况"].Cells[8, 2].Value == "中汇百邦（厦门）税务师事务所有限公司" &&
+            if ((WorkingPaper.Wb.Worksheets["基本情况"].Cells[8, 2].Value == "中汇百邦（厦门）税务师事务所有限公司" &&
                 WorkingPaper.Wb.Worksheets["档案封面"].Cells[6, 1].Value == "中汇百邦（厦门）税务师事务所有限公司" &&
-                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[16, 2].Value == "中汇百邦（厦门）税务师事务所有限公司")
+                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[16, 2].Value == "中汇百邦（厦门）税务师事务所有限公司")||
+                (WorkingPaper.Wb.Worksheets["基本情况"].Cells[8, 2].Value == "厦门明正税务师事务所有限公司" &&
+                WorkingPaper.Wb.Worksheets["档案封面"].Cells[6, 1].Value == "厦门明正税务师事务所有限公司" &&
+                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[16, 2].Value == "厦门明正税务师事务所有限公司"))
             {
                 //自动填表开始
                 try
@@ -560,81 +567,87 @@ namespace 百邦所得税汇算底稿工具
         {
             if (WorkingPaper.OOO)
             {
-                if ((WorkingPaper.Wb.Sheets["基本情况"].Cells[8, 2].Value == "中汇百邦（厦门）税务师事务所有限公司") &&
+                if (((WorkingPaper.Wb.Sheets["基本情况"].Cells[8, 2].Value == "中汇百邦（厦门）税务师事务所有限公司") &&
                     (WorkingPaper.Wb.Sheets["档案封面"].Cells[6, 1].Value == "中汇百邦（厦门）税务师事务所有限公司") &&
-                    (WorkingPaper.Wb.Sheets["基本情况（封面）"].Cells[16, 2].Value == "中汇百邦（厦门）税务师事务所有限公司"))
+                    (WorkingPaper.Wb.Sheets["基本情况（封面）"].Cells[16, 2].Value == "中汇百邦（厦门）税务师事务所有限公司"))||
+                    ((WorkingPaper.Wb.Sheets["基本情况"].Cells[8, 2].Value == "厦门明正税务师事务所有限公司") &&
+                    (WorkingPaper.Wb.Sheets["档案封面"].Cells[6, 1].Value == "厦门明正税务师事务所有限公司") &&
+                    (WorkingPaper.Wb.Sheets["基本情况（封面）"].Cells[16, 2].Value == "厦门明正税务师事务所有限公司")
+                    ))
                 {
                     try
                     {
                         WorkingPaper.Wb.Application.ScreenUpdating = false;
                         Worksheet SH = WorkingPaper.Wb.Sheets["税金申报明细"];
-                        SH.Range["A:I"].Replace(SH.Range["R5"].Value, ""); //【税费缴纳测算】表
+                        //SH.Range["A:I"].Replace(SH.Range["R5"].Value, ""); //【税费缴纳测算】表
                         double jj = 0;
                         double[,] c = new double[13, 1], e = new double[13, 1], m = new double[7, 1], k = new double[6, 1];
                         int n = SH.Cells[SH.UsedRange.Rows.Count + 1, 1].End[XlDirection.xlUp].Row;
-                        object[,] Shuifei = SH.Range["A2:I" + n.ToString()].Value2;
+                        object[,] Shuifei = SH.Range["A2:L" + n.ToString()].Value2;
+                        string year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B4"].Value2);
                         for (int i = 1; i <= n - 1; i++)
                         {
-                            if (Shuifei[i, 2] != null)
+                            if (Shuifei[i, 2] != null && CU.Zifu(Shuifei[i,5]).Substring(0,4)==year)
                             {
-                                string str = CU.Zifu(Shuifei[i, 2]);
-                                if (str.Contains("印花税"))
+                                string 征收项目 = CU.Zifu(Shuifei[i, 2]);
+                                if (征收项目.Contains("印花税"))
                                 {
-                                    switch (str)
+                                    string 征收品目 = CU.Zifu(Shuifei[i, 3]);
+                                    switch (征收品目)
                                     {
-                                        case "印花税-购销合同":
-                                            c[0, 0] = c[0, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[0, 0] = e[0, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "购销合同":
+                                            c[0, 0] = c[0, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[0, 0] = e[0, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-建筑安装工程承包合同":
-                                            c[1, 0] = c[1, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[1, 0] = e[1, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "建筑安装工程承包合同":
+                                            c[1, 0] = c[1, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[1, 0] = e[1, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-技术合同":
-                                            c[2, 0] = c[2, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[2, 0] = e[2, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "技术合同":
+                                            c[2, 0] = c[2, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[2, 0] = e[2, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-财产租赁合同":
-                                            c[3, 0] = c[3, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[3, 0] = e[3, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "财产租赁合同":
+                                            c[3, 0] = c[3, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[3, 0] = e[3, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-仓储保管合同":
-                                            c[4, 0] = c[4, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[4, 0] = e[4, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "仓储保管合同":
+                                            c[4, 0] = c[4, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[4, 0] = e[4, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-财产保险合同":
-                                            c[5, 0] = c[5, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[5, 0] = e[5, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "财产保险合同":
+                                            c[5, 0] = c[5, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[5, 0] = e[5, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-货物运输合同":
-                                            c[6, 0] = c[6, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[6, 0] = e[6, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "货物运输合同(按运输费用万分之五贴花)":
+                                            c[6, 0] = c[6, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[6, 0] = e[6, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-加工承揽合同":
-                                            c[7, 0] = c[7, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[7, 0] = e[7, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "加工承揽合同":
+                                            c[7, 0] = c[7, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[7, 0] = e[7, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-建设工程勘察设计合同":
-                                            c[8, 0] = c[8, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[8, 0] = e[8, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "建设工程勘察设计合同":
+                                            c[8, 0] = c[8, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[8, 0] = e[8, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-产权转移书据":
-                                            c[9, 0] = c[9, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[9, 0] = e[9, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "产权转移书据":
+                                            c[9, 0] = c[9, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[9, 0] = e[9, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-借款合同":
-                                            c[10, 0] = c[10, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[10, 0] = e[10, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "借款合同":
+                                            c[10, 0] = c[10, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[10, 0] = e[10, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-其他营业帐簿":
+                                        case "其他营业账簿":
                                         case "权利、许可证照":
-                                        case "印花税-经财政部确定的其他凭证":
-                                            c[11, 0] = c[11, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[11, 0] = e[11, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "其他凭证":
+                                            c[11, 0] = c[11, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[11, 0] = e[11, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
-                                        case "印花税-资金帐簿":
-                                            c[12, 0] = c[12, 0] + CU.Shuzi(Shuifei[i, 4]);
-                                            e[12, 0] = e[12, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        case "资金账簿":
+                                            c[12, 0] = c[12, 0] + CU.Shuzi(Shuifei[i, 6]);
+                                            e[12, 0] = e[12, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             break;
                                         default:
                                             break;
@@ -642,87 +655,87 @@ namespace 百邦所得税汇算底稿工具
                                 }
                                 else
                                 {
-                                    if (str.Contains("消费税"))
+                                    if (征收项目.Contains("消费税"))
                                     {
-                                        m[0, 0] = m[0, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                        m[0, 0] = m[0, 0] + CU.Shuzi(Shuifei[i, 11]);
                                     }
                                     else
                                     {
-                                        if (str.Contains("营业税"))
+                                        if (征收项目.Contains("营业税"))
                                         {
-                                            m[1, 0] = m[1, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                            m[1, 0] = m[1, 0] + CU.Shuzi(Shuifei[i, 11]);
                                         }
                                         else
                                         {
-                                            if (str.Contains("城建税"))
+                                            if (征收项目.Contains("城市维护建设税"))
                                             {
-                                                m[2, 0] = m[2, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                m[2, 0] = m[2, 0] + CU.Shuzi(Shuifei[i, 11]);
                                             }
                                             else
                                             {
-                                                if (str.Contains("教育费附加"))
+                                                if (征收项目.Contains("教育费附加"))
                                                 {
-                                                    m[3, 0] = m[3, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                    m[3, 0] = m[3, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                 }
                                                 else
                                                 {
-                                                    if (str.Contains("地方教育附加"))
+                                                    if (征收项目.Contains("地方教育附加"))
                                                     {
-                                                        m[4, 0] = m[4, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                        m[4, 0] = m[4, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                     }
                                                     else
                                                     {
-                                                        if (str.Contains("资源税"))
+                                                        if (征收项目.Contains("资源税"))
                                                         {
-                                                            m[5, 0] = m[5, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                            m[5, 0] = m[5, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                         }
                                                         else
                                                         {
-                                                            if (str.Contains("土地增值税"))
+                                                            if (征收项目.Contains("土地增值税"))
                                                             {
-                                                                m[6, 0] = m[6, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                                m[6, 0] = m[6, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                             }
                                                             else
                                                             {
-                                                                if (str.Contains("房产税"))
+                                                                if (征收项目.Contains("房产税"))
                                                                 {
-                                                                    jj = jj + CU.Shuzi(Shuifei[i, 8]);
+                                                                    jj = jj + CU.Shuzi(Shuifei[i, 11]);
                                                                 }
                                                                 else
                                                                 {
-                                                                    if (str.Contains("车船税"))
+                                                                    if (征收项目.Contains("车船税"))
                                                                     {
-                                                                        k[0, 0] = k[0, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                                        k[0, 0] = k[0, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                                     }
                                                                     else
                                                                     {
-                                                                        if (str.Contains("土地使用税"))
+                                                                        if (征收项目.Contains("城镇土地使用税"))
                                                                         {
-                                                                            k[1, 0] = k[1, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                                            k[1, 0] = k[1, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                                         }
                                                                         else
                                                                         {
-                                                                            if (str.Contains("契税"))
+                                                                            if (征收项目.Contains("契税"))
                                                                             {
-                                                                                k[2, 0] = k[2, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                                                k[2, 0] = k[2, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                                             }
                                                                             else
                                                                             {
-                                                                                if (str.Contains("残疾人就业"))
+                                                                                if (征收项目.Contains("残疾人就业保障金"))
                                                                                 {
-                                                                                    k[3, 0] = k[3, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                                                    k[3, 0] = k[3, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    if (str.Contains("文化事业建设费"))
+                                                                                    if (征收项目.Contains("文化事业建设费"))
                                                                                     {
-                                                                                        k[4, 0] = k[4, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                                                        k[4, 0] = k[4, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                                                     }
                                                                                     else
                                                                                     {
-                                                                                        if (str.Contains("个人所得税"))
+                                                                                        if (征收项目.Contains("个人所得税"))
                                                                                         {
-                                                                                            k[5, 0] = k[5, 0] + CU.Shuzi(Shuifei[i, 8]);
+                                                                                            k[5, 0] = k[5, 0] + CU.Shuzi(Shuifei[i, 11]);
                                                                                         }
                                                                                     }
                                                                                 }
@@ -774,9 +787,184 @@ namespace 百邦所得税汇算底稿工具
 
         private void btn基础信息_Click(object sender, EventArgs e)
         {
-            string strText, strName, strPass, scookie;
-            strName = "91350200MA2XNB2C78";
-            strPass = "xwb088016";
+            if (!CU.文件判断())
+                return;
+            string name1, pass1;
+            name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B49"].Value2);
+            pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D49"].Value2);
+            if (name1 == "" || pass1 == "")
+                MessageBox.Show("国税信息未填写，请填写[基本情况].[B49,D49]后重试！");
+            else if (国税信息(name1, pass1))
+                MessageBox.Show("国税信息抓取成功！");
+            else
+                MessageBox.Show("国税抓取失败！");
+            name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
+            pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
+            if (name1 == "" || pass1 == "")
+                MessageBox.Show("地税信息未填写，请填写[基本情况].[B50,D50]后重试！");
+            else if (地税信息(name1,pass1))
+                MessageBox.Show("地税信息抓取成功！");
+            else
+                MessageBox.Show("地税抓取失败！");
+        }
+
+        private Boolean 地税信息(string strName,string strPass)
+        {
+            string strText, scookie;
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem()
+            {
+                URL = "https://www.xm-l-tax.gov.cn/", //URL     必需项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            HttpResult result = http.GetHtml(item);
+            scookie = result.Cookie;
+
+            item = new HttpItem
+            {
+                URL = "https://www.xm-l-tax.gov.cn/common/checkcode.do?rand=" + System.DateTime.Now.ToString("ddd MMM dd hh:mm:ss \"CST\" yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo),
+                //URL     必需项
+                Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                Cookie = scookie,
+                ResultType = ResultType.Byte, //返回数据类型，是Byte还是String
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            result = http.GetHtml(item);
+
+            //把得到的Byte转成图片
+            Image img = byteArrayToImage(result.ResultByte);
+            验证码 pic = new 验证码(img, "地税验证码");
+            pic.StartPosition = FormStartPosition.CenterParent;
+            pic.ShowDialog();
+            strText = pic.pictext;
+            strPass = base64(strPass);
+
+            item = new HttpItem
+            {
+                URL = "https://www.xm-l-tax.gov.cn/login/checkLogin.do", //URL     必需项
+                Method = "post", //URL     可选项 默认为Get
+                Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                Cookie = scookie,
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                Postdata =
+                    "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
+            };
+            item.Header.Add("x-requested-with", "XMLHttpRequest");
+
+            result = http.GetHtml(item);
+
+            if (result.Html.ToString().IndexOf("登录成功") > 0)
+            {
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/login/gdslhrz.do", //URL     必需项
+                    Method = "post", //URL     可选项 默认为Get
+                    Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                    Cookie = scookie,
+                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                    ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    Postdata =
+        "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
+                };
+                item.Header.Add("x-requested-with", "XMLHttpRequest");
+                result = http.GetHtml(item);
+
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/login/opener.do", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do", //URL     必需项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/xxtx/index.do", //URL     必需项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do?menuid=zhcx", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/xxtx/index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/sssq/swdjxxwh/swdjxxview.do", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do?menuid=zhcx", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                string html = result.Html;
+                Regex reg = new Regex(@"<table[^>]*>[\s\S]*</table>",
+                    RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+                html = reg.Match(html).Value;
+                html =
+                    Regex.Replace(html, @"&nbsp;", "",
+                        RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+                html =
+                    Regex.Replace(html, @"^\s+|(\>)\s+(\<)|\s+$", "$1$2",
+                        RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled).Replace("\r", "").Replace("\n", "");
+                
+                reg = new Regex(@"<!--[\s\S]*?-->", RegexOptions.IgnoreCase);
+                html = reg.Replace(html, "");
+                html = html.Replace("</td>", "</td>\t").Replace("</tr>", "</tr>\n");
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(html);
+                HtmlNode node = doc.DocumentNode;
+                html = node.InnerText;
+                DataTable dt = new DataTable();
+                string[] strRows = html.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries); //解析成行的字符串数组
+                for (int rowIndex = 0; rowIndex < strRows.Length; rowIndex++) //行的字符串数组遍历
+                {
+                    string vsRow = strRows[rowIndex]; //取行的字符串
+                    string[] vsColumns = vsRow.Split(new string[] { "\t" }, StringSplitOptions.RemoveEmptyEntries); //解析成字段数组
+                    int k = vsColumns.Length - dt.Columns.Count + 1;
+                    for (int ii = 1; ii <= k; ii++)
+                    {
+                        dt.Columns.Add();
+                    }
+                    dt.Rows.Add(vsColumns);
+                }
+                string[,] dts = new string[dt.Rows.Count, dt.Columns.Count];
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        dts[i, j] = dt.Rows[i][j].ToString();
+                    }
+                }
+                Range rng = WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["A1"].Resize[dts.GetLength(0), dts.GetLength(1)];
+                rng.Value2 = dts;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private Boolean 国税信息(string strName, string strPass)
+        {
+            string strText, scookie;
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
             {
@@ -801,7 +989,8 @@ namespace 百邦所得税汇算底稿工具
 
             //把得到的Byte转成图片
             Image img = byteArrayToImage(result.ResultByte);
-            验证码 pic = new 验证码(img);
+            验证码 pic = new 验证码(img, "国税验证码");
+            pic.StartPosition = FormStartPosition.CenterParent;
             pic.ShowDialog();
             strText = pic.pictext;
 
@@ -857,24 +1046,279 @@ namespace 百邦所得税汇算底稿工具
                         RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
                 html =
                     Regex.Replace(html, @"^\s+|(\>)\s+(\<)|\s+$", "$1$2",
-                        RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled).Replace("\r","").Replace("\n","");
+                        RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled).Replace("\r", "").Replace("\n", "");
                 HtmlTableService ht = new HtmlTableService();
                 string[,] dt = ht.ToArray(html, Encoding.UTF8);
-                Range rng = WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["W1"].Resize[dt.GetLength(0),dt.GetLength(1)];
+                Range rng = WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["W1"].Resize[dt.GetLength(0), dt.GetLength(1)];
                 rng.Value2 = dt;
-                //rng.Value2= Globals.WPToolAddln.Application.WorksheetFunction.Transpose( Arr);
-                //rng.TextToColumns(Tab:true,FieldInfo:new int[,] { {3,2} });
+
+                return true;
             }
             else
             {
-                MessageBox.Show("登录失败！");
+                return false;
             }
         }
+
+
+        private string base64(string pass)
+        {
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem()
+            {
+                URL = "https://www.xm-l-tax.gov.cn/res/js/Base64.js", //URL     必需项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            HttpResult result = http.GetHtml(item);
+            return ExecuteScript("base64encode(\"" + pass + "\")", result.Html);
+        }
+        private string md5(string pass)
+        {
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem()
+            {
+                URL = "https://www.xm-l-tax.gov.cn/res/js/md5.js", //URL     必需项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            HttpResult result = http.GetHtml(item);
+            return ExecuteScript("hex_md5(\"" + pass + "\")", result.Html);
+        }
+        private string ExecuteScript(string sExpression, string sCode)
+        {
+            MSScriptControl.ScriptControl scriptControl = new MSScriptControl.ScriptControl();
+            scriptControl.UseSafeSubset = true;
+            scriptControl.Language = "JScript";
+            scriptControl.AddCode(sCode);
+            try
+            {
+                string str = scriptControl.Eval(sExpression).ToString();
+                return str;
+            }
+            catch (Exception ex)
+            {
+                string str = ex.Message;
+            }
+            return null;
+        }
+
         private Image byteArrayToImage(byte[] Bytes)
         {
             MemoryStream ms = new MemoryStream(Bytes);
             Image outputImg = Image.FromStream(ms);
             return outputImg;
         }
+
+        #region 申报数据获取
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string strText, scookie, strName, strPass;
+            if (!CU.文件判断())
+                return;
+            strName = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
+            strPass = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
+            if (strName == "" || strPass == "")
+            {
+                MessageBox.Show("地税信息未填写，请填写[基本情况].[B50,D50]后重试！");
+                return;
+            }
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem()
+            {
+                URL = "https://www.xm-l-tax.gov.cn/", //URL     必需项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            HttpResult result = http.GetHtml(item);
+            scookie = result.Cookie;
+
+            item = new HttpItem
+            {
+                URL = "https://www.xm-l-tax.gov.cn/common/checkcode.do?rand=" + System.DateTime.Now.ToString("ddd MMM dd hh:mm:ss \"CST\" yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo),
+                //URL     必需项
+                Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                Cookie = scookie,
+                ResultType = ResultType.Byte, //返回数据类型，是Byte还是String
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            result = http.GetHtml(item);
+
+            //把得到的Byte转成图片
+            Image img = byteArrayToImage(result.ResultByte);
+            验证码 pic = new 验证码(img,"地税验证码");
+            pic.StartPosition = FormStartPosition.CenterParent;
+            pic.ShowDialog();
+            strText = pic.pictext;
+            //strPass = md5(strPass);
+            strPass = base64(strPass);
+
+            item = new HttpItem
+            {
+                URL = "https://www.xm-l-tax.gov.cn/login/checkLogin.do", //URL     必需项
+                Method = "post", //URL     可选项 默认为Get
+                Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                Cookie = scookie,
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                Postdata =
+                    "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
+            };
+            item.Header.Add("x-requested-with", "XMLHttpRequest");
+
+            result = http.GetHtml(item);
+
+            if (result.Html.ToString().IndexOf("登录成功") > 0)
+            {
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/login/gdslhrz.do", //URL     必需项
+                    Method = "post", //URL     可选项 默认为Get
+                    Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                    Cookie = scookie,
+                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                    ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    Postdata =
+                        "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
+                };
+                item.Header.Add("x-requested-with", "XMLHttpRequest");
+                result = http.GetHtml(item);
+
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/login/opener.do", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do", //URL     必需项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/xxtx/index.do", //URL     必需项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do?menuid=zhcx", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/xxtx/index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do?menuid=zhcx", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_query.do", //URL     必需项
+                    Method = "post", //URL     可选项 默认为Get
+                    Referer = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                    ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    Postdata =
+                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + "2016" + "\",\"sbrq_month\":\"\",\"queryType\":\"byyear\"}",
+                    //Post数据
+                };
+                item.Header.Add("x-requested-with", "XMLHttpRequest");
+
+                result = http.GetHtml(item);
+
+                string html = result.Html;
+                CJson cj = JsonConvert.DeserializeObject<CJson>(html);
+                lsWssbjl[] dates1 = cj.lsWssbjl;
+
+
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_query.do", //URL     必需项
+                    Method = "post", //URL     可选项 默认为Get
+                    Referer = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                    ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    Postdata =
+                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + "2017" +
+                        "\",\"sbrq_month\":\"1\",\"queryType\":\"bymonth\"}", //Post数据
+                };
+                item.Header.Add("x-requested-with", "XMLHttpRequest");
+
+                result = http.GetHtml(item);
+                html = result.Html;
+                cj = JsonConvert.DeserializeObject<CJson>(html);
+                lsWssbjl[] dates2 = cj.lsWssbjl;
+                string[,] dr = new string[dates1.Length + dates2.Length, 12];
+                for (int i = 0; i < dates1.Length; i++)
+                {
+                    dr[i,0] = dates1[i].nssbrq;
+                    dr[i, 1] = dates1[i].zsxm_dm;
+                    dr[i, 2] = dates1[i].zspm_dm;
+                    dr[i, 3] = dates1[i].zszm_dm;
+                    dr[i, 4] = dates1[i].skssqq + "到" + dates1[i].skssqz;
+                    dr[i, 5] = dates1[i].jsyj;
+                    dr[i, 6] = dates1[i].sl_1;
+                    dr[i, 7] = dates1[i].ynse;
+                    dr[i, 8] = dates1[i].yjse;
+                    dr[i, 9] = dates1[i].jmse;
+                    dr[i, 10] = dates1[i].ybtse;
+                    dr[i, 11] = dates1[i].rkrq;
+                }
+                int j = dates1.Length;
+                for (int i = 0; i < dates2.Length; i++)
+                {
+                    dr[j + i, 0] = dates2[i].nssbrq;
+                    dr[j + i, 1] = dates2[i].zsxm_dm;
+                    dr[j + i, 2] = dates2[i].zspm_dm;
+                    dr[j + i, 3] = dates2[i].zszm_dm;
+                    dr[j + i, 4] = dates2[i].skssqq + "到" + dates2[i].skssqz;
+                    dr[j + i, 5] = dates2[i].jsyj;
+                    dr[j + i, 6] = dates2[i].sl_1;
+                    dr[j + i, 7] = dates2[i].ynse;
+                    dr[j + i, 8] = dates2[i].yjse;
+                    dr[j + i, 9] = dates2[i].jmse;
+                    dr[j + i, 10] = dates2[i].ybtse;
+                    dr[j + i, 11] = dates2[i].rkrq;
+                }
+
+                WorkingPaper.Wb.Application.ScreenUpdating = false;
+                int lRow = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A100086"].End[XlDirection.xlUp].Row;
+                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2:N" + lRow.ToString()].Clear();
+                Range rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2"].Resize[dr.GetLength(0), dr.GetLength(1)];
+                rng.Value2 = dr;
+                rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 1];
+                rng.FormulaR1C1 = "=VLOOKUP(RC[-11],首页!C[-6]:C[-5],2,0)";
+                rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["N2"].Resize[dr.GetLength(0), 1];
+                rng.FormulaR1C1 = "=VLOOKUP(RC[-11],首页!C[-5]:C[-4],2,0)";
+                object[,] arr= WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 2].Value2;
+                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["B2"].Resize[dr.GetLength(0), 2].Value2=arr;
+                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 2].Clear();
+
+                WorkingPaper.Wb.Application.ScreenUpdating = true;
+                MessageBox.Show("地税申报数据拉取成功");
+            }
+            else
+                MessageBox.Show("地税登录失败！");
+        }
+        #endregion
     }
 }

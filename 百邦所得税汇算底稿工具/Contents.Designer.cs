@@ -31,8 +31,8 @@ namespace 百邦所得税汇算底稿工具
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("综合类底稿");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("我的工作底稿");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("综合类底稿");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("我的工作底稿");
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -46,6 +46,7 @@ namespace 百邦所得税汇算底稿工具
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.treeView2 = new System.Windows.Forms.TreeView();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -159,23 +160,23 @@ namespace 百邦所得税汇算底稿工具
             // 
             // splitContainer4.Panel1
             // 
+            this.splitContainer4.Panel1.Controls.Add(this.button1);
             this.splitContainer4.Panel1.Controls.Add(this.button9);
             // 
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.btn基础信息);
             this.splitContainer4.Size = new System.Drawing.Size(165, 108);
-            this.splitContainer4.SplitterDistance = 54;
+            this.splitContainer4.SplitterDistance = 79;
             this.splitContainer4.TabIndex = 5;
             // 
             // button9
             // 
-            this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button9.Location = new System.Drawing.Point(14, 9);
+            this.button9.Location = new System.Drawing.Point(14, 20);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(140, 35);
+            this.button9.Size = new System.Drawing.Size(140, 50);
             this.button9.TabIndex = 4;
             this.button9.Text = "税费填写";
             this.button9.UseVisualStyleBackColor = true;
@@ -188,7 +189,7 @@ namespace 百邦所得税汇算底稿工具
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn基础信息.Location = new System.Drawing.Point(14, 7);
             this.btn基础信息.Name = "btn基础信息";
-            this.btn基础信息.Size = new System.Drawing.Size(140, 35);
+            this.btn基础信息.Size = new System.Drawing.Size(140, 10);
             this.btn基础信息.TabIndex = 0;
             this.btn基础信息.Text = "获取基础信息";
             this.btn基础信息.UseVisualStyleBackColor = true;
@@ -231,10 +232,10 @@ namespace 百邦所得税汇算底稿工具
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(3, 21);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "节点0";
-            treeNode1.Text = "综合类底稿";
+            treeNode6.Name = "节点0";
+            treeNode6.Text = "综合类底稿";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode6});
             this.treeView1.Size = new System.Drawing.Size(333, 349);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -247,12 +248,24 @@ namespace 百邦所得税汇算底稿工具
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            treeNode2.Name = "节点0";
-            treeNode2.Text = "我的工作底稿";
+            treeNode5.Name = "节点0";
+            treeNode5.Text = "我的工作底稿";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode5});
             this.treeView2.Size = new System.Drawing.Size(339, 60);
             this.treeView2.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(14, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(140, 50);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "申报数据获取";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Contents
             // 
@@ -299,5 +312,6 @@ namespace 百邦所得税汇算底稿工具
         private SplitContainer splitContainer4;
         private Button button9;
         private Button btn基础信息;
+        private Button button1;
     }
 }

@@ -204,6 +204,7 @@
             // btn导出报告
             // 
             this.btn导出报告.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btn导出报告.Enabled = false;
             this.btn导出报告.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_cloud_upload_black_36dp;
             this.btn导出报告.Label = "导出报告";
             this.btn导出报告.Name = "btn导出报告";
@@ -216,7 +217,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.btnHelp);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V7.22大暑版 设配2007";
+            this.group2.Label = "V20170210";
             this.group2.Name = "group2";
             // 
             // sb导出数据
@@ -277,6 +278,7 @@
             // 
             // btn底稿升级
             // 
+            this.btn底稿升级.Enabled = false;
             this.btn底稿升级.Label = "底稿升级（谨慎操作）";
             this.btn底稿升级.Name = "btn底稿升级";
             this.btn底稿升级.ShowImage = true;
@@ -289,7 +291,7 @@
             // 
             // button1
             // 
-            this.button1.Label = "研发加计 错误修复";
+            this.button1.Label = "恢复表格刷新";
             this.button1.Name = "button1";
             this.button1.ShowImage = true;
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click_1);
