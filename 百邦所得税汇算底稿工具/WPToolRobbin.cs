@@ -12,7 +12,7 @@ namespace 百邦所得税汇算底稿工具
     public partial class WorkingPaper
     {
         Microsoft.Office.Tools.CustomTaskPane Excel10Taskpane;
-        public static Workbook Wb;
+        public static Workbook Wb,wb打印;
         public static Boolean OOO=false;
         public static int 版本号;
         public static int Excel版本;
@@ -59,73 +59,6 @@ namespace 百邦所得税汇算底稿工具
             
         }
 
-        private void Application_SheetActivate(object sh)
-        {
-            if(OOO)
-            {
-                string ss = Wb.ActiveSheet.Name;
-                Contents con;
-                if (Excel版本 == 13)
-                {
-                    int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
-                    Cons.TryGetValue(hwnd, out con);
-                }
-                else
-                    con = Excel10Con;
-                if (con != null)
-                {
-                    switch (ss)
-                    {
-                        case "余额表":
-                        case "税金申报明细":
-                        case "基本情况":
-                            con.显示选项卡(ss);
-                            break;
-                        case "检查表":
-                            Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
-                            break;
-                        case "A000000企业基础信息表":
-                            Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
-                            break;
-                        default:
-                            Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
-                            Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
-                            con.显示选项卡("");
-                            break;
-                    }
-                }
-            }
-        }
-
-        private void Application_SheetSelectionChange(object sh, Range target)
-        {
-            if (target.Address == "$B$15:$F$15")
-            {
-                存货计价 ch= new 存货计价();
-                
-                ch.ShowDialog();
-            }
-        }
-        
-
-        private void Application_SheetFollowHyperlink(object sh, Hyperlink target)
-        {
-            if (WorkingPaper.OOO)
-            {
-                try
-                {
-                    Globals.WPToolAddln.Application.ScreenUpdating = false;
-                    Wb.Worksheets[target.Range.Value].Visible = true;
-                    if (Wb.ActiveSheet.Cells[1, 7].Value.ToString() == "跳转超链接所选页面")
-                        Wb.Worksheets[target.Range.Value].Select();
-                    Globals.WPToolAddln.Application.ScreenUpdating = true;
-                }
-                catch (Exception)
-                {
-                    Globals.WPToolAddln.Application.ScreenUpdating = true;
-                }
-            }
-        }
         private void 添加右键()
         {
             if (OOO)
@@ -172,79 +105,6 @@ namespace 百邦所得税汇算底稿工具
                     MessageBox.Show("用户操作出现错误：" + ex.Message);
                 }
             }
-        }
-
-        private void Application_WorkbookActivate(Workbook wb)
-        {
-
-            if (CU.文件判断())
-            {
-                
-                Contents con = new Contents();
-                if (Excel版本 == 13)
-                {
-                    int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
-                    Microsoft.Office.Tools.CustomTaskPane mypane;
-                    TaskPanels.TryGetValue(hwnd, out mypane);
-                    if (mypane != null)
-                    {
-                        tb显示目录.Checked = mypane.Visible;
-                    }
-                    else
-                    {
-                        Microsoft.Office.Tools.CustomTaskPane pane = Globals.WPToolAddln.CustomTaskPanes.Add(con,
-                            "税审底稿工具",
-                            Globals.WPToolAddln.Application.ActiveWindow);
-                        //这一步很重要将决定是否显示到当前窗口，第三个参数的意思就是依附到那个窗口
-                        //pane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
-                        pane.Width = 300;
-                        TaskPanels.Add(hwnd, pane);
-                        Cons.Add(hwnd, con);
-                        pane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
-                        pane.Visible = tb显示目录.Checked;
-                    }
-                    Cons.TryGetValue(hwnd, out con);
-                }
-                else
-                {
-                    con = Excel10Con;
-                    Excel10Taskpane.Visible = true;
-                    tb显示目录.Checked = true;
-                }
-                Globals.WPToolAddln.Application.SheetActivate += Application_SheetActivate;
-                string ss = wb.ActiveSheet.Name;
-                if (con != null)
-                {
-                    switch (ss)
-                    {
-                        case "余额表":
-                        case "税金申报明细":
-                        case "基本情况":
-                            con.显示选项卡(ss);
-                            break;
-                        case "检查表":
-                            Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
-                            break;
-                        case "A000000企业基础信息表":
-                            Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
-                            break;
-                        default:
-                            Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
-                            Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
-                            con.显示选项卡("");
-                            break;
-                    }
-                }
-            }
-            else
-            {
-                if(Excel版本==10)
-                    if (Excel10Taskpane != null) Excel10Taskpane.Visible = false;
-                tb显示目录.Checked = false;
-                Globals.WPToolAddln.Application.SheetActivate -= Application_SheetActivate;
-                Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
-            }
-            添加右键();
         }
 
         private void MyTaskpane_VisibleChanged(object sender, EventArgs e)
@@ -378,8 +238,8 @@ namespace 百邦所得税汇算底稿工具
             Wb.Sheets["检查表"].Rows["2:69"].Hidden = false;
             string s = "";
             double k;
-            object[,] JCB = Wb.Sheets["检查表"].Range["C2:C69"].Value2;
-            for (int i=1;i<=68;i++)
+            object[,] JCB = Wb.Sheets["检查表"].Range["C2:C73"].Value2;
+            for (int i=1;i<=72;i++)
             {
                 if (JCB[i, 1] != null)
                 {
@@ -992,14 +852,15 @@ namespace 百邦所得税汇算底稿工具
 
         private void splitButton1_Click(object sender, RibbonControlEventArgs e)
         {
-
+            MessageBox.Show(Wb.Name.Substring(0,Wb.Name.LastIndexOf(".")));
+            /*
             if (WorkingPaper.OOO)
             {
                 CU.工作表切换(new string[] { "A100000中华人民共和国企业所得税年度纳税申报表（A类）" ,
                 "A000000企业基础信息表","A106000企业所得税弥补亏损明细表" ,"事项说明","凭证检查",
                 "(二)附表-纳税调整额的审核","交换意见","当局声明" ,"业务约定"});
                 CU.事项说明();
-            }
+            }*/
         }
 
         private void button1_Click(object sender, RibbonControlEventArgs e)
@@ -1076,32 +937,23 @@ namespace 百邦所得税汇算底稿工具
             if (WorkingPaper.OOO)
             {
                 string Banben1 = CU.Zifu(WorkingPaper.Wb.Worksheets["首页"].Range["A1"].Value2);
-                string Banben;
-                bool 升级;
+                string Banben="";
+                bool 升级=false;
                 switch  (Banben1)
                     {
-                    case "V20160508":
-                    case "V20160508-0504":
-                    case "V20160508-0504-0316":
+                    case "V20170210":
+                        Banben = Banben1;
+                        升级 = true;
+                        break;
+                    case "V20170312":
                         Banben = Banben1;
                         升级 = false;
                         break;
-                    case "V20160504":
-                        if (WorkingPaper.Wb.Worksheets["资产负债"].Range["I20"].Formula == "=SUM(I9:I19)")
-                            Banben = "V20160504";
-                        else
-                            Banben = "V20160504-0316";
-                        升级 = true;
-                        break;
-                    default:
-                        Banben = "V20160316";
-                        升级 = true;
-                        break;
-                    }
+                }
                 
                 if (升级)
                 {
-                    if (MessageBox.Show("当前版本为："+Banben+"，最新版本为：V20160508。是否升级？", "提示！",
+                    if (MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20170312🌳植树节🌳。是否升级？", "提示！",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         if (MessageBox.Show("本操作具有不稳定性，会先保存当前文件，并以BAK后缀文件备份在文件同目录下。是否继续？", "警告！",
@@ -1119,336 +971,92 @@ namespace 百邦所得税汇算底稿工具
                             WorkingPaper.Wb.Save();
                             File.Copy(WorkingPaper.Wb.FullName, fullname + ".bak" + number, true);
 
-                            if (Banben == "V20160316")
+                            if (Banben == "V20170210")
                             {
-                                #region 0316升级为0504更新过程
-                                //插入表格
+                                #region 20170210升级为20170312
 
-                                #region 事务所更名
-                                WorkingPaper.Wb.Worksheets["基本情况"].Cells[8, 2].Value2 = "中汇百邦（厦门）税务师事务所有限公司";
-                                WorkingPaper.Wb.Worksheets["档案封面"].Cells[6, 1].Value2 = "中汇百邦（厦门）税务师事务所有限公司";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[16, 2].Value2 = "中汇百邦（厦门）税务师事务所有限公司";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[15, 2].Value2 = "91350200776046719Q";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["E83,E86"].NumberFormatLocal = "@";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["E83:E84,E86:E87"].Borders.LineStyle = XlLineStyle.xlContinuous;
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["E83"].Value2 = "350784197902181021";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["E84"].Value2 = "叶瑞卿";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["E86"].Value2 = "350623198105204207";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["E87"].Value2 = "陈酉凤";
-                                WorkingPaper.Wb.Worksheets["首页"].Range["A1"].Value2 = "V20160504-0316";
-                                #endregion
 
-                                #region 其他业务
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["F7"].Value2 = "成本";
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["F8,F11,F13"].Interior.Pattern = XlPattern.xlPatternNone;
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["F8,F11,F13"].ClearContents();
-                                WorkingPaper.Wb.Worksheets["其他业务"].Rows["21:21"].Insert(XlInsertShiftDirection.xlShiftDown, XlInsertFormatOrigin.xlFormatFromLeftOrAbove);
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["C20:J20"].FormulaR1C1 =
-                                    @"=IF(其他业务!R18C3+主营收支!R20C8<>利润!R5C3,""营业收入账载数与报表数相差""&DOLLAR(其他业务!R18C3+主营收支!R20C8-利润!R5C3,2)&""元！"",""营业收入账载数与报表数相符！"")";
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["A20:B21"].UnMerge();
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["A20:B21"].Merge();
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["C21:J21"].Merge();
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["C21:J21"].FormulaR1C1 =
-                                    @"=IF(其他业务!R18C8+主营收支!R37C8<>利润!R6C3,""营业成本账载数与报表数相差""&DOLLAR(其他业务!R18C8+主营收支!R37C8-利润!R6C3,2)&""元！"",""营业成本账载数与报表数相符！"")";
-                                WorkingPaper.Wb.Worksheets["其他业务"].Range["C20:J21"].Interior.Color = 12632256;
-                                #endregion
+                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B7"].NumberFormatLocal = "G/通用格式";
+                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B7"].Formula = "=LEFT(地税、基本情况!F6,4)";
 
-                                #region 主营收支
-                                WorkingPaper.Wb.Worksheets["主营收支"].Range["C41:H41"].FormulaR1C1 =
-                                    @"=IF(其他业务!R18C3+主营收支!R20C8<>利润!R5C3,""营业收入账载数与报表数相差""&DOLLAR(其他业务!R18C3+主营收支!R20C8-利润!R5C3,2)&""元！"",""营业收入账载数与报表数相符！"")";
-                                WorkingPaper.Wb.Worksheets["主营收支"].Range["C42:H42"].FormulaR1C1 =
-                                    @"=IF(其他业务!R18C8+主营收支!R37C8<>利润!R6C3,""营业成本账载数与报表数相差""&DOLLAR(其他业务!R18C8+主营收支!R37C8-利润!R6C3,2)&""元！"",""营业成本账载数与报表数相符！"")";
-                                #endregion
+                                //福利费和业务招待费调整
+                                WorkingPaper.Wb.Worksheets["制造费用、生产成本"].Range["F23"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"制造费用\",凭证检查!F6:F205,\"福利费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["制造费用、生产成本"].Range["F24"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"制造费用\",凭证检查!F6:F205,\"职工教育经费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["制造费用、生产成本"].Range["F25"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"制造费用\",凭证检查!F6:F205,\"业务招待费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["制造费用、生产成本"].Range["F38"].Formula = "=-F23-F24-F25";
+                                
+                                WorkingPaper.Wb.Worksheets["营业费用"].Range["F7"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"营业费用\",凭证检查!F6:F205,\"福利费\",凭证检查!M6:M205,\"<>\")-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"销售费用\",凭证检查!F6:F205,\"福利费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["营业费用"].Range["F8"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"营业费用\",凭证检查!F6:F205,\"职工教育经费\",凭证检查!M6:M205,\"<>\")-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"销售费用\",凭证检查!F6:F205,\"职工教育经费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["营业费用"].Range["F10"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"营业费用\",凭证检查!F6:F205,\"业务招待费\",凭证检查!M6:M205,\"<>\")-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"销售费用\",凭证检查!F6:F205,\"业务招待费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["营业费用"].Range["F42"].Formula = "=-F7-F8-F10";
+                                
+                                WorkingPaper.Wb.Worksheets["管理费用"].Range["F7"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"管理费用\",凭证检查!F6:F205,\"福利费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["管理费用"].Range["F8"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"管理费用\",凭证检查!F6:F205,\"职工教育经费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["管理费用"].Range["F10"].Formula =
+                                    "=-SUMIFS(凭证检查!G6:G205,凭证检查!E6:E205,\"管理费用\",凭证检查!F6:F205,\"业务招待费\",凭证检查!M6:M205,\"<>\")";
+                                WorkingPaper.Wb.Worksheets["管理费用"].Range["F42"].Formula = "=-F7-F8-F10";
 
-                                #region 更正“1-3年”名称
-                                Name Nm = WorkingPaper.Wb.Names.Item(Index: "一至三年");
-                                Nm.RefersToR1C1 = "=A106000企业所得税弥补亏损明细表!R6C6:R8C6";
-                                #endregion
+                                //期间费用
+                                WorkingPaper.Wb.Worksheets["A104000期间费用明细表"].Range["C6:C29"].Replace("营业费用!D", "营业费用!H");
+                                WorkingPaper.Wb.Worksheets["A104000期间费用明细表"].Range["E6:E29"].Replace("管理费用!D", "管理费用!H");
+                                WorkingPaper.Wb.Worksheets["A104000期间费用明细表"].Range["G6:G29"].Replace("财务费用!D", "财务费用!H");
 
-                                #region 减免所得税优惠审核表
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["F1"].Value2 = "实际经营期";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["G1"].Value2 = "从业人数";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["H1"].Value2 = "资产总额";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["F2"].FormulaR1C1 = "=截止月-起始月+1";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["G2"].FormulaR1C1 =
-                                    @"=IF(RC[-1]=12,ROUND((社保明细工资人数!R[6]C[3]/2+社保明细工资人数!R[9]C[3]+社保明细工资人数!R[12]C[3]+社保明细工资人数!R[15]C[3]+社保明细工资人数!R[18]C[3]/2)/4,0),""请自行计算"")";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["H2"].FormulaR1C1 =
-                                    @"=IF(RC[-2]=12,ROUND((资产负债!R[33]C[-5]/2+资产负债!R[9]C[1]+资产负债!R[12]C[1]+资产负债!R[15]C[1]+资产负债!R[33]C[-4]/2)/4/10000,2),""请自行计算"")";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["H3"].FormulaR1C1 =
-                                    @"=IF(A000000企业基础信息表!R[4]C[-3]=""否"",IF(AND(LEFT(A000000企业基础信息表!R[4]C[-6],2)>""05"",LEFT(A000000企业基础信息表!R[4]C[-6],2)<""47"",R[-1]C[-1]<=100,R[-1]C<=30000000),""工业企业"",IF(OR(LEFT(A000000企业基础信息表!R[4]C[-6],2)>""50"",LEFT(A000000企业基础信息表!R[4]C[-6],2)<""06""),IF(AND(R[-1]C[-1]<=80,R[-1]C<=10000000),""其他企业"",""""),"""")),"""")";
-                                /*WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["C4"].FormulaR1C1 =
-                                    @"=IF(R[-1]C[5]<>"""",IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[22]C[1]<=200000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[22]C[1]*0.15,2),IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[22]C[1]<=300000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[22]C[1]*R[-1]C[6],2))),"""")";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["C5"].FormulaR1C1 =
-                                    @"=IF(R[-2]C[5]<>"""",IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[21]C[1]<=200000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[21]C[1]*0.15,2),IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[21]C[1]<=300000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[21]C[1]*R[-2]C[7],2))),"""")";
-                                    */
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["C4:C5"].Interior.Pattern = XlPattern.xlPatternNone;
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["C4:C5"].ClearContents();
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["H4"].FormulaR1C1 =
-                                    @"=IF(R[-1]C<>"""",IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[22]C[-4]<=200000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[22]C[-4]*0.15,2),IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[22]C[-4]<=300000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[22]C[-4]*R[-1]C[1],2))),"""")";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["H5"].FormulaR1C1 =
-                                    @"=IF(R[-2]C<>"""",IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[21]C[-4]<=200000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[21]C[-4]*0.15,2),IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[21]C[-4]<=300000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R[21]C[-4]*R[-2]C[2],2))),"""")";
-                                WorkingPaper.Wb.Worksheets["减免所得税优惠审核表"].Range["H6"].Value2 = "确认符合小微企业条件时，将H4、H5单元格金额填在C4、C5。";
-                                #endregion
+                                WorkingPaper.Wb.Sheets.Add(After: WorkingPaper.Wb.Worksheets["在建工程审核表"],
+                                    Type: AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\对外投资.xlsx");
 
-                                #region 检查表
-                                WorkingPaper.Wb.Worksheets["检查表"].Range["C25"].FormulaR1C1 =
-                                    @"=IF(OR(主营收支!R20C8+其他业务!R18C3<>利润!R5C3,主营收支!R37C8+其他业务!R18C8<>利润!R6C3),""不符"",0)";
-                                WorkingPaper.Wb.Worksheets["检查表"].Range["C33"].FormulaR1C1 =
-                                    @"=IF(OR(主营收支!R20C8+其他业务!R18C3<>利润!R5C3,主营收支!R37C8+其他业务!R18C8<>利润!R6C3),""不符"",0)";
-                                WorkingPaper.Wb.Worksheets["检查表"].Range["C43"].FormulaR1C1 =
-                                    @"=IF(OR(待摊预提!R12C8<>资产负债!R18C4,待摊预提!R19C8<>资产负债!R14C8),""不符"",0)";
-                                WorkingPaper.Wb.Worksheets["检查表"].Range["C44"].FormulaR1C1 = @"=在建工程审核表!R15C6-资产负债!R26C4";
-                                WorkingPaper.Wb.Worksheets["检查表"].Range["C48"].FormulaR1C1 =
-                                    @"=IF(OR(实收公积!R13C6<>资产负债!R30C8,实收公积!R18C6<>资产负债!R31C8,实收公积!R24C6<>资产负债!R32C8),""不符"",0)";
-                                #endregion
-
-                                #region 待摊预提
-                                WorkingPaper.Wb.Worksheets["待摊预提"].Range["C20:F20"].FormulaR1C1 =
-                                    @"=IF(R12C8<>资产负债!R18C4,""待摊费用账载数与报表数相差""&DOLLAR(R12C8-资产负债!R18C4,2)&""元！"",""待摊费用账载数与报表数相符！"")";
-                                WorkingPaper.Wb.Worksheets["待摊预提"].Range["G20:J20"].FormulaR1C1 =
-                                    @"=IF(R19C8<>资产负债!R14C8,""预提费用账载数与报表数相差""&DOLLAR(R19C8-资产负债!R14C8,2)&""元！"",""预提费用账载数与报表数相符！"")";
-                                #endregion
-
-                                #region 抵扣应纳税所得额审核表
-                                WorkingPaper.Wb.Worksheets["抵扣应纳税所得额审核表"].Range["C10"].FormulaR1C1 =
-                                    @"=MAX('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R22C4-'A100000中华人民共和国企业所得税年度纳税申报表（A类）'!R23C4-R18C3,0)";
-                                #endregion
-
-                                #region A106000企业所得税弥补亏损明细表
-                                WorkingPaper.Wb.Worksheets["A106000企业所得税弥补亏损明细表"].Range["J6"].FormulaR1C1 =
-                                    @"=IF(补亏!R[10]C[-4]<=0,0,IF(补亏!R[6]C[-4]>=0,0,IF(补亏!R[10]C[-4]>-补亏!R[6]C[-4]-RC[-3]-RC[-2]-RC[-1],-补亏!R[6]C[-4]-RC[-3]-RC[-2]-RC[-1],补亏!R[10]C[-4])))";
-                                //@"=IF(补亏!R[10]C[-4]<=0,0,IF(补亏!R[6]C[-4]>=0,0,IF(-SUMIF(补亏!R[7]C[-4]:R[10]C[-4],""<0"")-RC[-3]-RC[-2]-RC[-1]-R[1]C[-2]-R[1]C[-1]-R[2]C[-1]>0,IF(补亏!R[10]C[-4]>-补亏!R[6]C[-4]-RC[-3]-RC[-2]-RC[-1],-补亏!R[6]C[-4]-RC[-3]-RC[-2]-RC[-1],补亏!R[10]C[-4]),0)))";
-                                #endregion
-
-                                #region 基本情况（未成功）
-                                //MessageBox.Show(WorkingPaper.Wb.Worksheets["基本情况"].Range["B48:E48"].Formula.ToString());
-                                #endregion
-
-                                #region 招待
-                                WorkingPaper.Wb.Worksheets["招待"].Rows["25:25"].Delete(XlDeleteShiftDirection.xlShiftUp);
-                                WorkingPaper.Wb.Worksheets["其他事项"].Range["E33"].FormulaR1C1 = @"=-(广宣!R[-1]C[5])";
-                                #endregion
-
-                                #region 主营税金
-                                WorkingPaper.Wb.Worksheets["主营税金"].Range["C8:C11"].FormulaR1C1 = @"=收入与申报核对表!R[6]C[4]";
-                                WorkingPaper.Wb.Worksheets["主营税金"].Range["C12:C13"].FormulaR1C1 = @"=收入与申报核对表!R[8]C[4]";
-                                #endregion
-
-                                #region 加速折旧
-                                WorkingPaper.Wb.Worksheets["A105081固定资产加速折旧、扣除明细表"].Range["A1"].Value2 = "A105081";
-                                WorkingPaper.Wb.Worksheets["A105081固定资产加速折旧、扣除明细表"].Rows["5:5"].Delete(XlDeleteShiftDirection.xlShiftUp);
-                                #endregion
-
-                                #region 基本情况（封面）
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["A1:B1"].Value2 = "企业所得税汇算清缴纳税申报鉴证报告（其他企业）";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["C1"].Value2 = "SSJZ6101.2";
-                                WorkingPaper.Wb.Worksheets["基本情况（封面）"].Range["E41"].Value2 = "350221197708092567";
-                                #endregion
-
-                                #region A105080资产折旧、摊销情况及纳税调整明细表
-                                WorkingPaper.Wb.Worksheets["A105080资产折旧、摊销情况及纳税调整明细表"].Range["I6:I11"].Interior.Pattern = XlPattern.xlPatternNone;
-                                WorkingPaper.Wb.Worksheets["A105080资产折旧、摊销情况及纳税调整明细表"].Range["I6:I11"].ClearContents();
-                                #endregion
-
-                                #region A000000企业基础信息表
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["E21:E25"].FormulaR1C1 =
-                                    @"=IFERROR(基本情况!R[31]C[-2],"""")";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["C7:D7"].Value2 = "107从事国家限制或禁止行业";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["E7:F7"].Value2 = "否";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B16:F16"].Value2 = "直接核销法";
-                                #endregion
-
-                                #region A100000中华人民共和国企业所得税年度纳税申报表（A类）
-                                WorkingPaper.Wb.Worksheets["A100000中华人民共和国企业所得税年度纳税申报表（A类）"].Range["D24"].FormulaR1C1 =
-                                    @"=MAX(MIN(R[-2]C-R[-1]C,N(A107030抵扣应纳税所得额明细表!R[-3]C[-1])),0)";
-                                WorkingPaper.Wb.Worksheets["抵扣应纳税所得额审核表"].Range["C10"].Formula =
-                                    @"= MAX('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!$D$22 - 'A100000中华人民共和国企业所得税年度纳税申报表（A类）'!$D$23 -$C$18, 0)";
-                                WorkingPaper.Wb.Worksheets["抵扣应纳税所得额审核表"].Range["C18"].Formula =
-                                    @"=MAX(0,MIN(C14,C17,'A100000中华人民共和国企业所得税年度纳税申报表（A类）'!$D$22-'A100000中华人民共和国企业所得税年度纳税申报表（A类）'!$D$23))";
-                                #endregion
-
-                                #region 表格名称
-                                WorkingPaper.Wb.Worksheets["企业所得税年度纳税申报表填报表单"].Name = "（三）企业所得税年度纳税申报表填报表单";
-                                WorkingPaper.Wb.Worksheets["（六）企业各税（费）审核汇总表"].Name = "（四）企业各税（费）审核汇总表";
-                                WorkingPaper.Wb.Worksheets["（七）社会保险费明细表"].Name = "（五）社会保险费明细表";
-                                #endregion
-
-                                #region 移动表格
-                                WorkingPaper.Wb.Worksheets["检查表"].Move(Before: WorkingPaper.Wb.Worksheets["余额表"]);
-                                WorkingPaper.Wb.Worksheets[new string[] { "(三)子表12.企业所得税汇总纳税分支机构所得税分配表",
-                "(四)无限期结转扣除项目情况表", "(五)跨年度确认所得情况表" }].Move(Before: WorkingPaper.Wb.Worksheets["基本情况（封面）"]);
-                                WorkingPaper.Wb.Sheets.Add(After: WorkingPaper.Wb.Worksheets["A109010企业所得税汇总纳税分支机构所得税分配表"],
-                                    Type: AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\0504新增表.xlsx");
-                                WorkingPaper.Wb.Worksheets["A110010特殊性处理报告表"].Range["B3:C3"].Formula = "=基本情况!B2";
-                                WorkingPaper.Wb.Worksheets["A110010特殊性处理报告表"].Range["B4:C4"].Formula = "=基本情况!B31";
-                                WorkingPaper.Wb.Worksheets["A110010特殊性处理报告表"].Range["B5:C5"].Formula = "=地税、基本情况!B4";
-                                WorkingPaper.Wb.Worksheets["A110010特殊性处理报告表"].Range["B15:C15"].Formula = "=基本情况!B12";
-                                WorkingPaper.Wb.Worksheets["A110010特殊性处理报告表"].Range["E3:G3"].Formula = "=基本情况!B48";
-                                WorkingPaper.Wb.Worksheets["A110010特殊性处理报告表"].Range["E4:G4"].Formula = "=基本情况!B36";
-                                WorkingPaper.Wb.Worksheets["A110010特殊性处理报告表"].Range["E5:G5"].Formula = "=基本情况!B34";
-                                WorkingPaper.Wb.Worksheets["A110010特殊性处理报告表"].Range["E15:G15"].Formula = "=基本情况!B21";
-                                WorkingPaper.Wb.Worksheets["A110011债务重组报告表"].Range["B24:C24"].Formula = "=基本情况!B12";
-                                WorkingPaper.Wb.Worksheets["A110011债务重组报告表"].Range["E24"].Formula = "=基本情况!B21";
-                                WorkingPaper.Wb.Worksheets["A110012股权收购报告表 "].Range["B59:D59"].Formula = "=基本情况!B12";
-                                WorkingPaper.Wb.Worksheets["A110012股权收购报告表 "].Range["F59:I59"].Formula = "=基本情况!B21";
-                                WorkingPaper.Wb.Worksheets["A110013资产收购报告表"].Range["B25:E25"].Formula = "=基本情况!B12";
-                                WorkingPaper.Wb.Worksheets["A110013资产收购报告表"].Range["G25:I25"].Formula = "=基本情况!B21";
-                                WorkingPaper.Wb.Worksheets["A110014企业合并报告表 "].Range["B25"].Formula = "=基本情况!B12";
-                                WorkingPaper.Wb.Worksheets["A110014企业合并报告表 "].Range["D25"].Formula = "=基本情况!B21";
-                                WorkingPaper.Wb.Worksheets["A110015企业分立申报表"].Range["B27:C27"].Formula = "=基本情况!B12";
-                                WorkingPaper.Wb.Worksheets["A110015企业分立申报表"].Range["E27:F27"].Formula = "=基本情况!B21";
-                                WorkingPaper.Wb.Worksheets["A110016非货币资产投资递延纳税调整表"].Range["B10:C10"].Formula = "=基本情况!B12";
-                                WorkingPaper.Wb.Worksheets["A110016非货币资产投资递延纳税调整表"].Range["E10:F10"].Formula = "=基本情况!B21";
-                                WorkingPaper.Wb.Worksheets["A110017居民企业资产（股权）划转特殊性税务处理申报表"].Range["B29:C29"].Formula = "=基本情况!B12";
-                                WorkingPaper.Wb.Worksheets["A110017居民企业资产（股权）划转特殊性税务处理申报表"].Range["E29:H29"].Formula = "=基本情况!B21";
-                                WorkingPaper.Wb.Worksheets[new string[] { "分支机构企业所得税申报表（A类）",
-                "（四）企业各税（费）审核汇总表", "（五）社会保险费明细表" }].Move(After: WorkingPaper.Wb.Worksheets["A110017居民企业资产（股权）划转特殊性税务处理申报表"]);
-                                WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Rows["44:51"].Insert(XlInsertShiftDirection.xlShiftDown, XlInsertFormatOrigin.xlFormatFromLeftOrAbove);
-                                string[,] XinBH = new string[,] { { "A110010" }, { "A110011" }, { "A110012" }, { "A110013" }, { "A110014" }, { "A110015" }, { "A110016" }, { "A110017" } };
-                                string[,] XinMC = new string[,] { { "    特殊性处理报告表" }, { "    债务重组报告表" }, { "    股权收购报告表" }, { "    资产收购报告表" }, { "    企业合并报告表" }, { "    企业分立报告表" }, { "    非货币资产投资递延纳税调整表 " }, { "    居民企业资产（股权）划转特殊性税务处理申报表" } };
-                                string[,] XinBM = new string[,] { { "#A110010特殊性处理报告表!A1" }, { "#A110011债务重组报告表!A1" }, { "#'A110012股权收购报告表 '!A1" }, { "#A110013资产收购报告表!A1" }, { "#'A110014企业合并报告表 '!A1" }, { "#A110015企业分立申报表!A1" }, { "#A110016非货币资产投资递延纳税调整表!A1" }, { "#'A110017居民企业资产（股权）划转特殊性税务处理申报表'!A1" } };
-                                WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A44:A51"].Value2 = XinBH;
-                                WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["C44:C51"].FormulaR1C1 = "=RC[3]";
-                                WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F44:F51"].Value2 = "否";
-                                for (int j = 0; j <= 7; j++)
-                                {
-                                    WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
-                                        WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B" + (44 + j).ToString()],
-                                        XinBM[j, 0], Type.Missing, XinMC[j, 0], XinMC[j, 0]);
-                                    WorkingPaper.Wb.Worksheets["主页"].Hyperlinks.Add(
-                                        WorkingPaper.Wb.Worksheets["主页"].Range["G" + (21 + j).ToString()],
-                                        XinBM[j, 0], Type.Missing, XinMC[j, 0], XinMC[j, 0]);
-                                }
-
-                                #endregion
-
-                                #endregion
-                                Banben = "V20160504-0316";
-                            }
-                            if(Banben.Substring(0,9)=="V20160504")
-                            {
-                                WorkingPaper.Wb.Worksheets["签发单"].Range["A1:E1"].Value2 = "中汇百邦（厦门）税务师事务所有限公司";
-                                WorkingPaper.Wb.Worksheets["业务约定"].Range["A4:G4"].Value2 = "受托方：  中汇百邦（厦门）税务师事务所有限公司   （以下简称乙方）";
-                                WorkingPaper.Wb.Worksheets["业务约定"].Range["A28:G28"].Value2 = "    甲方（签章）：                         乙方（签章）：中汇百邦（厦门）税务师事务所有限公司";
-                                WorkingPaper.Wb.Worksheets["当局声明"].Range["A3"].Value2 = "中汇百邦（厦门）税务师事务所有限公司：";
-                                WorkingPaper.Wb.Worksheets["报告封面"].Range["A1:G1"].Value2 = "BaiBang中汇百邦（厦门）税务师事务所有限公司";
-                                WorkingPaper.Wb.Worksheets["报告封面"].Range["A27:G27"].Value2 = "                          审计单位： 中汇百邦（厦门）税务师事务所有限公司";
-                                WorkingPaper.Wb.Worksheets["报告正文"].Range["A56:D56"].Value2 = "中汇百邦（厦门）税务师事务所有限公司";
-
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B15:F15"].Value2 = "月末一次加权平均法";
-                                WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F31"].Formula =
-                                    @"=IF(SUM(A107014研发费用加计扣除优惠明细表!T16)<>0,""是"",""否"")";
-                                WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F18"].Formula =
-                                    @"=IF(A105070捐赠支出纳税调整明细表!C25+A105070捐赠支出纳税调整明细表!G25<>0,""是"",""否"")";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["E20"].Value2 = "比例(%)";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["D27"].Value2 = "比例(%)";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["E21:E25"].FormulaR1C1 =
-                                    @"=IFERROR(ROUND(基本情况!R[31]C[-2]*100,2),"""")";
-
-                                WorkingPaper.Wb.Worksheets["A107011股息红利优惠明细表"].Range["E3:E4"].Value2 = "投资比例(%)";
-                                WorkingPaper.Wb.Worksheets["A107011股息红利优惠明细表"].Range["L4"].Value2 = "减少投资比例(%)";
-                                WorkingPaper.Wb.Worksheets["A107011股息红利优惠明细表"].Range["F6:F14"].FormulaR1C1 =
-                                    @"=IF(RC[-4]="""","""",TEXT(股息红利优惠审核表!RC,""yyyy-mm-dd""))";
-
-                                WorkingPaper.Wb.Worksheets["股息红利优惠审核表"].Range["E3:E4"].Value2 = "投资比例(%)";
-                                WorkingPaper.Wb.Worksheets["股息红利优惠审核表"].Range["L4"].Value2 = "减少投资比例(%)";
-                                WorkingPaper.Wb.Worksheets["股息红利优惠审核表"].Range["F6:F14"].NumberFormatLocal = "yyyy-mm-dd";
-                                WorkingPaper.Wb.Worksheets["股息红利优惠审核表"].Range["F6:F14"].ShrinkToFit = true;
-
-                                WorkingPaper.Wb.Worksheets["综合利用资源生产产品取得的收入优惠审核表"].Range["H3:H4"].Value2 = "综合利用的资源占生产产品材料的比例(%)";
-                                WorkingPaper.Wb.Worksheets["综合利用资源生产产品取得的收入优惠审核表"].Range["C6:C14"].NumberFormatLocal = "yyyy-mm-dd";
-                                WorkingPaper.Wb.Worksheets["综合利用资源生产产品取得的收入优惠审核表"].Range["C6:C14"].ShrinkToFit = true;
-
-                                WorkingPaper.Wb.Worksheets["A107012综合利用资源生产产品取得的收入优惠明细表"].Range["B6:B14,D6:G14,I6:I14"].FormulaR1C1 =
-                                    @"=综合利用资源生产产品取得的收入优惠审核表!RC&""""";
-                                WorkingPaper.Wb.Worksheets["A107012综合利用资源生产产品取得的收入优惠明细表"].Range["C6:C1"].FormulaR1C1 =
-                                    @"=IF(RC[-1]="""","""",TEXT(综合利用资源生产产品取得的收入优惠审核表!RC,""yyyy-mm-dd""))";
-                                WorkingPaper.Wb.Worksheets["A107012综合利用资源生产产品取得的收入优惠明细表"].Range["H6:H14,J6:K14"].FormulaR1C1 =
-                                    @"=IF(RC2="""","""",综合利用资源生产产品取得的收入优惠审核表!RC)";
-                                WorkingPaper.Wb.Worksheets["A107012综合利用资源生产产品取得的收入优惠明细表"].Range["H3:H4"].Value2 = "综合利用的资源占生产产品材料的比例(%)";
-                                WorkingPaper.Wb.Worksheets["高新技术企业优惠情况审核表"].Range["D14"].Formula =
-                                    @"=IFERROR(ROUND(D10/D13*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["高新技术企业优惠情况审核表"].Range["C33"].Value2 = "十、本年研发费用占销售（营业）收入比例(%)";
-
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E14"].Formula =
-                                    @"=IFERROR(ROUND(E12/E11*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E15"].Formula =
-                                    @"=IFERROR(ROUND(E13/E11*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E18"].Formula =
-                                    @"=IFERROR(ROUND(E17/E16*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E21"].Formula =
-                                    @"=IFERROR(ROUND(E19/E16*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E22"].Formula =
-                                    @"=IFERROR(ROUND(E20/$E$16*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E27"].Formula =
-                                    @"=IFERROR(ROUND(E23/$E$16*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E28"].Formula =
-                                    @"=IFERROR(ROUND(E24/$E$16*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E29"].Formula =
-                                    @"=IFERROR(ROUND(E25/$E$16*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E30"].Formula =
-                                    @"=IFERROR(ROUND(E26/$E$16*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E34"].Formula =
-                                    @"=IFERROR(ROUND(E32/E31*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E37"].Formula =
-                                    @"=IFERROR(ROUND(E36/E35*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E41"].Formula =
-                                    @"=IFERROR(ROUND(E39/E38*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E42"].Formula =
-                                    @"=IFERROR(ROUND(E40/E39*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["E44"].Formula =
-                                    @"=IFERROR(ROUND(E43/E39*100,2),0)";
-                                WorkingPaper.Wb.Worksheets["软件、集成电路企业优惠情况审核表"].Range["D33"].Value2 =
-                                    "十八、研究开发费用总额占企业销售（营业）收入总额的比例(%)";
-
-                                WorkingPaper.Wb.Worksheets["A107014研发费用加计扣除优惠明细表"].Range["B6:B14"].FormulaR1C1 =
-                                    @"=研发费用加计扣除优惠审核表!RC&""""";
-                                WorkingPaper.Wb.Worksheets["A107014研发费用加计扣除优惠明细表"].Range["C6:T14"].FormulaR1C1 =
-                                    @"=IF(RC2="""","""",研发费用加计扣除优惠审核表!RC)";
-                                WorkingPaper.Wb.Worksheets["A107014研发费用加计扣除优惠明细表"].Range["C15:T15"].FormulaR1C1 =
-                                    @"=研发费用加计扣除优惠审核表!RC";
-                                WorkingPaper.Wb.Worksheets["A107041高新技术企业优惠情况及明细表"].Range["D5"].Formula =
-                                    @"=IF(高新技术企业优惠情况审核表!D5="""","""",TEXT(高新技术企业优惠情况审核表!D5,""yyyy-mm-dd""))";
-                                WorkingPaper.Wb.Worksheets["A107041高新技术企业优惠情况及明细表"].Range["D28"].Formula =
-                                    @"=高新技术企业优惠情况审核表!D28";
-
-                                WorkingPaper.Wb.Worksheets["主页"].Range["H3"].Formula = "=首页!A1";
                                 WorkingPaper.Wb.Worksheets["主页"].Hyperlinks.Add(
-                                    WorkingPaper.Wb.Worksheets["主页"].Range["F7"],
-                                    "#'（三）企业所得税年度纳税申报表填报表单'!A1", Type.Missing, "（三）企业所得税年度纳税申报表填报表单",
-                                    "（三）企业所得税年度纳税申报表填报表单");
+                                    WorkingPaper.Wb.Worksheets["主页"].Range["H15"],
+                                    "#对外投资!A1", Type.Missing, "#对外投资!A1", "对外投资");
+                                Worksheet SH = WorkingPaper.Wb.Worksheets["对外投资"];
+                                SH.Range["C2"].Formula = "=基本情况!B2";
+                                SH.Range["C3"].Formula = "=基本情况!B7";
+                                SH.Range["F2"].Formula = "=基本情况!B12";
+                                SH.Range["F3"].Formula = "=基本情况!B11";
+                                SH.Range["H2"].Formula = "=TEXT(基本情况!B21,\"yyyy-mm-dd\")";
+                                SH.Range["H3"].Formula = "=TEXT(基本情况!B22,\"yyyy-mm-dd\")";
+                                SH.Range["C26"].Formula = "=IF($H$15<>资产负债!$D$6,\"短期投资账载数与报表数相差\"&RMB($H$15-资产负债!$D$6,2)&\"元！\",\"短期投资账载数与报表数相符！\")";
+                                SH.Range["G26"].Formula = "=IF($H$25<>资产负债!$D$21+资产负债!$D$22,\"长期投资账载数与报表数相差\"&RMB($H$25-资产负债!$D$21-资产负债!$D$22,2)&\"元！\",\"长期投资账载数与报表数相符！\")";
+                                SH.Range["D27"].Formula = "=IF(OR(H15<>资产负债!D6,H25<>资产负债!D21+资产负债!D22),\"、E\",\"\")";
+
+
+                                WorkingPaper.Wb.Sheets.Add(After: WorkingPaper.Wb.Worksheets["其他应付"],
+                                    Type: AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\借款.xlsx");
+
                                 WorkingPaper.Wb.Worksheets["主页"].Hyperlinks.Add(
-                                    WorkingPaper.Wb.Worksheets["主页"].Range["J24"],
-                                    "#'（四）企业各税（费）审核汇总表'!A1", Type.Missing, "（四）企业各税（费）审核汇总表",
-                                    "（四）企业各税（费）审核汇总表");
-                                WorkingPaper.Wb.Worksheets["主页"].Hyperlinks.Add(
-                                    WorkingPaper.Wb.Worksheets["主页"].Range["J25"],
-                                    "#'（五）社会保险费明细表'!A1", Type.Missing, "（五）社会保险费明细表",
-                                    "（五）社会保险费明细表");
-                                WorkingPaper.Wb.Worksheets["利润"].Range["C27"].Formula = "=C5-C6-C7-C15-C18-C22+C26-C24+C25";
-                                WorkingPaper.Wb.Worksheets["利润"].Range["D27"].Formula = "=D5-D6-D7-D15-D18-D22+D26-D24+D25";
-                                //WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B6"].Formula = @"=ROUND(SUBSTITUTE(地税、基本情况!B9,""" + Convert.ToString(63) + @","""")/10000,2)";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B8"].Formula =
-                                "=ROUND(IF(截止月=起始月,0,SUM(OFFSET(社保明细工资人数!J8,VALUE(起始月),0,截止月-起始月,1))+OFFSET(社保明细工资人数!J7,VALUE(起始月),0)/2+OFFSET(社保明细工资人数!J8,VALUE(截止月),0)/2)/(截止月-起始月+1),0)";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B9"].Formula =
-                                    @"=ROUND(IF(AND(起始月=""01"",截止月=""12""),(资产负债!C35/2+资产负债!I20+资产负债!D35/2)/IF(资产负债!I20=0,1,12),IF(AND(起始月<>""01"",截止月<>""12""),(资产负债!C35/2+资产负债!I20+资产负债!D35/2)/IF(资产负债!I20=0,1/2,截止月-起始月+1.5),IF(截止月<>""12"",(资产负债!C35/2+资产负债!I20+资产负债!D35/2)/IF(资产负债!I20=0,1,截止月+1),IF(起始月<>""01"",(资产负债!C35/2+资产负债!I20+资产负债!D35/2)/IF(资产负债!I20=0,1/2,截止月-起始月+0.5)))))/10000,2)";
-                                WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B6"].Formula =
-                                @"=IFERROR(ROUND(SUBSTITUTE(地税、基本情况!B9,税金申报明细!R5,"""")/10000,2),ROUND(地税、基本情况!B9/10000,2))";
-                                if (Banben == "V20160504-0316")
-                                {
-                                    //WorkingPaper.Wb.Worksheets["A107014研发费用加计扣除优惠明细表"].Rows["15:15"].Delete(XlDeleteShiftDirection.xlShiftUp);
-                                    //WorkingPaper.Wb.Worksheets["研发费用加计扣除优惠审核表"].Rows["15:15"].Delete(XlDeleteShiftDirection.xlShiftUp);
-                                    WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Columns["C:C"].Insert(XlInsertShiftDirection.xlShiftToRight, XlInsertFormatOrigin.xlFormatFromRightOrBelow);
-                                    WorkingPaper.Wb.Worksheets["资产负债"].Range["I8"].Value2 = "资产总额";
-                                    WorkingPaper.Wb.Worksheets["资产负债"].Range["J8:J19"].Value2 =
-                                        new string[,] { { "月份" }, { "1月底" }, { "2月底" }, { "3月底" }, { "4月底" }, { "5月底" }, { "6月底" }, { "7月底" }, { "8月底" }, { "9月底" }, { "10月底" }, { "11月底" } };
-                                    WorkingPaper.Wb.Worksheets["资产负债"].Range["I20"].Formula = "=SUM(I9:I19)";
-                                    WorkingPaper.Wb.Worksheets["资产负债"].Range["I8,J8:J19"].Interior.Color = 13434828;//绿色
-                                    WorkingPaper.Wb.Worksheets["资产负债"].Range["I20"].Interior.Color = 12632256;//灰色
-                                    Banben = "V20160508-0504-0316";
-                                }
-                                else
-                                    Banben = "V20160508-0504";
+                                    WorkingPaper.Wb.Worksheets["主页"].Range["I12"],
+                                    "#借款!A1", Type.Missing, "#借款!A1", "借款");
+                                SH = WorkingPaper.Wb.Worksheets["借款"];
+                                SH.Range["C2"].Formula = "=基本情况!B2";
+                                SH.Range["C3"].Formula = "=基本情况!B7";
+                                SH.Range["G2"].Formula = "=基本情况!B12";
+                                SH.Range["G3"].Formula = "=基本情况!B11";
+                                SH.Range["I2"].Formula = "=TEXT(基本情况!B21,\"yyyy-mm-dd\")";
+                                SH.Range["I3"].Formula = "=TEXT(基本情况!B22,\"yyyy-mm-dd\")";
+                                SH.Range["C26"].Formula = "=IF($D$15<>资产负债!$H$5,\"短期借款账载数与报表数相差\"&RMB($D$15-资产负债!$H$5,2)&\"元！\",\"短期借款账载数与报表数相符！\")";
+                                SH.Range["H26"].Formula = "=IF($D$25<>资产负债!$H$21,\"长期借款账载数与报表数相差\"&RMB($D$25-资产负债!$H$21,2)&\"元！\",\"长期借款账载数与报表数相符！\")";
+                                SH.Range["D27"].Formula = "=IF(OR(I15<>资产负债!H5,I25<>资产负债!H21),\"、E\",\"\")";
+
+                                SH = WorkingPaper.Wb.Worksheets["检查表"];
+                                SH.Range["A69:D69"].AutoFill(Destination: SH.Range["A69:D73"]);
+                                SH.Hyperlinks.Add(SH.Range["A70"],"#对外投资!C26", Type.Missing, "#对外投资!C26", "短期投资");
+                                SH.Hyperlinks.Add(SH.Range["A71"],"#对外投资!G26", Type.Missing, "#对外投资!G26", "长期投资");
+                                SH.Hyperlinks.Add(SH.Range["A72"],"#借款!C26", Type.Missing, "#借款!C26", "短期借款");
+                                SH.Hyperlinks.Add(SH.Range["A73"],"#借款!H26", Type.Missing, "#借款!H26", "长期借款");
+                                SH.Range["C70"].Formula = "=对外投资!H15-资产负债!$D$62";
+                                SH.Range["C71"].Formula = "=对外投资!$H$25-资产负债!$D$21-资产负债!$D$22";
+                                SH.Range["C72"].Formula = "=借款!$D$15-资产负债!$H$5";
+                                SH.Range["C73"].Formula = "=借款!$D$25-资产负债!$H$21";
+
+                                #endregion
+                                Banben = "V20170312-0210";
                             }
                             WorkingPaper.Wb.Worksheets["首页"].Range["A1"].Value2 = Banben;
                             Globals.WPToolAddln.Application.StatusBar = false;
@@ -1458,7 +1066,7 @@ namespace 百邦所得税汇算底稿工具
                 }
                 else
                 {
-                    MessageBox.Show("当前版本为："+Banben+"，最新版本为：V20160504。不需要升级", "提示！",
+                    MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20170312🌳植树节🌳。不需要升级", "提示！",
                         MessageBoxButtons.OK);
                 }
             }
@@ -1599,6 +1207,10 @@ namespace 百邦所得税汇算底稿工具
             if(WorkingPaper.OOO)
             {
                 WorkingPaper.Wb.Application.ScreenUpdating = true;
+                Globals.WPToolAddln.Application.Workbooks.Open(
+                    AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\打印报告.xlsx",
+                    XlUpdateLinks.xlUpdateLinksNever);
+                MessageBox.Show("如果打印报告权限出错，请打开打印报告源文件，修改权限为可编辑！");
             }
         }
 
@@ -1609,10 +1221,240 @@ namespace 百邦所得税汇算底稿工具
             {
                 WorkingPaper.Wb.PrintPreview();
             }
-    //        Range("A1:K27").Select
-    //Selection.Copy
-    //Sheets("Sheet2").Select
-    //ActiveSheet.Shapes.AddShape(, 51.6, 25.8, 72#, 72#).Select
+        }
+
+        private void btn打印报告_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (WorkingPaper.OOO)
+            {
+                if (Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D7"].Value2) +
+                    CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D8"].Value2), 2) !=
+                    Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D6"].Value2), 2))
+                {
+                    MessageBox.Show("A107040减免所得税优惠明细表，D6不等于D7+D8，请检查后重试。");
+                    return;
+                }
+
+                if (MessageBox.Show("现在要切换到打印状态。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    string 打印文件路径 = WorkingPaper.Wb.Path +"\\"+ Wb.Name.Substring(0, Wb.Name.LastIndexOf(".")) + "打印报告.xlsx";
+                    try
+                    {
+                        Globals.WPToolAddln.Application.StatusBar = "正在导出报告...";
+                        Globals.WPToolAddln.Application.DisplayAlerts = false;
+                        File.Copy(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\打印报告.xlsx", 打印文件路径, true);
+                        CU.事项说明();
+                        WorkingPaper.wb打印 = Globals.WPToolAddln.Application.Workbooks.Open(打印文件路径, XlUpdateLinks.xlUpdateLinksNever);
+                        Globals.WPToolAddln.Application.ScreenUpdating = false;
+                        WorkingPaper.wb打印.ChangeLink(Name: @"E:\税审底稿 模板.xlsx", NewName: Wb.FullName,
+                            Type: XlLinkType.xlLinkTypeExcelLinks);
+                        //Newbook.UpdateLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
+                        //WorkingPaper.wb打印.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
+                        CU.自动调整行高("企业基本情况", "C10:F10", 46.78);
+                        CU.自动调整行高("企业基本情况", "A113:F113", 85.22);
+                        WorkingPaper.wb打印.Sheets["企业基本情况"].Range["$H$20:$H$113"].AutoFilter(Field: 1, Criteria1: "=1");
+                        object[,] 表单 = WorkingPaper.wb打印.Sheets["（三）企业所得税年度纳税申报表填报表单"].Range["$C$3:$D$51"].Value2;
+                        for (int i=1;i<=49;i++)
+                            {
+                                if (CU.Zifu(表单[i, 1]) == "否")
+                                {
+                                    WorkingPaper.wb打印.Sheets[CU.Zifu(表单[i, 2])].Visible = false;
+                                }
+
+                            }
+                        if (WorkingPaper.Wb.Worksheets["基本情况"].range("B8").value == "厦门明正税务师事务所有限公司")
+                        {
+                            WorkingPaper.wb打印.Sheets["中汇封面"].Visible = false;
+                        }
+                        else
+                        {
+                            WorkingPaper.wb打印.Sheets["明正封面"].Visible = false;
+                        }
+                        if (CU.Zifu(WorkingPaper.wb打印.Sheets["A109010企业所得税汇总纳税分支机构所得税分配表"].Range["C3"].Value2) == "分支机构")
+                        {
+                            WorkingPaper.wb打印.Sheets["分支机构企业所得税申报表（A类）"].Visible = true; 
+                        }
+
+                        List<string> lists = new List<string>();
+
+                        int C = WorkingPaper.wb打印.Worksheets.Count;
+                        for (int i = 1; i <= C; i++)
+                        {
+                            //MessageBox.Show(WorkingPaper.wb打印.Worksheets[i].Visible.ToString()); 
+                            if (WorkingPaper.wb打印.Sheets[i].Visible == -1)
+                            {
+                                lists.Add(WorkingPaper.wb打印.Worksheets[i].Name);
+                            }
+                        }
+
+                        string[] s = lists.ToArray();
+
+                        WorkingPaper.wb打印.Worksheets[s].Select();
+                        Globals.WPToolAddln.Application.DisplayAlerts = true;
+                        Globals.WPToolAddln.Application.ScreenUpdating = true;
+                        Globals.WPToolAddln.Application.StatusBar = false;
+                        WorkingPaper.wb打印.Activate();
+                        WorkingPaper.wb打印.PrintPreview();
+                        //Newbook.Save();
+                        //Newbook.Close();
+                        WorkingPaper.wb打印 = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Globals.WPToolAddln.Application.DisplayAlerts = true;
+                        Globals.WPToolAddln.Application.ScreenUpdating = true;
+                        Globals.WPToolAddln.Application.StatusBar = false;
+                        MessageBox.Show("用户操作出现错误：" + ex.Message);
+                    }
+                    
+                    
+
+                }
+            }
+        }
+
+        private void Application_SheetActivate(object sh)
+        {
+            if(OOO)
+            {
+                string ss = Wb.ActiveSheet.Name;
+                Contents con;
+                if (Excel版本 == 13)
+                {
+                    int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+                    Cons.TryGetValue(hwnd, out con);
+                }
+                else
+                    con = Excel10Con;
+                if (con != null)
+                {
+                    switch (ss)
+                    {
+                        case "余额表":
+                        case "税金申报明细":
+                        case "基本情况":
+                            con.显示选项卡(ss);
+                            break;
+                        case "检查表":
+                            Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
+                            break;
+                        case "A000000企业基础信息表":
+                            Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
+                            break;
+                        default:
+                            Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
+                            Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
+                            con.显示选项卡("");
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void Application_SheetSelectionChange(object sh, Range target)
+        {
+            if (target.Address == "$B$15:$F$15")
+            {
+                存货计价 ch= new 存货计价();
+                
+                ch.ShowDialog();
+            }
+        }
+        
+
+        private void Application_SheetFollowHyperlink(object sh, Hyperlink target)
+        {
+            if (WorkingPaper.OOO)
+            {
+                try
+                {
+                    Globals.WPToolAddln.Application.ScreenUpdating = false;
+                    string add = target.Range.Hyperlinks[1].SubAddress;
+                    add = add.Substring(0, add.IndexOf("!")).Replace("'","");
+                    Wb.Worksheets[add].Visible = true;
+                    if (Wb.ActiveSheet.Cells[1, 7].Value.ToString() == "跳转超链接所选页面")
+                        Wb.Worksheets[add].Select();
+                    Globals.WPToolAddln.Application.ScreenUpdating = true;
+                }
+                catch (Exception)
+                {
+                    Globals.WPToolAddln.Application.ScreenUpdating = true;
+                }
+            }
+        }
+
+        //工作簿激活事件
+        private void Application_WorkbookActivate(Workbook wb)
+        {
+
+            if (CU.文件判断())
+            {
+                
+                Contents con = new Contents();
+                if (Excel版本 == 13)
+                {
+                    int hwnd = Globals.WPToolAddln.Application.ActiveWindow.Hwnd;
+                    Microsoft.Office.Tools.CustomTaskPane mypane;
+                    TaskPanels.TryGetValue(hwnd, out mypane);
+                    if (mypane != null)
+                    {
+                        tb显示目录.Checked = mypane.Visible;
+                    }
+                    else
+                    {
+                        Microsoft.Office.Tools.CustomTaskPane pane = Globals.WPToolAddln.CustomTaskPanes.Add(con,
+                            "税审底稿工具",
+                            Globals.WPToolAddln.Application.ActiveWindow);
+                        //这一步很重要将决定是否显示到当前窗口，第三个参数的意思就是依附到那个窗口
+                        //pane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
+                        pane.Width = 300;
+                        TaskPanels.Add(hwnd, pane);
+                        Cons.Add(hwnd, con);
+                        pane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
+                        pane.Visible = tb显示目录.Checked;
+                    }
+                    Cons.TryGetValue(hwnd, out con);
+                }
+                else
+                {
+                    con = Excel10Con;
+                    Excel10Taskpane.Visible = true;
+                    tb显示目录.Checked = true;
+                }
+                Globals.WPToolAddln.Application.SheetActivate += Application_SheetActivate;
+                string ss = wb.ActiveSheet.Name;
+                if (con != null)
+                {
+                    switch (ss)
+                    {
+                        case "余额表":
+                        case "税金申报明细":
+                        case "基本情况":
+                            con.显示选项卡(ss);
+                            break;
+                        case "检查表":
+                            Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
+                            break;
+                        case "A000000企业基础信息表":
+                            Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
+                            break;
+                        default:
+                            Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
+                            Globals.WPToolAddln.Application.SheetSelectionChange -= Application_SheetSelectionChange;
+                            con.显示选项卡("");
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                if(Excel版本==10)
+                    if (Excel10Taskpane != null) Excel10Taskpane.Visible = false;
+                tb显示目录.Checked = false;
+                Globals.WPToolAddln.Application.SheetActivate -= Application_SheetActivate;
+                Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;
+            }
+            添加右键();
         }
     }
 }

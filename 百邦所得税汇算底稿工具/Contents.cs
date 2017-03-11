@@ -785,6 +785,7 @@ namespace 百邦所得税汇算底稿工具
 
         }
 
+        #region 基本情况
         private void btn基础信息_Click(object sender, EventArgs e)
         {
             if (!CU.文件判断())
@@ -793,7 +794,7 @@ namespace 百邦所得税汇算底稿工具
             name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B49"].Value2);
             pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D49"].Value2);
             if (name1 == "" || pass1 == "")
-                MessageBox.Show("国税信息未填写，请填写[基本情况].[B49,D49]后重试！");
+                MessageBox.Show("国税用户名密码未填写，请填写[基本情况].[B49,D49]后重试！");
             else if (国税信息(name1, pass1))
                 MessageBox.Show("国税信息抓取成功！");
             else
@@ -801,12 +802,13 @@ namespace 百邦所得税汇算底稿工具
             name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
             pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
             if (name1 == "" || pass1 == "")
-                MessageBox.Show("地税信息未填写，请填写[基本情况].[B50,D50]后重试！");
+                MessageBox.Show("地税用户名密码未填写，请填写[基本情况].[B50,D50]后重试！");
             else if (地税信息(name1,pass1))
                 MessageBox.Show("地税信息抓取成功！");
             else
                 MessageBox.Show("地税抓取失败！");
         }
+        #endregion
 
         private Boolean 地税信息(string strName,string strPass)
         {
@@ -953,11 +955,13 @@ namespace 百邦所得税汇算底稿工具
                 }
                 Range rng = WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["A1"].Resize[dts.GetLength(0), dts.GetLength(1)];
                 rng.Value2 = dts;
-
+                WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["H6"].Value =
+                    CU.Zifu(WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["H6"].Value2).Trim();
                 return true;
             }
             else
             {
+                MessageBox.Show(result.Html);
                 return false;
             }
         }
@@ -1056,6 +1060,7 @@ namespace 百邦所得税汇算底稿工具
             }
             else
             {
+                MessageBox.Show(result.Html);
                 return false;
             }
         }
@@ -1120,9 +1125,10 @@ namespace 百邦所得税汇算底稿工具
             strPass = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
             if (strName == "" || strPass == "")
             {
-                MessageBox.Show("地税信息未填写，请填写[基本情况].[B50,D50]后重试！");
+                MessageBox.Show("地税用户名和密码未填写，请填写[基本情况].[B50,D50]后重试！");
                 return;
             }
+            
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
             {
@@ -1225,7 +1231,7 @@ namespace 百邦所得税汇算底稿工具
                     UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
                 };
                 result = http.GetHtml(item);
-
+                string year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B4"].Value2);
                 item = new HttpItem
                 {
                     URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_query.do", //URL     必需项
@@ -1236,7 +1242,7 @@ namespace 百邦所得税汇算底稿工具
                     ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
                     UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
                     Postdata =
-                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + "2016" + "\",\"sbrq_month\":\"\",\"queryType\":\"byyear\"}",
+                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + year + "\",\"sbrq_month\":\"\",\"queryType\":\"byyear\"}",
                     //Post数据
                 };
                 item.Header.Add("x-requested-with", "XMLHttpRequest");
@@ -1258,7 +1264,7 @@ namespace 百邦所得税汇算底稿工具
                     ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
                     UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
                     Postdata =
-                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + "2017" +
+                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + (Convert.ToInt16(year)+1).ToString() +
                         "\",\"sbrq_month\":\"1\",\"queryType\":\"bymonth\"}", //Post数据
                 };
                 item.Header.Add("x-requested-with", "XMLHttpRequest");
@@ -1302,6 +1308,7 @@ namespace 百邦所得税汇算底稿工具
 
                 WorkingPaper.Wb.Application.ScreenUpdating = false;
                 int lRow = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A100086"].End[XlDirection.xlUp].Row;
+                if (lRow == 1) lRow = 2;
                 WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2:N" + lRow.ToString()].Clear();
                 Range rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2"].Resize[dr.GetLength(0), dr.GetLength(1)];
                 rng.Value2 = dr;

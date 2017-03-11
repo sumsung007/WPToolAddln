@@ -49,7 +49,10 @@
             this.group4 = this.Factory.CreateRibbonGroup();
             this.btn客户沟通 = this.Factory.CreateRibbonButton();
             this.btn查看报告 = this.Factory.CreateRibbonButton();
+            this.splitButton1 = this.Factory.CreateRibbonSplitButton();
             this.btn导出报告 = this.Factory.CreateRibbonButton();
+            this.separator3 = this.Factory.CreateRibbonSeparator();
+            this.btn打印报告 = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.sb导出数据 = this.Factory.CreateRibbonSplitButton();
             this.separator1 = this.Factory.CreateRibbonSeparator();
@@ -179,7 +182,7 @@
             // 
             this.group4.Items.Add(this.btn客户沟通);
             this.group4.Items.Add(this.btn查看报告);
-            this.group4.Items.Add(this.btn导出报告);
+            this.group4.Items.Add(this.splitButton1);
             this.group4.Label = "报告查看";
             this.group4.Name = "group4";
             // 
@@ -201,15 +204,37 @@
             this.btn查看报告.ShowImage = true;
             this.btn查看报告.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btn查看报告_Click);
             // 
+            // splitButton1
+            // 
+            this.splitButton1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.splitButton1.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_cloud_upload_black_36dp;
+            this.splitButton1.Items.Add(this.btn导出报告);
+            this.splitButton1.Items.Add(this.separator3);
+            this.splitButton1.Items.Add(this.btn打印报告);
+            this.splitButton1.Label = "报告导出";
+            this.splitButton1.Name = "splitButton1";
+            // 
             // btn导出报告
             // 
-            this.btn导出报告.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btn导出报告.Enabled = false;
-            this.btn导出报告.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_cloud_upload_black_36dp;
-            this.btn导出报告.Label = "导出报告";
+            this.btn导出报告.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_file_upload_black_36dp;
+            this.btn导出报告.Label = "输出上传文件";
             this.btn导出报告.Name = "btn导出报告";
             this.btn导出报告.ShowImage = true;
             this.btn导出报告.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btn导出报告_Click);
+            // 
+            // separator3
+            // 
+            this.separator3.Name = "separator3";
+            this.separator3.Title = "  ";
+            // 
+            // btn打印报告
+            // 
+            this.btn打印报告.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_local_cafe_black_36dp;
+            this.btn打印报告.Label = "打印报告";
+            this.btn打印报告.Name = "btn打印报告";
+            this.btn打印报告.ShowImage = true;
+            this.btn打印报告.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btn打印报告_Click);
             // 
             // group2
             // 
@@ -217,7 +242,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.btnHelp);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20170210";
+            this.group2.Label = "V20170312🌳植树节🌳";
             this.group2.Name = "group2";
             // 
             // sb导出数据
@@ -278,7 +303,6 @@
             // 
             // btn底稿升级
             // 
-            this.btn底稿升级.Enabled = false;
             this.btn底稿升级.Label = "底稿升级（谨慎操作）";
             this.btn底稿升级.Name = "btn底稿升级";
             this.btn底稿升级.ShowImage = true;
@@ -291,7 +315,7 @@
             // 
             // button1
             // 
-            this.button1.Label = "恢复表格刷新";
+            this.button1.Label = "修复打印报告权限";
             this.button1.Name = "button1";
             this.button1.ShowImage = true;
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click_1);
@@ -367,6 +391,9 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btn底稿升级;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSplitButton splitButton1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btn打印报告;
     }
 
     partial class ThisRibbonCollection

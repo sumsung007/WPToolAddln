@@ -163,6 +163,16 @@ namespace 百邦所得税汇算底稿工具.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        public static System.Drawing.Bitmap ic_file_upload_black_36dp {
+            get {
+                object obj = ResourceManager.GetObject("ic_file_upload_black_36dp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         public static System.Drawing.Bitmap ic_flip_black_36dp {
             get {
                 object obj = ResourceManager.GetObject("ic_flip_black_36dp", resourceCulture);
@@ -206,6 +216,16 @@ namespace 百邦所得税汇算底稿工具.Properties {
         public static System.Drawing.Bitmap ic_list_black_48dp {
             get {
                 object obj = ResourceManager.GetObject("ic_list_black_48dp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap ic_local_cafe_black_36dp {
+            get {
+                object obj = ResourceManager.GetObject("ic_local_cafe_black_36dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -437,7 +457,7 @@ namespace 百邦所得税汇算底稿工具.Properties {
         }
         
         /// <summary>
-        ///   查找类似 货币资金||现金证明||银行调节||应收||预付||其他应收||存货||待摊预提||在建工程审核表 的本地化字符串。
+        ///   查找类似 货币资金||现金证明||银行调节||应收||预付||其他应收||存货||待摊预提||在建工程审核表||对外投资 的本地化字符串。
         /// </summary>
         public static string Tag5 {
             get {
@@ -446,7 +466,7 @@ namespace 百邦所得税汇算底稿工具.Properties {
         }
         
         /// <summary>
-        ///   查找类似 应付||预收||其他应付||实收公积||未分利润 的本地化字符串。
+        ///   查找类似 应付||预收||其他应付||借款||实收公积||未分利润 的本地化字符串。
         /// </summary>
         public static string Tag6 {
             get {
@@ -491,7 +511,7 @@ namespace 百邦所得税汇算底稿工具.Properties {
         }
         
         /// <summary>
-        ///   查找类似 货币资金审核表||现金证明书||银行存款余额调节表||应收账款审核表||预付账款审核表||其他应收款审核表||存货审核表||待摊费用、预提费用审核表||在建工程审核表 的本地化字符串。
+        ///   查找类似 货币资金审核表||现金证明书||银行存款余额调节表||应收账款审核表||预付账款审核表||其他应收款审核表||存货审核表||待摊费用、预提费用审核表||在建工程审核表||对外投资审核表 的本地化字符串。
         /// </summary>
         public static string Text5 {
             get {
@@ -500,7 +520,7 @@ namespace 百邦所得税汇算底稿工具.Properties {
         }
         
         /// <summary>
-        ///   查找类似 应付账款审核表||预收账款审核表||其他应付款审核表||实收资本、资本公积、盈余公积审核表||未分配利润审核表 的本地化字符串。
+        ///   查找类似 应付账款审核表||预收账款审核表||其他应付款审核表||借款审核表||实收资本、资本公积、盈余公积审核表||未分配利润审核表 的本地化字符串。
         /// </summary>
         public static string Text6 {
             get {

@@ -225,11 +225,11 @@
     <comment>审核报告</comment>
   </data>
   <data name="Tag5" xml:space="preserve">
-    <value>货币资金||现金证明||银行调节||应收||预付||其他应收||存货||待摊预提||在建工程审核表</value>
+    <value>货币资金||现金证明||银行调节||应收||预付||其他应收||存货||待摊预提||在建工程审核表||对外投资</value>
     <comment>资产类底稿</comment>
   </data>
   <data name="Tag6" xml:space="preserve">
-    <value>应付||预收||其他应付||实收公积||未分利润</value>
+    <value>应付||预收||其他应付||借款||实收公积||未分利润</value>
     <comment>负债及权益类底稿</comment>
   </data>
   <data name="Text1" xml:space="preserve">
@@ -249,11 +249,11 @@
     <comment>审核报告</comment>
   </data>
   <data name="Text5" xml:space="preserve">
-    <value>货币资金审核表||现金证明书||银行存款余额调节表||应收账款审核表||预付账款审核表||其他应收款审核表||存货审核表||待摊费用、预提费用审核表||在建工程审核表</value>
+    <value>货币资金审核表||现金证明书||银行存款余额调节表||应收账款审核表||预付账款审核表||其他应收款审核表||存货审核表||待摊费用、预提费用审核表||在建工程审核表||对外投资审核表</value>
     <comment>资产类底稿</comment>
   </data>
   <data name="Text6" xml:space="preserve">
-    <value>应付账款审核表||预收账款审核表||其他应付款审核表||实收资本、资本公积、盈余公积审核表||未分配利润审核表</value>
+    <value>应付账款审核表||预收账款审核表||其他应付款审核表||借款审核表||实收资本、资本公积、盈余公积审核表||未分配利润审核表</value>
     <comment>负债及权益类底稿</comment>
   </data>
   <data name="ic_launch_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -279,5 +279,11 @@
   </data>
   <data name="明正LOGO" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\明正LOGO.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_file_upload_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_file_upload_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_local_cafe_black_36dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_local_cafe_black_36dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

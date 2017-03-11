@@ -202,7 +202,7 @@ namespace 百邦所得税汇算底稿工具
                         }
                         else if (版本.IndexOf("V2017") >= 0)
                         {
-                            if (版本.IndexOf("V20170210") < 0)
+                            if (版本.IndexOf("V20170312") < 0)
                                 MessageBox.Show("该底稿非最新版本，请升级后使用，以免出现未知错误。");
                             WorkingPaper.版本号 = 2017;
                         }
@@ -263,6 +263,26 @@ namespace 百邦所得税汇算底稿工具
                 return "";
             else
                 return tar.ToString();
+        }
+
+        public static void 自动调整行高(string 表名,string 地址,double width)
+        {
+            Workbook wrkBook = WorkingPaper.wb打印;
+            Worksheet mySheet = wrkBook.Worksheets[表名];
+            Range rrng = mySheet.Range[地址];
+            Worksheet wrkSheet = wrkBook.Worksheets.Add();
+            wrkSheet.Columns[1].WrapText = true;
+            wrkSheet.Cells[1, 1].Value = rrng.Value;
+            wrkSheet.Columns[1].Font.Size = rrng.Cells[1,1].Font.Size;
+            wrkSheet.Columns[1].ColumnWidth = width;
+            wrkSheet.Activate();
+            wrkSheet.Cells[1, 1].RowHeight = 0;
+            wrkSheet.Cells[1, 1].EntireRow.Activate();
+            wrkSheet.Cells[1, 1].EntireRow.AutoFit();
+            mySheet.Activate();
+            rrng.Activate();
+            rrng.RowHeight = wrkSheet.Cells[1, 1].RowHeight + 10;
+            wrkSheet.Delete();
         }
     }
 }
