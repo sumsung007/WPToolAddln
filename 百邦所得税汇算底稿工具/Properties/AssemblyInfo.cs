@@ -9,7 +9,7 @@ using System.Security;
 [assembly: AssemblyTitle("所得税汇算底稿工具")]
 [assembly: AssemblyDescription("20170128 春节版")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("中汇百邦（厦门）税务师事务所有限公司&厦门明正税务师事务所有限公司")]
+[assembly: AssemblyCompany("中汇百邦（厦门）&厦门明正")]
 [assembly: AssemblyProduct("百邦·明正所得税汇算底稿工具")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

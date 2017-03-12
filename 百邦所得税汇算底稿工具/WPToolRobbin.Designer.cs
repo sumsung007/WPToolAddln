@@ -284,11 +284,11 @@
             // button2
             // 
             this.button2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button2.Enabled = false;
             this.button2.Image = global::百邦所得税汇算底稿工具.Properties.Resources.pdf;
             this.button2.Label = "导出为PDF文件";
             this.button2.Name = "button2";
             this.button2.ShowImage = true;
+            this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.导出PDF);
             // 
             // btn工具设置
             // 
@@ -323,7 +323,7 @@
             // btnHelp
             // 
             this.btnHelp.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnHelp.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_info_outline_black_36dp;
+            this.btnHelp.Image = global::百邦所得税汇算底稿工具.Properties.Resources.tree;
             this.btnHelp.Label = "关于";
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.ShowImage = true;

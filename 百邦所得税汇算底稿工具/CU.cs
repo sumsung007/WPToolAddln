@@ -270,7 +270,8 @@ namespace 百邦所得税汇算底稿工具
             Workbook wrkBook = WorkingPaper.wb打印;
             Worksheet mySheet = wrkBook.Worksheets[表名];
             Range rrng = mySheet.Range[地址];
-            Worksheet wrkSheet = wrkBook.Worksheets.Add();
+            Worksheet wrkSheet = wrkBook.Worksheets["调整"];
+            wrkSheet.Visible = XlSheetVisibility.xlSheetVisible;
             wrkSheet.Columns[1].WrapText = true;
             wrkSheet.Cells[1, 1].Value = rrng.Value;
             wrkSheet.Columns[1].Font.Size = rrng.Cells[1,1].Font.Size;
@@ -282,7 +283,7 @@ namespace 百邦所得税汇算底稿工具
             mySheet.Activate();
             rrng.Activate();
             rrng.RowHeight = wrkSheet.Cells[1, 1].RowHeight + 10;
-            wrkSheet.Delete();
+            wrkSheet.Visible = XlSheetVisibility.xlSheetHidden;
         }
     }
 }

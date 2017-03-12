@@ -28,11 +28,20 @@ namespace 百邦所得税汇算底稿工具
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
-            if (Globals.WPToolAddln.Application.Version == "15.0" || Globals.WPToolAddln.Application.Version == "16.0")
-                Excel版本 = 13;
-            else
-                Excel版本 = 10;
-            if (Excel版本 == 10)
+            switch (Globals.WPToolAddln.Application.Version)
+            {
+                case "15.0":
+                case "16.0":
+                    Excel版本 = 13;
+                    break;
+                case "14.0":
+                    Excel版本 = 10;
+                    break;
+                case "12.0":
+                    Excel版本 = 07;
+                    break;
+            }
+            if (Excel版本 == 10|| Excel版本 == 07)
             {
                 Excel10Con = new Contents();
                 Excel10Taskpane = Globals.WPToolAddln.CustomTaskPanes.Add(Excel10Con, "税审底稿工具");
@@ -55,6 +64,16 @@ namespace 百邦所得税汇算底稿工具
                 btn注册.Visible = true;
                 MessageBox.Show("底稿工具尚未注册，请进入设置后将机器码发给授权单位授权！");
             }
+
+            if (Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\BaiBang", "NewVersion", String.Empty)
+                    .ToString() !=
+                "V20170312-1")
+            {
+                AboutBox1 ab = new AboutBox1();
+                ab.ShowDialog();
+                Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\BaiBang", "NewVersion", "V20170312-1");
+            }
+
             Globals.WPToolAddln.Application.WorkbookActivate += Application_WorkbookActivate;
             
         }
@@ -978,6 +997,8 @@ namespace 百邦所得税汇算底稿工具
 
                                 WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B7"].NumberFormatLocal = "G/通用格式";
                                 WorkingPaper.Wb.Worksheets["A000000企业基础信息表"].Range["B7"].Formula = "=LEFT(地税、基本情况!F6,4)";
+                                WorkingPaper.Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F17"].Formula =
+                                    "=IF(OR(A105060广告费和业务宣传费跨年度纳税调整明细表!C4<>0,A105060广告费和业务宣传费跨年度纳税调整明细表!C11<>0,A105060广告费和业务宣传费跨年度纳税调整明细表!C15<>0),\"是\",\"否\")";
 
                                 //福利费和业务招待费调整
                                 WorkingPaper.Wb.Worksheets["制造费用、生产成本"].Range["F23"].Formula =
@@ -1252,6 +1273,17 @@ namespace 百邦所得税汇算底稿工具
                         //WorkingPaper.wb打印.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
                         CU.自动调整行高("企业基本情况", "C10:F10", 46.78);
                         CU.自动调整行高("企业基本情况", "A113:F113", 85.22);
+                        CU.自动调整行高("A000000企业基础信息表", "B7", 15.67);
+                        CU.自动调整行高("A000000企业基础信息表", "A21", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A22", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A23", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A24", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A25", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A28", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A29", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A30", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A31", 18.44);
+                        CU.自动调整行高("A000000企业基础信息表", "A32", 18.44);
                         WorkingPaper.wb打印.Sheets["企业基本情况"].Range["$H$20:$H$113"].AutoFilter(Field: 1, Criteria1: "=1");
                         object[,] 表单 = WorkingPaper.wb打印.Sheets["（三）企业所得税年度纳税申报表填报表单"].Range["$C$3:$D$51"].Value2;
                         for (int i=1;i<=49;i++)
@@ -1383,6 +1415,46 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
+        private void 导出PDF(object sender, RibbonControlEventArgs e)
+        {
+            if (MessageBox.Show("现在将当前可见工作表导出为PDF。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                SaveFileDialog Sv = new SaveFileDialog();
+                Sv.Filter = "PDF文件(*.pdf)|*.pdf";
+                Sv.FileName = "税审工作表导出";
+                Sv.Title = "导出当前可见工作表";
+                Sv.OverwritePrompt = true;
+                Sv.InitialDirectory = Globals.WPToolAddln.Application.ActiveWorkbook.Path;
+                if (Sv.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        Globals.WPToolAddln.Application.StatusBar = "正在导出可见工作表...";
+                        Globals.WPToolAddln.Application.DisplayAlerts = false;
+                        Globals.WPToolAddln.Application.ScreenUpdating = false;
+                        Globals.WPToolAddln.Application.ActiveWorkbook.ExportAsFixedFormat(
+                            Type: XlFixedFormatType.xlTypePDF,
+                            Filename: Sv.FileName.ToString(), IgnorePrintAreas: false, OpenAfterPublish: true);
+                        Globals.WPToolAddln.Application.DisplayAlerts = true;
+                        Globals.WPToolAddln.Application.ScreenUpdating = true;
+                        Globals.WPToolAddln.Application.StatusBar = false;
+                        MessageBox.Show("文件导出完成！");
+                    }
+                    catch (Exception ex)
+                    {
+                        Globals.WPToolAddln.Application.DisplayAlerts = true;
+                        Globals.WPToolAddln.Application.ScreenUpdating = true;
+                        Globals.WPToolAddln.Application.StatusBar = false;
+                        MessageBox.Show("用户操作出现错误：" + ex.Message);
+                        if (Excel版本 == 07)
+                        {
+                            MessageBox.Show("当前Excel为2007版本，建议安装 SaveAsPDFandXPS 后重试一下。");
+                        }
+                    }
+                }
+            }
+        }
+
         //工作簿激活事件
         private void Application_WorkbookActivate(Workbook wb)
         {
@@ -1448,7 +1520,7 @@ namespace 百邦所得税汇算底稿工具
             }
             else
             {
-                if(Excel版本==10)
+                if(Excel版本==10|| Excel版本 == 07)
                     if (Excel10Taskpane != null) Excel10Taskpane.Visible = false;
                 tb显示目录.Checked = false;
                 Globals.WPToolAddln.Application.SheetActivate -= Application_SheetActivate;
