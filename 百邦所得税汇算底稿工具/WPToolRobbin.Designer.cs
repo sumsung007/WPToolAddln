@@ -63,9 +63,11 @@
             this.btn底稿升级 = this.Factory.CreateRibbonButton();
             this.separator2 = this.Factory.CreateRibbonSeparator();
             this.button1 = this.Factory.CreateRibbonButton();
+            this.Contact = this.Factory.CreateRibbonSplitButton();
+            this.btnUpdata = this.Factory.CreateRibbonButton();
+            this.btnGongzhonghao = this.Factory.CreateRibbonButton();
             this.btnHelp = this.Factory.CreateRibbonButton();
             this.btn注册 = this.Factory.CreateRibbonButton();
-            this.Contact = this.Factory.CreateRibbonButton();
             this.WPTool.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -241,7 +243,6 @@
             // 
             this.group2.Items.Add(this.sb导出数据);
             this.group2.Items.Add(this.btn工具设置);
-            this.group2.Items.Add(this.btnHelp);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
             this.group2.Label = "V20170312🌳植树节🌳";
@@ -322,11 +323,34 @@
             this.button1.ShowImage = true;
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click_1);
             // 
+            // Contact
+            // 
+            this.Contact.ButtonType = Microsoft.Office.Tools.Ribbon.RibbonButtonType.ToggleButton;
+            this.Contact.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.Contact.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_info_outline_black_36dp;
+            this.Contact.Items.Add(this.btnUpdata);
+            this.Contact.Items.Add(this.btnGongzhonghao);
+            this.Contact.Items.Add(this.btnHelp);
+            this.Contact.Label = "联系我们";
+            this.Contact.Name = "Contact";
+            // 
+            // btnUpdata
+            // 
+            this.btnUpdata.Label = "手动检查版本";
+            this.btnUpdata.Name = "btnUpdata";
+            this.btnUpdata.ShowImage = true;
+            this.btnUpdata.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnUpdata_Click);
+            // 
+            // btnGongzhonghao
+            // 
+            this.btnGongzhonghao.Label = "关注公众号";
+            this.btnGongzhonghao.Name = "btnGongzhonghao";
+            this.btnGongzhonghao.ShowImage = true;
+            this.btnGongzhonghao.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnGongzhonghao_Click);
+            // 
             // btnHelp
             // 
-            this.btnHelp.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnHelp.Image = global::百邦所得税汇算底稿工具.Properties.Resources.tree;
-            this.btnHelp.Label = "关于";
+            this.btnHelp.Label = "关于 税审底稿工具";
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.ShowImage = true;
             this.btnHelp.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnHelp_Click);
@@ -340,12 +364,6 @@
             this.btn注册.ShowImage = true;
             this.btn注册.Visible = false;
             this.btn注册.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btn注册_Click);
-            // 
-            // Contact
-            // 
-            this.Contact.Label = "联系我们";
-            this.Contact.Name = "Contact";
-            this.Contact.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Contact_Click);
             // 
             // WorkingPaper
             // 
@@ -402,7 +420,9 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonSplitButton splitButton1;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator3;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btn打印报告;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton Contact;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSplitButton Contact;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnUpdata;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnGongzhonghao;
     }
 
     partial class ThisRibbonCollection

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Tools.Ribbon;
@@ -15,6 +16,7 @@ namespace 百邦所得税汇算底稿工具
         public static Workbook Wb,wb打印;
         public static Boolean OOO=false;
         public static int 版本号;
+        public static string 当前版本 = Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", "");
         public static int Excel版本;
 
         public Dictionary<int, Microsoft.Office.Tools.CustomTaskPane> TaskPanels =
@@ -48,7 +50,7 @@ namespace 百邦所得税汇算底稿工具
                 Excel10Taskpane.Width = 300;
                 Excel10Taskpane.VisibleChanged += new EventHandler(MyTaskpane_VisibleChanged);
             }
-            if (! CU.授权检测())
+            if (!CU.授权检测())
             {
                 tb显示目录.Enabled = false;
                 btn基本情况.Enabled = false;
@@ -61,17 +63,26 @@ namespace 百邦所得税汇算底稿工具
                 btn查看报告.Enabled = false;
                 btn导出报告.Enabled = false;
                 btn工具设置.Enabled = false;
+                splitButton1.Enabled = false;
                 btn注册.Visible = true;
                 MessageBox.Show("底稿工具尚未注册，请进入设置后将机器码发给授权单位授权！");
             }
-
-            if (Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\BaiBang", "NewVersion", String.Empty)
-                    .ToString() !=
-                "V20170312-1")
+            else
             {
-                AboutBox1 ab = new AboutBox1();
-                ab.ShowDialog();
-                Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\BaiBang", "NewVersion", "V20170312-1");
+                if (Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\BaiBang", "NewVersion", String.Empty)
+                        .ToString() !=
+                    当前版本)
+                {
+                    AboutBox1 ab = new AboutBox1();
+                    ab.ShowDialog();
+                    Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\BaiBang", "NewVersion", 当前版本);
+                }
+                if (Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\BaiBang", "Updatatime", String.Empty)
+        .ToString() !=DateTime.Now.Date.ToShortDateString())
+                {
+                    更新();
+                    Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\BaiBang", "Updatatime", DateTime.Now.Date.ToShortDateString());
+                }
             }
 
             Globals.WPToolAddln.Application.WorkbookActivate += Application_WorkbookActivate;
@@ -1455,10 +1466,28 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-        private void Contact_Click(object sender, RibbonControlEventArgs e)
+        private void btnGongzhonghao_Click(object sender, RibbonControlEventArgs e)
         {
             Contact tac = new Contact();
             tac.ShowDialog();
+        }
+
+        private void btnUpdata_Click(object sender, RibbonControlEventArgs e)
+        {
+            更新();
+        }
+
+        private Boolean 更新()
+        {
+            string 最新版本 = Contents.获取版本号("https://zhuanlan.zhihu.com/p/26474507");
+            if (最新版本 == "获取失败")
+                MessageBox.Show("版本获取失败，请检查网络后重试！");
+            else
+                if (最新版本 != 当前版本)
+            {
+                MessageBox.Show("当前版本为：" + 当前版本 + "，发现新版本：" + 最新版本 + "。请通过微信公众号下载新版本！");
+            }
+            return true;
         }
 
         //工作簿激活事件

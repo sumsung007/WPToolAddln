@@ -28,5 +28,11 @@ namespace 百邦所得税汇算底稿工具
         {
             this.Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+
+        }
     }
 }

@@ -810,6 +810,223 @@ namespace 百邦所得税汇算底稿工具
         }
         #endregion
 
+        #region 申报数据获取
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string strText, scookie, strName, strPass;
+            if (!CU.文件判断())
+                return;
+            strName = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
+            strPass = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
+            if (strName == "" || strPass == "")
+            {
+                MessageBox.Show("地税用户名和密码未填写，请填写[基本情况].[B50,D50]后重试！");
+                return;
+            }
+            
+            HttpHelper http = new HttpHelper();
+            HttpItem item = new HttpItem()
+            {
+                URL = "https://www.xm-l-tax.gov.cn/", //URL     必需项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            HttpResult result = http.GetHtml(item);
+            scookie = result.Cookie;
+
+            item = new HttpItem
+            {
+                URL = "https://www.xm-l-tax.gov.cn/common/checkcode.do?rand=" + System.DateTime.Now.ToString("ddd MMM dd hh:mm:ss \"CST\" yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo),
+                //URL     必需项
+                Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                Cookie = scookie,
+                ResultType = ResultType.Byte, //返回数据类型，是Byte还是String
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+            };
+            result = http.GetHtml(item);
+
+            //把得到的Byte转成图片
+            Image img = byteArrayToImage(result.ResultByte);
+            验证码 pic = new 验证码(img,"地税验证码");
+            pic.StartPosition = FormStartPosition.CenterParent;
+            pic.ShowDialog();
+            strText = pic.pictext;
+            //strPass = md5(strPass);
+            strPass = base64(strPass);
+
+            item = new HttpItem
+            {
+                URL = "https://www.xm-l-tax.gov.cn/login/checkLogin.do", //URL     必需项
+                Method = "post", //URL     可选项 默认为Get
+                Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                Cookie = scookie,
+                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
+                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                Postdata =
+                    "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
+            };
+            item.Header.Add("x-requested-with", "XMLHttpRequest");
+
+            result = http.GetHtml(item);
+
+            if (result.Html.ToString().IndexOf("登录成功") > 0)
+            {
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/login/gdslhrz.do", //URL     必需项
+                    Method = "post", //URL     可选项 默认为Get
+                    Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                    Cookie = scookie,
+                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                    ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    Postdata =
+                        "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
+                };
+                item.Header.Add("x-requested-with", "XMLHttpRequest");
+                result = http.GetHtml(item);
+
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/login/opener.do", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do", //URL     必需项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/xxtx/index.do", //URL     必需项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do?menuid=zhcx", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/xxtx/index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //URL     必需项
+                    Referer = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do?menuid=zhcx", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                };
+                result = http.GetHtml(item);
+                string year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B4"].Value2);
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_query.do", //URL     必需项
+                    Method = "post", //URL     可选项 默认为Get
+                    Referer = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                    ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    Postdata =
+                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + year + "\",\"sbrq_month\":\"\",\"queryType\":\"byyear\"}",
+                    //Post数据
+                };
+                item.Header.Add("x-requested-with", "XMLHttpRequest");
+
+                result = http.GetHtml(item);
+
+                string html = result.Html;
+                CJson cj = JsonConvert.DeserializeObject<CJson>(html);
+                lsWssbjl[] dates1 = cj.lsWssbjl;
+
+
+                item = new HttpItem
+                {
+                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_query.do", //URL     必需项
+                    Method = "post", //URL     可选项 默认为Get
+                    Referer = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
+                    ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
+                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    Postdata =
+                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + (Convert.ToInt16(year) + 1).ToString() +
+                        "\",\"sbrq_month\":\"1\",\"queryType\":\"bymonth\"}", //Post数据
+                };
+                item.Header.Add("x-requested-with", "XMLHttpRequest");
+
+                result = http.GetHtml(item);
+                html = result.Html;
+                cj = JsonConvert.DeserializeObject<CJson>(html);
+                lsWssbjl[] dates2 = cj.lsWssbjl;
+                string[,] dr = new string[dates1.Length + dates2.Length, 12];
+                for (int i = 0; i < dates1.Length; i++)
+                {
+                    dr[i, 0] = dates1[i].nssbrq;
+                    dr[i, 1] = dates1[i].zsxm_dm;
+                    dr[i, 2] = dates1[i].zspm_dm;
+                    dr[i, 3] = dates1[i].zszm_dm;
+                    dr[i, 4] = dates1[i].skssqq + "到" + dates1[i].skssqz;
+                    dr[i, 5] = dates1[i].jsyj;
+                    dr[i, 6] = dates1[i].sl_1;
+                    dr[i, 7] = dates1[i].ynse;
+                    dr[i, 8] = dates1[i].yjse;
+                    dr[i, 9] = dates1[i].jmse;
+                    dr[i, 10] = dates1[i].ybtse;
+                    dr[i, 11] = dates1[i].rkrq;
+                }
+                int j = dates1.Length;
+                for (int i = 0; i < dates2.Length; i++)
+                {
+                    dr[j + i, 0] = dates2[i].nssbrq;
+                    dr[j + i, 1] = dates2[i].zsxm_dm;
+                    dr[j + i, 2] = dates2[i].zspm_dm;
+                    dr[j + i, 3] = dates2[i].zszm_dm;
+                    dr[j + i, 4] = dates2[i].skssqq + "到" + dates2[i].skssqz;
+                    dr[j + i, 5] = dates2[i].jsyj;
+                    dr[j + i, 6] = dates2[i].sl_1;
+                    dr[j + i, 7] = dates2[i].ynse;
+                    dr[j + i, 8] = dates2[i].yjse;
+                    dr[j + i, 9] = dates2[i].jmse;
+                    dr[j + i, 10] = dates2[i].ybtse;
+                    dr[j + i, 11] = dates2[i].rkrq;
+                }
+
+                WorkingPaper.Wb.Application.ScreenUpdating = false;
+                int lRow = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A100086"].End[XlDirection.xlUp].Row;
+                if (lRow == 1) lRow = 2;
+                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2:N" + lRow.ToString()].Clear();
+                Range rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2"].Resize[dr.GetLength(0), dr.GetLength(1)];
+                rng.Value2 = dr;
+                rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 1];
+                rng.FormulaR1C1 = "=VLOOKUP(RC[-11],首页!C[-6]:C[-5],2,0)";
+                rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["N2"].Resize[dr.GetLength(0), 1];
+                rng.FormulaR1C1 = "=VLOOKUP(RC[-11],首页!C[-5]:C[-4],2,0)";
+                object[,] arr = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 2].Value2;
+                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["B2"].Resize[dr.GetLength(0), 2].Value2 = arr;
+                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 2].Clear();
+
+                WorkingPaper.Wb.Application.ScreenUpdating = true;
+                MessageBox.Show("地税申报数据拉取成功");
+            }
+            else
+            {
+                MessageBox.Show(result.Html);
+            }
+        }
+        #endregion
+
+        #region 网抓函数
         private Boolean 地税信息(string strName,string strPass)
         {
             string strText, scookie;
@@ -871,7 +1088,7 @@ namespace 百邦所得税汇算底稿工具
                     ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
                     UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
                     Postdata =
-        "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
+                        "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
                 };
                 item.Header.Add("x-requested-with", "XMLHttpRequest");
                 result = http.GetHtml(item);
@@ -1065,8 +1282,7 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-
-        private string base64(string pass)
+        private string base64(string pass)  //base64加密
         {
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
@@ -1078,6 +1294,7 @@ namespace 百邦所得税汇算底稿工具
             HttpResult result = http.GetHtml(item);
             return ExecuteScript("base64encode(\"" + pass + "\")", result.Html);
         }
+
         private string md5(string pass)
         {
             HttpHelper http = new HttpHelper();
@@ -1090,6 +1307,7 @@ namespace 百邦所得税汇算底稿工具
             HttpResult result = http.GetHtml(item);
             return ExecuteScript("hex_md5(\"" + pass + "\")", result.Html);
         }
+
         private string ExecuteScript(string sExpression, string sCode)
         {
             MSScriptControl.ScriptControl scriptControl = new MSScriptControl.ScriptControl();
@@ -1115,216 +1333,32 @@ namespace 百邦所得税汇算底稿工具
             return outputImg;
         }
 
-        #region 申报数据获取
-        private void button1_Click_1(object sender, EventArgs e)
+        /// <summary>
+        /// 通过知乎专栏获取版本号
+        /// </summary>
+        /// <param name="sUrl">专栏地址</param>
+        /// <returns>版本号</returns>
+        public static string 获取版本号(string sUrl)
         {
-            string strText, scookie, strName, strPass;
-            if (!CU.文件判断())
-                return;
-            strName = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
-            strPass = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
-            if (strName == "" || strPass == "")
-            {
-                MessageBox.Show("地税用户名和密码未填写，请填写[基本情况].[B50,D50]后重试！");
-                return;
-            }
-            
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
             {
-                URL = "https://www.xm-l-tax.gov.cn/", //URL     必需项
+                URL = sUrl, //URL     必需项
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
                 UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
             };
             HttpResult result = http.GetHtml(item);
-            scookie = result.Cookie;
-
-            item = new HttpItem
+            string str = result.Html;
+            str = Regex.Match(str, "<title>.*</title>").ToString();
+            if (str == "")
             {
-                URL = "https://www.xm-l-tax.gov.cn/common/checkcode.do?rand=" + System.DateTime.Now.ToString("ddd MMM dd hh:mm:ss \"CST\" yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo),
-                //URL     必需项
-                Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
-                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
-                Cookie = scookie,
-                ResultType = ResultType.Byte, //返回数据类型，是Byte还是String
-                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-            };
-            result = http.GetHtml(item);
-
-            //把得到的Byte转成图片
-            Image img = byteArrayToImage(result.ResultByte);
-            验证码 pic = new 验证码(img,"地税验证码");
-            pic.StartPosition = FormStartPosition.CenterParent;
-            pic.ShowDialog();
-            strText = pic.pictext;
-            //strPass = md5(strPass);
-            strPass = base64(strPass);
-
-            item = new HttpItem
-            {
-                URL = "https://www.xm-l-tax.gov.cn/login/checkLogin.do", //URL     必需项
-                Method = "post", //URL     可选项 默认为Get
-                Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
-                Cookie = scookie,
-                IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
-                ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
-                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                Postdata =
-                    "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
-            };
-            item.Header.Add("x-requested-with", "XMLHttpRequest");
-
-            result = http.GetHtml(item);
-
-            if (result.Html.ToString().IndexOf("登录成功") > 0)
-            {
-                item = new HttpItem
-                {
-                    URL = "https://www.xm-l-tax.gov.cn/login/gdslhrz.do", //URL     必需项
-                    Method = "post", //URL     可选项 默认为Get
-                    Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
-                    Cookie = scookie,
-                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
-                    ContentType = "application/x-www-form-urlencoded; charset=UTF-8", //返回类型    可选项有默认值
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                    Postdata =
-                        "loginId=" + strName + "&userPassword=" + strPass + "&checkCode=" + strText, //Post数据
-                };
-                item.Header.Add("x-requested-with", "XMLHttpRequest");
-                result = http.GetHtml(item);
-
-                item = new HttpItem
-                {
-                    URL = "https://www.xm-l-tax.gov.cn/login/opener.do", //URL     必需项
-                    Referer = "https://www.xm-l-tax.gov.cn/", //来源URL     可选项
-                    Cookie = scookie,
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                };
-                result = http.GetHtml(item);
-                item = new HttpItem
-                {
-                    URL = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do", //URL     必需项
-                    Cookie = scookie,
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                };
-                result = http.GetHtml(item);
-                item = new HttpItem
-                {
-                    URL = "https://www.xm-l-tax.gov.cn/xxtx/index.do", //URL     必需项
-                    Cookie = scookie,
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                };
-                result = http.GetHtml(item);
-                item = new HttpItem
-                {
-                    URL = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do?menuid=zhcx", //URL     必需项
-                    Referer = "https://www.xm-l-tax.gov.cn/xxtx/index.do", //来源URL     可选项
-                    Cookie = scookie,
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                };
-                result = http.GetHtml(item);
-                item = new HttpItem
-                {
-                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //URL     必需项
-                    Referer = "https://www.xm-l-tax.gov.cn/nsfwHome/index.do?menuid=zhcx", //来源URL     可选项
-                    Cookie = scookie,
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                };
-                result = http.GetHtml(item);
-                string year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B4"].Value2);
-                item = new HttpItem
-                {
-                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_query.do", //URL     必需项
-                    Method = "post", //URL     可选项 默认为Get
-                    Referer = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //来源URL     可选项
-                    Cookie = scookie,
-                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
-                    ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                    Postdata =
-                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + year + "\",\"sbrq_month\":\"\",\"queryType\":\"byyear\"}",
-                    //Post数据
-                };
-                item.Header.Add("x-requested-with", "XMLHttpRequest");
-
-                result = http.GetHtml(item);
-
-                string html = result.Html;
-                CJson cj = JsonConvert.DeserializeObject<CJson>(html);
-                lsWssbjl[] dates1 = cj.lsWssbjl;
-
-
-                item = new HttpItem
-                {
-                    URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_query.do", //URL     必需项
-                    Method = "post", //URL     可选项 默认为Get
-                    Referer = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_index.do", //来源URL     可选项
-                    Cookie = scookie,
-                    IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
-                    ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
-                    Postdata =
-                        "{\"zfbz\":\"N\",\"sbrq_year\":\"" + (Convert.ToInt16(year)+1).ToString() +
-                        "\",\"sbrq_month\":\"1\",\"queryType\":\"bymonth\"}", //Post数据
-                };
-                item.Header.Add("x-requested-with", "XMLHttpRequest");
-
-                result = http.GetHtml(item);
-                html = result.Html;
-                cj = JsonConvert.DeserializeObject<CJson>(html);
-                lsWssbjl[] dates2 = cj.lsWssbjl;
-                string[,] dr = new string[dates1.Length + dates2.Length, 12];
-                for (int i = 0; i < dates1.Length; i++)
-                {
-                    dr[i,0] = dates1[i].nssbrq;
-                    dr[i, 1] = dates1[i].zsxm_dm;
-                    dr[i, 2] = dates1[i].zspm_dm;
-                    dr[i, 3] = dates1[i].zszm_dm;
-                    dr[i, 4] = dates1[i].skssqq + "到" + dates1[i].skssqz;
-                    dr[i, 5] = dates1[i].jsyj;
-                    dr[i, 6] = dates1[i].sl_1;
-                    dr[i, 7] = dates1[i].ynse;
-                    dr[i, 8] = dates1[i].yjse;
-                    dr[i, 9] = dates1[i].jmse;
-                    dr[i, 10] = dates1[i].ybtse;
-                    dr[i, 11] = dates1[i].rkrq;
-                }
-                int j = dates1.Length;
-                for (int i = 0; i < dates2.Length; i++)
-                {
-                    dr[j + i, 0] = dates2[i].nssbrq;
-                    dr[j + i, 1] = dates2[i].zsxm_dm;
-                    dr[j + i, 2] = dates2[i].zspm_dm;
-                    dr[j + i, 3] = dates2[i].zszm_dm;
-                    dr[j + i, 4] = dates2[i].skssqq + "到" + dates2[i].skssqz;
-                    dr[j + i, 5] = dates2[i].jsyj;
-                    dr[j + i, 6] = dates2[i].sl_1;
-                    dr[j + i, 7] = dates2[i].ynse;
-                    dr[j + i, 8] = dates2[i].yjse;
-                    dr[j + i, 9] = dates2[i].jmse;
-                    dr[j + i, 10] = dates2[i].ybtse;
-                    dr[j + i, 11] = dates2[i].rkrq;
-                }
-
-                WorkingPaper.Wb.Application.ScreenUpdating = false;
-                int lRow = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A100086"].End[XlDirection.xlUp].Row;
-                if (lRow == 1) lRow = 2;
-                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2:N" + lRow.ToString()].Clear();
-                Range rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2"].Resize[dr.GetLength(0), dr.GetLength(1)];
-                rng.Value2 = dr;
-                rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 1];
-                rng.FormulaR1C1 = "=VLOOKUP(RC[-11],首页!C[-6]:C[-5],2,0)";
-                rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["N2"].Resize[dr.GetLength(0), 1];
-                rng.FormulaR1C1 = "=VLOOKUP(RC[-11],首页!C[-5]:C[-4],2,0)";
-                object[,] arr= WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 2].Value2;
-                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["B2"].Resize[dr.GetLength(0), 2].Value2=arr;
-                WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 2].Clear();
-
-                WorkingPaper.Wb.Application.ScreenUpdating = true;
-                MessageBox.Show("地税申报数据拉取成功");
+                str = "获取失败";
             }
             else
-                MessageBox.Show("地税登录失败！");
+            {
+                str = str.Substring(7, 8);
+            }
+            return str;
         }
         #endregion
     }
