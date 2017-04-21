@@ -1455,6 +1455,12 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
+        private void Contact_Click(object sender, RibbonControlEventArgs e)
+        {
+            Contact tac = new Contact();
+            tac.ShowDialog();
+        }
+
         //工作簿激活事件
         private void Application_WorkbookActivate(Workbook wb)
         {

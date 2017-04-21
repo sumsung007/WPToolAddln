@@ -65,6 +65,7 @@
             this.button1 = this.Factory.CreateRibbonButton();
             this.btnHelp = this.Factory.CreateRibbonButton();
             this.btn注册 = this.Factory.CreateRibbonButton();
+            this.Contact = this.Factory.CreateRibbonButton();
             this.WPTool.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -241,6 +242,7 @@
             this.group2.Items.Add(this.sb导出数据);
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.btnHelp);
+            this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
             this.group2.Label = "V20170312🌳植树节🌳";
             this.group2.Name = "group2";
@@ -339,6 +341,12 @@
             this.btn注册.Visible = false;
             this.btn注册.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btn注册_Click);
             // 
+            // Contact
+            // 
+            this.Contact.Label = "联系我们";
+            this.Contact.Name = "Contact";
+            this.Contact.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Contact_Click);
+            // 
             // WorkingPaper
             // 
             this.Name = "WorkingPaper";
@@ -394,6 +402,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonSplitButton splitButton1;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator3;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btn打印报告;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton Contact;
     }
 
     partial class ThisRibbonCollection
