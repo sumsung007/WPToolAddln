@@ -855,8 +855,7 @@ namespace 百邦所得税汇算底稿工具
                 "A107012综合利用资源生产产品取得的收入优惠明细表", "A107013金融保险等机构取得涉农利息保费收入优惠明细表", "A107014研发费用加计扣除优惠明细表", "A107020所得减免优惠明细表",
                 "A107030抵扣应纳税所得额明细表", "A107040减免所得税优惠明细表", "A107041高新技术企业优惠情况及明细表", "A107042软件、集成电路企业优惠情况及明细表", "A107050税额抵免优惠明细表",
                 "A108000境外所得税收抵免明细表", "A108010境外所得纳税调整后所得明细表", "A108020境外分支机构弥补亏损明细表", "A108030跨年度结转抵免境外所得税明细表", "A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表",
-                "A109010企业所得税汇总纳税分支机构所得税分配表", "A110010特殊性处理报告表", "A110011债务重组报告表", "A110012股权收购报告表 ", "A110013资产收购报告表", "A110014企业合并报告表 ", "A110015企业分立申报表",
-                "A110016非货币资产投资递延纳税调整表", "A110017居民企业资产（股权）划转特殊性税务处理申报表", "分支机构企业所得税申报表（A类）", "（四）企业各税（费）审核汇总表", "（五）社会保险费明细表" });
+                "A109010企业所得税汇总纳税分支机构所得税分配表", "研发项目可加计扣除研究开发费用情况归集表", "（四）企业各税（费）审核汇总表", "（五）社会保险费明细表" });
                 WorkingPaper.Wb.Sheets["基本情况（封面）"].Select();
                 CU.事项说明();
         }
@@ -893,75 +892,6 @@ namespace 百邦所得税汇算底稿工具
             }*/
         }
 
-        private void button1_Click(object sender, RibbonControlEventArgs e)
-        {
-            if (WorkingPaper.OOO)
-            {
-                if (MessageBox.Show("现在将当前可见工作表导出为03版本Excel。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    SaveFileDialog Sv = new SaveFileDialog();
-                    Sv.Filter = "Excel 2003工作簿(*.xls)|*.xls";
-                    Sv.FileName = "税审工作表导出";
-                    Sv.Title = "导出当前可见工作表";
-                    Sv.OverwritePrompt = true;
-                    Sv.InitialDirectory = WorkingPaper.Wb.Path;
-                    //Sv.RestoreDirectory = true;
-                    if (Sv.ShowDialog() == DialogResult.OK)
-                    {
-                        //string LocalFilePath = Sv.FileName.ToString(); //获得文件路径
-                        //string FileNameExt = LocalFilePath.Substring(LocalFilePath.LastIndexOf("\\") + 1); //获取文件名，不带路径
-                        //string FilePath = LocalFilePath.Substring(0, LocalFilePath.LastIndexOf("\\"));//获取文件路径，不带文件名 
-                        try
-                        {
-                            Globals.WPToolAddln.Application.StatusBar = "正在导出可见工作表...";
-                            Globals.WPToolAddln.Application.DisplayAlerts = false;
-                            Globals.WPToolAddln.Application.ScreenUpdating = false;
-                            Workbook Oldbook = WorkingPaper.Wb;
-                            List<string> lists = new List<string>();
-                            foreach (Worksheet ssh in Oldbook.Worksheets)
-                            {
-                                if (ssh.Visible == XlSheetVisibility.xlSheetVisible)
-                                {
-                                    lists.Add(ssh.Name.ToString());
-                                }
-                            }
-                            string[] s = lists.ToArray();
-                            Workbook Newbook = Globals.WPToolAddln.Application.Workbooks.Add();
-                            int C = Newbook.Worksheets.Count;
-                            Oldbook.Worksheets[s].Copy(Type.Missing, Newbook.Worksheets[C]);
-                            for (int i = 1; i <= C; i++)
-                            {
-                                Newbook.Worksheets[1].Delete();
-                            }
-                            foreach (Name nm in Newbook.Names)
-                            {
-                                if (Regex.IsMatch(nm.RefersTo.ToString(), @"(#REF!)|\/|\\|\*|\[|\]"))
-                                {
-                                    nm.Delete();
-                                }
-                            }
-                            Newbook.BreakLink(Oldbook.Path + "\\" + Oldbook.Name, XlLinkType.xlLinkTypeExcelLinks);
-                            Newbook.SaveAs(Sv.FileName.ToString(), XlFileFormat.xlExcel8);
-                            Newbook.Close();
-                            Newbook = null;
-                            Globals.WPToolAddln.Application.DisplayAlerts = true;
-                            Globals.WPToolAddln.Application.ScreenUpdating = true;
-                            Globals.WPToolAddln.Application.StatusBar = false;
-                            MessageBox.Show("文件导出完成！");
-                        }
-                        catch (Exception ex)
-                        {
-                            Globals.WPToolAddln.Application.DisplayAlerts = true;
-                            Globals.WPToolAddln.Application.ScreenUpdating = true;
-                            Globals.WPToolAddln.Application.StatusBar = false;
-                            MessageBox.Show("用户操作出现错误：" + ex.Message);
-                        }
-                    }
-
-                }
-            }
-        }
-
         private void 底稿升级_Click(object sender, RibbonControlEventArgs e)
         {
             if (WorkingPaper.OOO)
@@ -969,21 +899,20 @@ namespace 百邦所得税汇算底稿工具
                 string Banben1 = CU.Zifu(WorkingPaper.Wb.Worksheets["首页"].Range["A1"].Value2);
                 string Banben="";
                 bool 升级=false;
-                switch  (Banben1)
+                Banben = Banben1;
+                switch  (Banben1.Substring(0,9))
                     {
-                    case "V20170210":
-                        Banben = Banben1;
-                        升级 = true;
-                        break;
-                    case "V20170312":
-                        Banben = Banben1;
+                    case "V20170422":
                         升级 = false;
                         break;
-                }
+                    default:
+                        升级 = true;
+                        break;
+                    }
                 
                 if (升级)
                 {
-                    if (MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20170312🌳植树节🌳。是否升级？", "提示！",
+                    if (MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20170422。是否升级？", "提示！",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         if (MessageBox.Show("本操作具有不稳定性，会先保存当前文件，并以BAK后缀文件备份在文件同目录下。是否继续？", "警告！",
@@ -1001,7 +930,7 @@ namespace 百邦所得税汇算底稿工具
                             WorkingPaper.Wb.Save();
                             File.Copy(WorkingPaper.Wb.FullName, fullname + ".bak" + number, true);
 
-                            if (Banben == "V20170210")
+                            if (Banben.Substring(0,9) == "V20170210")
                             {
                                 #region 20170210升级为20170312
 
@@ -1088,7 +1017,55 @@ namespace 百邦所得税汇算底稿工具
                                 SH.Range["C73"].Formula = "=借款!$D$25-资产负债!$H$21";
 
                                 #endregion
-                                Banben = "V20170312-0210";
+                                Banben = "V20170312-" + Banben.Substring(5);
+                            }
+                            if (Banben.Substring(0, 9) == "V20170312")
+                            {
+                                #region 20170312升级为20170422
+                                //插入研发加计汇总表
+                                Wb.Sheets.Add(After: Wb.Worksheets["A110017居民企业资产（股权）划转特殊性税务处理申报表"],
+                                    Type: AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\研发加计汇总表.xlsx");
+                                Wb.Worksheets["研发加计扣除归集审核表"].Move(
+                                    After: Wb.Worksheets["A110017居民企业资产（股权）划转特殊性税务处理申报表"]);
+                                Wb.Worksheets["研发费用加计扣除优惠审核表"].Range["O15"].Formula = "=研发加计扣除归集审核表!D76";
+                                Wb.Worksheets["研发费用加计扣除优惠审核表"].Range["S15"].Formula = "=研发加计扣除归集审核表!D78";
+                                Wb.Worksheets["研发费用加计扣除优惠审核表"].Range["T15"].Formula = "=研发加计扣除归集审核表!D79";
+                                Wb.Worksheets["主页"].Hyperlinks.Add(
+                                    Wb.Worksheets["主页"].Range["D17"],
+                                    "#研发加计扣除归集审核表!A1", Type.Missing, "#研发加计扣除归集审核表!A1", "研发加计扣除归集审核表");
+                                Wb.Worksheets["主页"].Range["G21:G28"].ClearContents();
+                                Wb.Worksheets["主页"].Range["G21"].Value2 = "受控外国企业信息报告表";
+                                Wb.Worksheets["主页"].Range["G22"].Value2 = "居民企业资产（股权）划转特殊性税务处理申报表";
+                                Wb.Worksheets["主页"].Range["G23"].Value2 = "非货币性资产投资递延纳税调整明细表";
+                                Wb.Worksheets["主页"].Range["G24"].Value2 = "企业重组所得税特殊性税务处理报告表 ";
+                                Wb.Worksheets["主页"].Hyperlinks.Add(
+                                    Wb.Worksheets["主页"].Range["G25"],
+                                    "#研发项目可加计扣除研究开发费用情况归集表!A1", Type.Missing, "#研发项目可加计扣除研究开发费用情况归集表!A1", "研发项目可加计扣除研究开发费用情况归集表");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Rows["49:51"].Delete();
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A44:B48"].ClearContents();
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B44"].Value2 = "受控外国企业信息报告表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B45"].Value2 = "居民企业资产（股权）划转特殊性税务处理申报表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B46"].Value2 = "非货币性资产投资递延纳税调整明细表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B47"].Value2 = "企业重组所得税特殊性税务处理报告表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B48"],
+                                    "#研发项目可加计扣除研究开发费用情况归集表!A1", Type.Missing, "#研发项目可加计扣除研究开发费用情况归集表!A1", "研发项目可加计扣除研究开发费用情况归集表");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F48"].Formula = "=IF(研发项目可加计扣除研究开发费用情况归集表!D79<>0,\"是\",\"否\")";
+                                Wb.Worksheets["检查表"].Hyperlinks.Add(
+                                    Wb.Worksheets["检查表"].Range["A8"],
+                                    "#研发加计扣除归集审核表!A1", Type.Missing, "#研发加计扣除归集审核表!A1", "研发加计扣除归集审核表");
+
+                                //小微公式修改
+                                Wb.Worksheets["减免所得税优惠审核表"].Range["H4"].Formula = @"=IF(H3<>"""",IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!D26<=300000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!D26*0.15,2),""""))";
+                                Wb.Worksheets["减免所得税优惠审核表"].Range["H5"].Formula = @"=IF(H3<>"""",IF('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!D26<=300000,ROUND('A100000中华人民共和国企业所得税年度纳税申报表（A类）'!D26*0.15,2),""""))";
+
+
+                                //修改事项说明
+                                Wb.Worksheets["事项说明"].Range["A15"].Formula = "=\"    贵单位\"&IF(OR(基本情况!B6<>\"12月31日\",基本情况!F5<>\"01\",基本情况!G5<>\"01\"),基本情况!B7,基本情况!B4&\"年度\")&\"账面销售（营业）收入\"&RMB(主营收支!H20+其他业务!C18+其他事项!E10,2)&\"元，利润总额\"&RMB(利润!C37,2)&\"元，经审核调整如下：\"";
+                                Wb.Worksheets["事项说明"].Range["D27"].Formula = "=利润!C37+C16-C22";
+
+                                #endregion
+                                Banben = "V20170422-" + Banben.Substring(5);
                             }
                             WorkingPaper.Wb.Worksheets["首页"].Range["A1"].Value2 = Banben;
                             Globals.WPToolAddln.Application.StatusBar = false;
@@ -1098,7 +1075,7 @@ namespace 百邦所得税汇算底稿工具
                 }
                 else
                 {
-                    MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20170312🌳植树节🌳。不需要升级", "提示！",
+                    MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20170422。不需要升级", "提示！",
                         MessageBoxButtons.OK);
                 }
             }
@@ -1108,130 +1085,6 @@ namespace 百邦所得税汇算底稿工具
         private void btn工具设置_Click(object sender, RibbonControlEventArgs e)
         {
 
-        }
-
-        private void btnOUT07_Click(object sender, RibbonControlEventArgs e)
-        {
-            if (WorkingPaper.OOO)
-            {
-                if (MessageBox.Show("现在将当前可见工作表导出为07版本Excel。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    SaveFileDialog Sv = new SaveFileDialog();
-                    Sv.Filter = "Excel 2007工作簿(*.xlsx)|*.xlsx";
-                    Sv.FileName = "税审工作表导出";
-                    Sv.Title = "导出当前可见工作表";
-                    Sv.OverwritePrompt = true;
-                    Sv.InitialDirectory = WorkingPaper.Wb.Path;
-                    //Sv.RestoreDirectory = true;
-                    if (Sv.ShowDialog() == DialogResult.OK)
-                    {
-                        try
-                        {
-                            Globals.WPToolAddln.Application.StatusBar = "正在导出可见工作表...";
-                            Globals.WPToolAddln.Application.DisplayAlerts = false;
-                            Globals.WPToolAddln.Application.ScreenUpdating = false;
-                            Workbook Oldbook = WorkingPaper.Wb;
-                            List<string> lists = new List<string>();
-                            foreach (Worksheet ssh in Oldbook.Worksheets)
-                            {
-                                if (ssh.Visible == XlSheetVisibility.xlSheetVisible)
-                                {
-                                    lists.Add(ssh.Name.ToString());
-                                }
-                            }
-                            string[] s = lists.ToArray();
-                            Workbook Newbook = Globals.WPToolAddln.Application.Workbooks.Add();
-                            int C = Newbook.Worksheets.Count;
-                            Oldbook.Worksheets[s].Copy(Type.Missing, Newbook.Worksheets[C]);
-                            for (int i = 1; i <= C; i++)
-                            {
-                                Newbook.Worksheets[1].Delete();
-                            }
-                            foreach (Name nm in Newbook.Names)
-                            {
-                                if (Regex.IsMatch(nm.RefersTo.ToString(), @"(#REF!)|\/|\\|\*|\[|\]"))
-                                {
-                                    nm.Delete();
-                                }
-                            }
-                            Newbook.BreakLink(Oldbook.Path + "\\" + Oldbook.Name, XlLinkType.xlLinkTypeExcelLinks);
-                            Newbook.SaveAs(Sv.FileName.ToString(), XlFileFormat.xlOpenXMLWorkbook);
-                            Newbook.Close();
-                            Newbook = null;
-                            Globals.WPToolAddln.Application.DisplayAlerts = true;
-                            Globals.WPToolAddln.Application.ScreenUpdating = true;
-                            Globals.WPToolAddln.Application.StatusBar = false;
-                            MessageBox.Show("文件导出完成！");
-                        }
-                        catch (Exception ex)
-                        {
-                            Globals.WPToolAddln.Application.DisplayAlerts = true;
-                            Globals.WPToolAddln.Application.ScreenUpdating = true;
-                            Globals.WPToolAddln.Application.StatusBar = false;
-                            MessageBox.Show("用户操作出现错误：" + ex.Message);
-                        }
-                    }
-
-                }
-            }
-        }
-
-        private void btn导出报告_Click(object sender, RibbonControlEventArgs e)
-        {
-            if (WorkingPaper.OOO)
-            {
-                if (Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D7"].Value2) +
-                    CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D8"].Value2), 2) !=
-                    Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D6"].Value2),2))
-                {
-                    MessageBox.Show("A107040减免所得税优惠明细表，D6不等于D7+D8，请检查后重试。");
-                    return;
-                }
-                    
-                if (MessageBox.Show("现在要导出上传报告文件。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    SaveFileDialog Sv = new SaveFileDialog();
-                    Sv.Filter = "Excel 2003工作簿(*.xls)|*.xls";
-                    Sv.FileName = "上传报告导出";
-                    Sv.Title = "导出上传报告";
-                    Sv.OverwritePrompt = true;
-                    Sv.InitialDirectory = WorkingPaper.Wb.Path;
-                    //Sv.RestoreDirectory = true;
-                    if (Sv.ShowDialog() == DialogResult.OK)
-                    {
-                        try
-                        {
-                            Globals.WPToolAddln.Application.StatusBar = "正在导出报告...";
-                            Globals.WPToolAddln.Application.DisplayAlerts = false;
-                            Globals.WPToolAddln.Application.ScreenUpdating = false;
-                            File.Copy(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\上传报告.xls", Sv.FileName.ToString(), true);
-                            CU.事项说明();
-                            Workbook Newbook = Globals.WPToolAddln.Application.Workbooks.Open(Sv.FileName.ToString(), XlUpdateLinks.xlUpdateLinksNever);
-                            Newbook.ChangeLink(Name: @"E:\税审底稿 模板.xlsx", NewName: WorkingPaper.Wb.FullName, Type: XlLinkType.xlLinkTypeExcelLinks);
-                            //Newbook.UpdateLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
-                            Newbook.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
-                            Worksheet SH = WorkingPaper.Wb.Sheets["(二)附表-纳税调整额的审核"];
-                            object[,] Arr = SH.Range["A7:E" + SH.Cells[SH.UsedRange.Rows.Count + 1, 1].End[XlDirection.xlUp].Row.ToString()].Value2;
-                            Newbook.Worksheets["(二)附表-纳税调整额的审核"].Range["A7:E" + SH.Cells[SH.UsedRange.Rows.Count + 1, 1].End[XlDirection.xlUp].Row.ToString()].Value2 = Arr;
-                            Newbook.Save();
-                            Newbook.Close();
-                            Newbook = null;
-                            Globals.WPToolAddln.Application.DisplayAlerts = true;
-                            Globals.WPToolAddln.Application.ScreenUpdating = true;
-                            Globals.WPToolAddln.Application.StatusBar = false;
-                            MessageBox.Show("上传报告导出完成！");
-                        }
-                        catch (Exception ex)
-                        {
-                            Globals.WPToolAddln.Application.DisplayAlerts = true;
-                            Globals.WPToolAddln.Application.ScreenUpdating = true;
-                            Globals.WPToolAddln.Application.StatusBar = false;
-                            MessageBox.Show("用户操作出现错误：" + ex.Message);
-                        }
-                    }
-
-                }
-            }
         }
 
         private void button1_Click_1(object sender, RibbonControlEventArgs e)
@@ -1426,52 +1279,6 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-        private void 导出PDF(object sender, RibbonControlEventArgs e)
-        {
-            if (MessageBox.Show("现在将当前可见工作表导出为PDF。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                SaveFileDialog Sv = new SaveFileDialog();
-                Sv.Filter = "PDF文件(*.pdf)|*.pdf";
-                Sv.FileName = "税审工作表导出";
-                Sv.Title = "导出当前可见工作表";
-                Sv.OverwritePrompt = true;
-                Sv.InitialDirectory = Globals.WPToolAddln.Application.ActiveWorkbook.Path;
-                if (Sv.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
-                        Globals.WPToolAddln.Application.StatusBar = "正在导出可见工作表...";
-                        Globals.WPToolAddln.Application.DisplayAlerts = false;
-                        Globals.WPToolAddln.Application.ScreenUpdating = false;
-                        Globals.WPToolAddln.Application.ActiveWorkbook.ExportAsFixedFormat(
-                            Type: XlFixedFormatType.xlTypePDF,
-                            Filename: Sv.FileName.ToString(), IgnorePrintAreas: false, OpenAfterPublish: true);
-                        Globals.WPToolAddln.Application.DisplayAlerts = true;
-                        Globals.WPToolAddln.Application.ScreenUpdating = true;
-                        Globals.WPToolAddln.Application.StatusBar = false;
-                        MessageBox.Show("文件导出完成！");
-                    }
-                    catch (Exception ex)
-                    {
-                        Globals.WPToolAddln.Application.DisplayAlerts = true;
-                        Globals.WPToolAddln.Application.ScreenUpdating = true;
-                        Globals.WPToolAddln.Application.StatusBar = false;
-                        MessageBox.Show("用户操作出现错误：" + ex.Message);
-                        if (Excel版本 == 07)
-                        {
-                            MessageBox.Show("当前Excel为2007版本，建议安装 SaveAsPDFandXPS 后重试一下。");
-                        }
-                    }
-                }
-            }
-        }
-
-        private void btnGongzhonghao_Click(object sender, RibbonControlEventArgs e)
-        {
-            Contact tac = new Contact();
-            tac.ShowDialog();
-        }
-
         private void btnUpdata_Click(object sender, RibbonControlEventArgs e)
         {
             更新();
@@ -1491,6 +1298,12 @@ namespace 百邦所得税汇算底稿工具
         }
 
         //工作簿激活事件
+        private void btnGongzhonghao_Click(object sender, RibbonControlEventArgs e)
+        {
+            Contact tac = new Contact();
+            tac.ShowDialog();
+        }
+
         private void Application_WorkbookActivate(Workbook wb)
         {
 
@@ -1563,5 +1376,241 @@ namespace 百邦所得税汇算底稿工具
             }
             添加右键();
         }
+        #region 导出功能
+
+        private void btnOUT07_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (WorkingPaper.OOO)
+            {
+                if (MessageBox.Show("现在将当前可见工作表导出为07版本Excel。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    SaveFileDialog Sv = new SaveFileDialog();
+                    Sv.Filter = "Excel 2007工作簿(*.xlsx)|*.xlsx";
+                    Sv.FileName = "税审工作表导出";
+                    Sv.Title = "导出当前可见工作表";
+                    Sv.OverwritePrompt = true;
+                    Sv.InitialDirectory = WorkingPaper.Wb.Path;
+                    //Sv.RestoreDirectory = true;
+                    if (Sv.ShowDialog() == DialogResult.OK)
+                    {
+                        try
+                        {
+                            Globals.WPToolAddln.Application.StatusBar = "正在导出可见工作表...";
+                            Globals.WPToolAddln.Application.DisplayAlerts = false;
+                            Globals.WPToolAddln.Application.ScreenUpdating = false;
+                            Workbook Oldbook = WorkingPaper.Wb;
+                            List<string> lists = new List<string>();
+                            foreach (Worksheet ssh in Oldbook.Worksheets)
+                            {
+                                if (ssh.Visible == XlSheetVisibility.xlSheetVisible)
+                                {
+                                    lists.Add(ssh.Name.ToString());
+                                }
+                            }
+                            string[] s = lists.ToArray();
+                            Workbook Newbook = Globals.WPToolAddln.Application.Workbooks.Add();
+                            int C = Newbook.Worksheets.Count;
+                            Oldbook.Worksheets[s].Copy(Type.Missing, Newbook.Worksheets[C]);
+                            for (int i = 1; i <= C; i++)
+                            {
+                                Newbook.Worksheets[1].Delete();
+                            }
+                            foreach (Name nm in Newbook.Names)
+                            {
+                                if (Regex.IsMatch(nm.RefersTo.ToString(), @"(#REF!)|\/|\\|\*|\[|\]"))
+                                {
+                                    nm.Delete();
+                                }
+                            }
+                            Newbook.BreakLink(Oldbook.Path + "\\" + Oldbook.Name, XlLinkType.xlLinkTypeExcelLinks);
+                            Newbook.SaveAs(Sv.FileName.ToString(), XlFileFormat.xlOpenXMLWorkbook);
+                            Newbook.Close();
+                            Newbook = null;
+                            Globals.WPToolAddln.Application.DisplayAlerts = true;
+                            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                            Globals.WPToolAddln.Application.StatusBar = false;
+                            MessageBox.Show("文件导出完成！");
+                        }
+                        catch (Exception ex)
+                        {
+                            Globals.WPToolAddln.Application.DisplayAlerts = true;
+                            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                            Globals.WPToolAddln.Application.StatusBar = false;
+                            MessageBox.Show("用户操作出现错误：" + ex.Message);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        private void btn导出报告_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (WorkingPaper.OOO)
+            {
+                if (Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D7"].Value2) +
+                               CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D8"].Value2), 2) !=
+                    Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D6"].Value2),2))
+                {
+                    MessageBox.Show("A107040减免所得税优惠明细表，D6不等于D7+D8，请检查后重试。");
+                    return;
+                }
+                    
+                if (MessageBox.Show("现在要导出上传报告文件。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    SaveFileDialog Sv = new SaveFileDialog();
+                    Sv.Filter = "Excel 2003工作簿(*.xls)|*.xls";
+                    Sv.FileName = "上传报告导出";
+                    Sv.Title = "导出上传报告";
+                    Sv.OverwritePrompt = true;
+                    Sv.InitialDirectory = WorkingPaper.Wb.Path;
+                    //Sv.RestoreDirectory = true;
+                    if (Sv.ShowDialog() == DialogResult.OK)
+                    {
+                        try
+                        {
+                            Globals.WPToolAddln.Application.StatusBar = "正在导出报告...";
+                            Globals.WPToolAddln.Application.DisplayAlerts = false;
+                            Globals.WPToolAddln.Application.ScreenUpdating = false;
+                            File.Copy(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\上传报告.xls", Sv.FileName.ToString(), true);
+                            CU.事项说明();
+                            Workbook Newbook = Globals.WPToolAddln.Application.Workbooks.Open(Sv.FileName.ToString(), XlUpdateLinks.xlUpdateLinksNever);
+                            Newbook.ChangeLink(Name: @"E:\税审底稿 模板.xlsx", NewName: WorkingPaper.Wb.FullName, Type: XlLinkType.xlLinkTypeExcelLinks);
+                            //Newbook.UpdateLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
+                            Newbook.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
+                            Worksheet SH = WorkingPaper.Wb.Sheets["(二)附表-纳税调整额的审核"];
+                            object[,] Arr = SH.Range["A7:E" + SH.Cells[SH.UsedRange.Rows.Count + 1, 1].End[XlDirection.xlUp].Row.ToString()].Value2;
+                            Newbook.Worksheets["(二)附表-纳税调整额的审核"].Range["A7:E" + SH.Cells[SH.UsedRange.Rows.Count + 1, 1].End[XlDirection.xlUp].Row.ToString()].Value2 = Arr;
+                            Newbook.Save();
+                            Newbook.Close();
+                            Newbook = null;
+                            Globals.WPToolAddln.Application.DisplayAlerts = true;
+                            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                            Globals.WPToolAddln.Application.StatusBar = false;
+                            MessageBox.Show("上传报告导出完成！");
+                        }
+                        catch (Exception ex)
+                        {
+                            Globals.WPToolAddln.Application.DisplayAlerts = true;
+                            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                            Globals.WPToolAddln.Application.StatusBar = false;
+                            MessageBox.Show("用户操作出现错误：" + ex.Message);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        private void 导出PDF(object sender, RibbonControlEventArgs e)
+        {
+            if (MessageBox.Show("现在将当前可见工作表导出为PDF。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                SaveFileDialog Sv = new SaveFileDialog();
+                Sv.Filter = "PDF文件(*.pdf)|*.pdf";
+                Sv.FileName = "税审工作表导出";
+                Sv.Title = "导出当前可见工作表";
+                Sv.OverwritePrompt = true;
+                Sv.InitialDirectory = Globals.WPToolAddln.Application.ActiveWorkbook.Path;
+                if (Sv.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        Globals.WPToolAddln.Application.StatusBar = "正在导出可见工作表...";
+                        Globals.WPToolAddln.Application.DisplayAlerts = false;
+                        Globals.WPToolAddln.Application.ScreenUpdating = false;
+                        Globals.WPToolAddln.Application.ActiveWorkbook.ExportAsFixedFormat(
+                            Type: XlFixedFormatType.xlTypePDF,
+                            Filename: Sv.FileName.ToString(), IgnorePrintAreas: false, OpenAfterPublish: true);
+                        Globals.WPToolAddln.Application.DisplayAlerts = true;
+                        Globals.WPToolAddln.Application.ScreenUpdating = true;
+                        Globals.WPToolAddln.Application.StatusBar = false;
+                        MessageBox.Show("文件导出完成！");
+                    }
+                    catch (Exception ex)
+                    {
+                        Globals.WPToolAddln.Application.DisplayAlerts = true;
+                        Globals.WPToolAddln.Application.ScreenUpdating = true;
+                        Globals.WPToolAddln.Application.StatusBar = false;
+                        MessageBox.Show("用户操作出现错误：" + ex.Message);
+                        if (Excel版本 == 07)
+                        {
+                            MessageBox.Show("当前Excel为2007版本，建议安装 SaveAsPDFandXPS 后重试一下。");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void 导出成03(object sender, RibbonControlEventArgs e)
+        {
+            if (WorkingPaper.OOO)
+            {
+                if (MessageBox.Show("现在将当前可见工作表导出为03版本Excel。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    SaveFileDialog Sv = new SaveFileDialog();
+                    Sv.Filter = "Excel 2003工作簿(*.xls)|*.xls";
+                    Sv.FileName = "税审工作表导出";
+                    Sv.Title = "导出当前可见工作表";
+                    Sv.OverwritePrompt = true;
+                    Sv.InitialDirectory = WorkingPaper.Wb.Path;
+                    //Sv.RestoreDirectory = true;
+                    if (Sv.ShowDialog() == DialogResult.OK)
+                    {
+                        //string LocalFilePath = Sv.FileName.ToString(); //获得文件路径
+                        //string FileNameExt = LocalFilePath.Substring(LocalFilePath.LastIndexOf("\\") + 1); //获取文件名，不带路径
+                        //string FilePath = LocalFilePath.Substring(0, LocalFilePath.LastIndexOf("\\"));//获取文件路径，不带文件名 
+                        try
+                        {
+                            Globals.WPToolAddln.Application.StatusBar = "正在导出可见工作表...";
+                            Globals.WPToolAddln.Application.DisplayAlerts = false;
+                            Globals.WPToolAddln.Application.ScreenUpdating = false;
+                            Workbook Oldbook = WorkingPaper.Wb;
+                            List<string> lists = new List<string>();
+                            foreach (Worksheet ssh in Oldbook.Worksheets)
+                            {
+                                if (ssh.Visible == XlSheetVisibility.xlSheetVisible)
+                                {
+                                    lists.Add(ssh.Name.ToString());
+                                }
+                            }
+                            string[] s = lists.ToArray();
+                            Workbook Newbook = Globals.WPToolAddln.Application.Workbooks.Add();
+                            int C = Newbook.Worksheets.Count;
+                            Oldbook.Worksheets[s].Copy(Type.Missing, Newbook.Worksheets[C]);
+                            for (int i = 1; i <= C; i++)
+                            {
+                                Newbook.Worksheets[1].Delete();
+                            }
+                            foreach (Name nm in Newbook.Names)
+                            {
+                                if (Regex.IsMatch(nm.RefersTo.ToString(), @"(#REF!)|\/|\\|\*|\[|\]"))
+                                {
+                                    nm.Delete();
+                                }
+                            }
+                            Newbook.BreakLink(Oldbook.Path + "\\" + Oldbook.Name, XlLinkType.xlLinkTypeExcelLinks);
+                            Newbook.SaveAs(Sv.FileName.ToString(), XlFileFormat.xlExcel8);
+                            Newbook.Close();
+                            Newbook = null;
+                            Globals.WPToolAddln.Application.DisplayAlerts = true;
+                            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                            Globals.WPToolAddln.Application.StatusBar = false;
+                            MessageBox.Show("文件导出完成！");
+                        }
+                        catch (Exception ex)
+                        {
+                            Globals.WPToolAddln.Application.DisplayAlerts = true;
+                            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                            Globals.WPToolAddln.Application.StatusBar = false;
+                            MessageBox.Show("用户操作出现错误：" + ex.Message);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        #endregion
     }
 }

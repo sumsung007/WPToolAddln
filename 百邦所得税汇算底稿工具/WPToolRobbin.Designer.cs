@@ -245,7 +245,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20170312🌳植树节🌳";
+            this.group2.Label = "V20170422✨彩蛋版✨";
             this.group2.Name = "group2";
             // 
             // sb导出数据
@@ -273,7 +273,7 @@
             this.btnOUT03.Label = "导出Excel2003文件";
             this.btnOUT03.Name = "btnOUT03";
             this.btnOUT03.ShowImage = true;
-            this.btnOUT03.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
+            this.btnOUT03.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.导出成03);
             // 
             // btnOUT07
             // 
