@@ -68,6 +68,7 @@
             this.btnGongzhonghao = this.Factory.CreateRibbonButton();
             this.btnHelp = this.Factory.CreateRibbonButton();
             this.btn注册 = this.Factory.CreateRibbonButton();
+            this.btnGetURL = this.Factory.CreateRibbonButton();
             this.WPTool.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -245,7 +246,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20170422✨彩蛋版✨";
+            this.group2.Label = "V20170422✨地球日✨";
             this.group2.Name = "group2";
             // 
             // sb导出数据
@@ -329,6 +330,7 @@
             this.Contact.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.Contact.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_info_outline_black_36dp;
             this.Contact.Items.Add(this.btnUpdata);
+            this.Contact.Items.Add(this.btnGetURL);
             this.Contact.Items.Add(this.btnGongzhonghao);
             this.Contact.Items.Add(this.btnHelp);
             this.Contact.Label = "联系我们";
@@ -364,6 +366,13 @@
             this.btn注册.ShowImage = true;
             this.btn注册.Visible = false;
             this.btn注册.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btn注册_Click);
+            // 
+            // btnGetURL
+            // 
+            this.btnGetURL.Label = "获取最新版下载地址";
+            this.btnGetURL.Name = "btnGetURL";
+            this.btnGetURL.ShowImage = true;
+            this.btnGetURL.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnGetURL_Click);
             // 
             // WorkingPaper
             // 
@@ -423,6 +432,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonSplitButton Contact;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnUpdata;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnGongzhonghao;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnGetURL;
     }
 
     partial class ThisRibbonCollection

@@ -1061,8 +1061,12 @@ namespace 百邦所得税汇算底稿工具
 
 
                                 //修改事项说明
-                                Wb.Worksheets["事项说明"].Range["A15"].Formula = "=\"    贵单位\"&IF(OR(基本情况!B6<>\"12月31日\",基本情况!F5<>\"01\",基本情况!G5<>\"01\"),基本情况!B7,基本情况!B4&\"年度\")&\"账面销售（营业）收入\"&RMB(主营收支!H20+其他业务!C18+其他事项!E10,2)&\"元，利润总额\"&RMB(利润!C37,2)&\"元，经审核调整如下：\"";
+                                Wb.Worksheets["事项说明"].Range["A15"].Formula = "=\"    贵单位\" & IF(OR(基本情况!B6<>\"12月31日\",基本情况!F5<>\"01\",基本情况!G5<>\"01\"),基本情况!B7,基本情况!B4&\"年度\") & \"账面销售（营业）收入\" & RMB(主营收支!H20+其他业务!C18+其他事项!E10,2) & \"元，利润总额\" & RMB(利润!C37,2) & \"元，经审核调整如下：\"";
                                 Wb.Worksheets["事项说明"].Range["D27"].Formula = "=利润!C37+C16-C22";
+
+                                //A105000纳税调整项目明细表 不征税收入公式修改
+                                Wb.Worksheets["A105000纳税调整项目明细表"].Range["E12"].Formula = "=MAX(其他事项!F8,0)+MAX(A105040专项用途财政性资金纳税调整表!P13,0)";
+                                Wb.Worksheets["A105000纳税调整项目明细表"].Range["F12"].Formula = "=MAX(-其他事项!F8,0)+MAX(A105040专项用途财政性资金纳税调整表!F13,0)";
 
                                 #endregion
                                 Banben = "V20170422-" + Banben.Substring(5);
@@ -1136,7 +1140,7 @@ namespace 百邦所得税汇算底稿工具
                         //Newbook.UpdateLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
                         //WorkingPaper.wb打印.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
                         CU.自动调整行高("企业基本情况", "C10:F10", 46.78);
-                        CU.自动调整行高("企业基本情况", "A113:F113", 85.22);
+                        CU.自动调整行高("企业基本情况", "A127:F127", 85.22);
                         CU.自动调整行高("A000000企业基础信息表", "B7", 15.67);
                         CU.自动调整行高("A000000企业基础信息表", "A21", 18.44);
                         CU.自动调整行高("A000000企业基础信息表", "A22", 18.44);
@@ -1148,16 +1152,33 @@ namespace 百邦所得税汇算底稿工具
                         CU.自动调整行高("A000000企业基础信息表", "A30", 18.44);
                         CU.自动调整行高("A000000企业基础信息表", "A31", 18.44);
                         CU.自动调整行高("A000000企业基础信息表", "A32", 18.44);
-                        WorkingPaper.wb打印.Sheets["企业基本情况"].Range["$H$20:$H$113"].AutoFilter(Field: 1, Criteria1: "=1");
-                        object[,] 表单 = WorkingPaper.wb打印.Sheets["（三）企业所得税年度纳税申报表填报表单"].Range["$C$3:$D$51"].Value2;
-                        for (int i=1;i<=49;i++)
+                        WorkingPaper.wb打印.Sheets["企业基本情况"].Range["$H$20:$H$127"].AutoFilter(Field: 1, Criteria1: "=1");
+                        object[,] 表单 = WorkingPaper.wb打印.Sheets["（三）企业所得税年度纳税申报表填报表单"].Range["$C$3:$D$48"].Value2;
+                        for (int i=1;i<=46;i++)
                             {
-                                if (CU.Zifu(表单[i, 1]) == "否")
+                                if (CU.Zifu(表单[i, 1]) == "否" && CU.Zifu(表单[i, 2])!="")
                                 {
                                     WorkingPaper.wb打印.Sheets[CU.Zifu(表单[i, 2])].Visible = false;
                                 }
 
                             }
+                        if (CU.Zifu(表单[46, 1]) == "是")
+                        {
+                            object[,] 其他相关费用= WorkingPaper.wb打印.Sheets["研发项目可加计扣除研究开发费用情况归集表"].Range["$B$35:$B$71"].Value2;
+                            Boolean konghang=false;
+                            int i;
+                            for (i = 1; i <= 37; i++)
+                            {
+                                if (CU.Zifu(其他相关费用[i, 1]) == "")
+                                {
+                                    konghang = true;
+                                    break;
+                                }
+                            }
+                            if (konghang)
+                                WorkingPaper.wb打印.Sheets["研发项目可加计扣除研究开发费用情况归集表"].Rows[(i + 34).ToString() + ":71"]
+                                    .Hidden = true;
+                        }
                         if (WorkingPaper.Wb.Worksheets["基本情况"].range("B8").value == "厦门明正税务师事务所有限公司")
                         {
                             WorkingPaper.wb打印.Sheets["中汇封面"].Visible = false;
@@ -1284,7 +1305,19 @@ namespace 百邦所得税汇算底稿工具
             更新();
         }
 
-        private Boolean 更新()
+        private void btnGetURL_Click(object sender, RibbonControlEventArgs e)
+        {
+            string 下载地址 = Contents.获取版本号("https://zhuanlan.zhihu.com/p/26474507");
+            if (下载地址 == "获取失败")
+                MessageBox.Show("版本获取失败，请检查网络后重试！");
+            else if (MessageBox.Show("最新版本下载地址为：" + 下载地址 + "，是否用默认浏览器打开？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start(下载地址);
+            }
+            
+        }
+
+        private void 更新()
         {
             string 最新版本 = Contents.获取版本号("https://zhuanlan.zhihu.com/p/26474507");
             if (最新版本 == "获取失败")
@@ -1294,7 +1327,7 @@ namespace 百邦所得税汇算底稿工具
             {
                 MessageBox.Show("当前版本为：" + 当前版本 + "，发现新版本：" + 最新版本 + "。请通过微信公众号下载新版本！");
             }
-            return true;
+            else MessageBox.Show("当前版本为：" + 当前版本 + "，最新版本为：" + 最新版本 + "，不需要更新。请关注微信公众号以获取最新版本动态！");
         }
 
         //工作簿激活事件
@@ -1376,6 +1409,7 @@ namespace 百邦所得税汇算底稿工具
             }
             添加右键();
         }
+
         #region 导出功能
 
         private void btnOUT07_Click(object sender, RibbonControlEventArgs e)

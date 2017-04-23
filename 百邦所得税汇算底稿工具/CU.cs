@@ -43,7 +43,7 @@ namespace 百邦所得税汇算底稿工具
                         Xiangmu.Add(CU.Zifu(Nstz[tz, 1]));
                         Zhangzai.Add(CU.Shuzi(Nstz[tz, 3]));
                         Shuishou.Add(CU.Shuzi(Nstz[tz, 4]));
-                        Tiaozheng.Add(CU.Shuzi(Nstz[tz, 5]));
+                        Tiaozheng.Add(-CU.Shuzi(Nstz[tz, 5]));
                         //Yuanyin.Add("税法规定");
                     }
                 }
@@ -52,30 +52,13 @@ namespace 百邦所得税汇算底稿工具
                     string[,] xiangmu = new string[Xiangmu.Count, 1];
                     double[,] jine = new double[Xiangmu.Count, 3];
                     string[,] yuanyin = new string[Xiangmu.Count, 1];
-                    int k = 0;
-                    foreach (string s in Xiangmu)
-                    {
-                        xiangmu[k, 0] = s;
+                    for(int k=0;k<Xiangmu.Count;k++)
+                    { 
+                        xiangmu[k, 0] = Xiangmu[k];
+                        jine[k, 0] = Zhangzai[k];
+                        jine[k, 1] = Shuishou[k];
+                        jine[k, 2] = Tiaozheng[k];
                         yuanyin[k, 0] = "税法规定";
-                        k++;
-                    }
-                    k = 0;
-                    foreach (double s in Zhangzai)
-                    {
-                        jine[k, 0] = s;
-                        k++;
-                    }
-                    k = 0;
-                    foreach (double s in Shuishou)
-                    {
-                        jine[k, 1] = s;
-                        k++;
-                    }
-                    k = 0;
-                    foreach (double s in Tiaozheng)
-                    {
-                        jine[k, 2] = s;
-                        k++;
                     }
                     SH.Range["A7:A" + (Xiangmu.Count + 6).ToString()].Value2 = xiangmu;
                     SH.Range["B7:D" + (Xiangmu.Count + 6).ToString()].Value2 = jine;

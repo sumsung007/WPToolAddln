@@ -9,7 +9,7 @@ using System.Security;
 [assembly: AssemblyTitle("所得税汇算底稿工具")]
 [assembly: AssemblyDescription("20170128 春节版")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("中汇百邦（厦门）&厦门明正")]
+[assembly: AssemblyCompany("厦门中汇百邦&厦门明正")]
 [assembly: AssemblyProduct("百邦·明正所得税汇算底稿工具")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
@@ -33,6 +33,6 @@ using System.Security;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("20.1.70.312")]
+[assembly: AssemblyVersion("20.1.70.422")]
 [assembly: AssemblyFileVersion("1.1.0.0")]
 

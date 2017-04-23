@@ -43,7 +43,7 @@ namespace 百邦所得税汇算底稿工具
         {
             get
             {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                return Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".","");
             }
         }
 
