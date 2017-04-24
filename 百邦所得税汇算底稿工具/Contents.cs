@@ -1349,14 +1349,10 @@ namespace 百邦所得税汇算底稿工具
             };
             HttpResult result = http.GetHtml(item);
             string str = result.Html;
-            str = Regex.Match(str, "<title>.*</title>").ToString();
+            str = Regex.Match(str, "@@.*@@").ToString().Replace("@@","").Replace("&#x2F;", "/");
             if (str == "")
             {
                 str = "获取失败";
-            }
-            else
-            {
-                str = str.Substring(7, 8);
             }
             return str;
         }

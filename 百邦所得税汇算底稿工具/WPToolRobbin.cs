@@ -1307,7 +1307,7 @@ namespace 百邦所得税汇算底稿工具
 
         private void btnGetURL_Click(object sender, RibbonControlEventArgs e)
         {
-            string 下载地址 = Contents.获取版本号("https://zhuanlan.zhihu.com/p/26474507");
+            string 下载地址 = Contents.获取版本号("https://zhuanlan.zhihu.com/p/26527380");
             if (下载地址 == "获取失败")
                 MessageBox.Show("版本获取失败，请检查网络后重试！");
             else if (MessageBox.Show("最新版本下载地址为：" + 下载地址 + "，是否用默认浏览器打开？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)

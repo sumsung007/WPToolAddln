@@ -65,10 +65,10 @@
             this.button1 = this.Factory.CreateRibbonButton();
             this.Contact = this.Factory.CreateRibbonSplitButton();
             this.btnUpdata = this.Factory.CreateRibbonButton();
+            this.btnGetURL = this.Factory.CreateRibbonButton();
             this.btnGongzhonghao = this.Factory.CreateRibbonButton();
             this.btnHelp = this.Factory.CreateRibbonButton();
             this.btn注册 = this.Factory.CreateRibbonButton();
-            this.btnGetURL = this.Factory.CreateRibbonButton();
             this.WPTool.SuspendLayout();
             this.group5.SuspendLayout();
             this.group1.SuspendLayout();
@@ -328,7 +328,7 @@
             // 
             this.Contact.ButtonType = Microsoft.Office.Tools.Ribbon.RibbonButtonType.ToggleButton;
             this.Contact.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.Contact.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_info_outline_black_36dp;
+            this.Contact.Image = global::百邦所得税汇算底稿工具.Properties.Resources.地球;
             this.Contact.Items.Add(this.btnUpdata);
             this.Contact.Items.Add(this.btnGetURL);
             this.Contact.Items.Add(this.btnGongzhonghao);
@@ -342,6 +342,13 @@
             this.btnUpdata.Name = "btnUpdata";
             this.btnUpdata.ShowImage = true;
             this.btnUpdata.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnUpdata_Click);
+            // 
+            // btnGetURL
+            // 
+            this.btnGetURL.Label = "获取最新版下载地址";
+            this.btnGetURL.Name = "btnGetURL";
+            this.btnGetURL.ShowImage = true;
+            this.btnGetURL.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnGetURL_Click);
             // 
             // btnGongzhonghao
             // 
@@ -366,13 +373,6 @@
             this.btn注册.ShowImage = true;
             this.btn注册.Visible = false;
             this.btn注册.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btn注册_Click);
-            // 
-            // btnGetURL
-            // 
-            this.btnGetURL.Label = "获取最新版下载地址";
-            this.btnGetURL.Name = "btnGetURL";
-            this.btnGetURL.ShowImage = true;
-            this.btnGetURL.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnGetURL_Click);
             // 
             // WorkingPaper
             // 
