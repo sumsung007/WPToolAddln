@@ -52,6 +52,8 @@ namespace 百邦所得税汇算底稿工具
         {
             //返回参数
             HttpResult result = new HttpResult();
+
+            ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertificate;
             try
             {
                 //准备参数
@@ -216,7 +218,10 @@ namespace 百邦所得税汇算底稿工具
             }
             return ResponseByte;
         }
-
+        private bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
 
         #endregion
 
