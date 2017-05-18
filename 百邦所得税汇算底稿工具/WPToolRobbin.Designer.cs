@@ -34,6 +34,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkingPaper));
             this.WPTool = this.Factory.CreateRibbonTab();
             this.group5 = this.Factory.CreateRibbonGroup();
             this.btn新建 = this.Factory.CreateRibbonButton();
@@ -246,7 +247,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20170422✨地球日✨";
+            this.group2.Label = "V20170517※吃货节※";
             this.group2.Name = "group2";
             // 
             // sb导出数据
@@ -328,7 +329,7 @@
             // 
             this.Contact.ButtonType = Microsoft.Office.Tools.Ribbon.RibbonButtonType.ToggleButton;
             this.Contact.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.Contact.Image = global::百邦所得税汇算底稿工具.Properties.Resources.地球;
+            this.Contact.Image = ((System.Drawing.Image)(resources.GetObject("Contact.Image")));
             this.Contact.Items.Add(this.btnUpdata);
             this.Contact.Items.Add(this.btnGetURL);
             this.Contact.Items.Add(this.btnGongzhonghao);

@@ -185,7 +185,7 @@ namespace 百邦所得税汇算底稿工具
                         }
                         else if (版本.IndexOf("V2017") >= 0)
                         {
-                            if (版本.IndexOf("V20170422") < 0)
+                            if (版本.IndexOf("V20170517") < 0)
                                 MessageBox.Show("该底稿非最新版本，请升级后使用，以免出现未知错误。");
                             WorkingPaper.版本号 = 2017;
                         }
