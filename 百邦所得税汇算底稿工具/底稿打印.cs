@@ -252,7 +252,9 @@ namespace 百邦所得税汇算底稿工具
                 {
                     Condition[i, 0] = ChooseCondition[i];
                 }
+                WorkingPaper.Wb.Worksheets["首页"].Unprotect();
                 WorkingPaper.Wb.Worksheets["首页"].Range["M1:M" + ChooseName.Length].FormulaArray = Condition;
+                WorkingPaper.Wb.Worksheets["首页"].Protect();
                 object[,] V = WorkingPaper.Wb.Worksheets["首页"].Range["M1:M" + ChooseName.Length].Value2;
                     for (int i = 0; i < ChooseName.Length; i++)
                 {

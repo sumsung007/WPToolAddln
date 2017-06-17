@@ -1121,8 +1121,7 @@ namespace 百邦所得税汇算底稿工具
 
                                 #endregion
                                 Banben = "V20170517-" + Banben.Substring(5);
-                            }
-                            WorkingPaper.Wb.Worksheets["首页"].Unprotect();
+                            } 
                             WorkingPaper.Wb.Worksheets["首页"].Range["A1"].Value2 = Banben;
                             WorkingPaper.Wb.Worksheets["首页"].Protect();
                             Globals.WPToolAddln.Application.StatusBar = false;

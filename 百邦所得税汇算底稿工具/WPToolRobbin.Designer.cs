@@ -34,7 +34,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkingPaper));
             this.WPTool = this.Factory.CreateRibbonTab();
             this.group5 = this.Factory.CreateRibbonGroup();
             this.btn新建 = this.Factory.CreateRibbonButton();
@@ -98,7 +97,7 @@
             // btn新建
             // 
             this.btn新建.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn新建.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_content_copy_black_24dp;
+            this.btn新建.Image = global::百邦所得税汇算底稿工具.Properties.Resources.File_100px;
             this.btn新建.Label = "新建底稿";
             this.btn新建.Name = "btn新建";
             this.btn新建.ShowImage = true;
@@ -107,7 +106,7 @@
             // tb显示目录
             // 
             this.tb显示目录.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.tb显示目录.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_list_black_48dp;
+            this.tb显示目录.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Details_100px;
             this.tb显示目录.Label = "侧边工具";
             this.tb显示目录.Name = "tb显示目录";
             this.tb显示目录.ShowImage = true;
@@ -124,7 +123,7 @@
             // btn基本情况
             // 
             this.btn基本情况.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn基本情况.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_assignment_ind_black_48dp;
+            this.btn基本情况.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Contacts_100px;
             this.btn基本情况.Label = "基本情况";
             this.btn基本情况.Name = "btn基本情况";
             this.btn基本情况.ShowImage = true;
@@ -133,7 +132,7 @@
             // btn余额报表
             // 
             this.btn余额报表.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn余额报表.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_flip_black_36dp;
+            this.btn余额报表.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Poster_100px;
             this.btn余额报表.Label = "余额报表";
             this.btn余额报表.Name = "btn余额报表";
             this.btn余额报表.ShowImage = true;
@@ -142,7 +141,7 @@
             // btn税费测算
             // 
             this.btn税费测算.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn税费测算.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_insert_chart_black_36dp;
+            this.btn税费测算.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Calculator_100px;
             this.btn税费测算.Label = "税费测算";
             this.btn税费测算.Name = "btn税费测算";
             this.btn税费测算.ShowImage = true;
@@ -159,7 +158,7 @@
             // btn检查表
             // 
             this.btn检查表.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn检查表.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_search_black_24dp;
+            this.btn检查表.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Search_100px;
             this.btn检查表.Label = "检查表";
             this.btn检查表.Name = "btn检查表";
             this.btn检查表.ShowImage = true;
@@ -168,7 +167,7 @@
             // btn底稿打印
             // 
             this.btn底稿打印.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn底稿打印.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_local_print_shop_black_36dp;
+            this.btn底稿打印.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Print_100px;
             this.btn底稿打印.Label = "底稿打印";
             this.btn底稿打印.Name = "btn底稿打印";
             this.btn底稿打印.ShowImage = true;
@@ -177,7 +176,7 @@
             // btn底稿查看
             // 
             this.btn底稿查看.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn底稿查看.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_border_color_black_36dp;
+            this.btn底稿查看.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Quill_With_Ink_100px;
             this.btn底稿查看.Label = "底稿查看";
             this.btn底稿查看.Name = "btn底稿查看";
             this.btn底稿查看.ShowImage = true;
@@ -194,7 +193,7 @@
             // btn客户沟通
             // 
             this.btn客户沟通.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn客户沟通.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_question_answer_black_36dp;
+            this.btn客户沟通.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Chat_100px;
             this.btn客户沟通.Label = "客户沟通";
             this.btn客户沟通.Name = "btn客户沟通";
             this.btn客户沟通.ShowImage = true;
@@ -203,7 +202,7 @@
             // btn查看报告
             // 
             this.btn查看报告.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn查看报告.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_receipt_black_24dp;
+            this.btn查看报告.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Knowledge_Sharing_100px_1;
             this.btn查看报告.Label = "查看报告";
             this.btn查看报告.Name = "btn查看报告";
             this.btn查看报告.ShowImage = true;
@@ -212,7 +211,7 @@
             // splitButton1
             // 
             this.splitButton1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.splitButton1.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_cloud_upload_black_36dp;
+            this.splitButton1.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Upload_to_the_Cloud_100px;
             this.splitButton1.Items.Add(this.btn导出报告);
             this.splitButton1.Items.Add(this.separator3);
             this.splitButton1.Items.Add(this.btn打印报告);
@@ -253,7 +252,7 @@
             // sb导出数据
             // 
             this.sb导出数据.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.sb导出数据.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_launch_black_36dp;
+            this.sb导出数据.Image = global::百邦所得税汇算底稿工具.Properties.Resources.External_Link_100px;
             this.sb导出数据.Items.Add(this.separator1);
             this.sb导出数据.Items.Add(this.btnOUT03);
             this.sb导出数据.Items.Add(this.btnOUT07);
@@ -298,7 +297,7 @@
             // btn工具设置
             // 
             this.btn工具设置.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn工具设置.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_settings_applications_black_36dp;
+            this.btn工具设置.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Settings_100px;
             this.btn工具设置.Items.Add(this.btn底稿升级);
             this.btn工具设置.Items.Add(this.separator2);
             this.btn工具设置.Items.Add(this.button1);
@@ -329,7 +328,7 @@
             // 
             this.Contact.ButtonType = Microsoft.Office.Tools.Ribbon.RibbonButtonType.ToggleButton;
             this.Contact.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.Contact.Image = ((System.Drawing.Image)(resources.GetObject("Contact.Image")));
+            this.Contact.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Info_100px;
             this.Contact.Items.Add(this.btnUpdata);
             this.Contact.Items.Add(this.btnGetURL);
             this.Contact.Items.Add(this.btnGongzhonghao);
@@ -368,7 +367,7 @@
             // btn注册
             // 
             this.btn注册.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn注册.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_vpn_key_black_36dp;
+            this.btn注册.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Key_100px;
             this.btn注册.Label = "工具注册";
             this.btn注册.Name = "btn注册";
             this.btn注册.ShowImage = true;
