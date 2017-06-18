@@ -246,7 +246,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20170517※吃货节※";
+            this.group2.Label = "V20170621🌤夏至🌤";
             this.group2.Name = "group2";
             // 
             // sb导出数据
