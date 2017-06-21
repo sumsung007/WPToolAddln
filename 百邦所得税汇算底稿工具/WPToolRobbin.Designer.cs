@@ -34,6 +34,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkingPaper));
             this.WPTool = this.Factory.CreateRibbonTab();
             this.group5 = this.Factory.CreateRibbonGroup();
             this.btn新建 = this.Factory.CreateRibbonButton();
@@ -328,7 +329,7 @@
             // 
             this.Contact.ButtonType = Microsoft.Office.Tools.Ribbon.RibbonButtonType.ToggleButton;
             this.Contact.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.Contact.Image = global::百邦所得税汇算底稿工具.Properties.Resources.Info_100px;
+            this.Contact.Image = ((System.Drawing.Image)(resources.GetObject("Contact.Image")));
             this.Contact.Items.Add(this.btnUpdata);
             this.Contact.Items.Add(this.btnGetURL);
             this.Contact.Items.Add(this.btnGongzhonghao);
