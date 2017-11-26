@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "百邦所得税汇算底稿工具", "百邦所得税汇算底稿工具\百邦所得税汇算底稿工具.csproj", "{2F9DF10D-2A51-4094-8366-ADA0DF87355F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YWC", "YWC\YWC.csproj", "{96719303-400E-4DBA-A149-6E5D8DB55033}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{2F9DF10D-2A51-4094-8366-ADA0DF87355F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9DF10D-2A51-4094-8366-ADA0DF87355F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F9DF10D-2A51-4094-8366-ADA0DF87355F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96719303-400E-4DBA-A149-6E5D8DB55033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96719303-400E-4DBA-A149-6E5D8DB55033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96719303-400E-4DBA-A149-6E5D8DB55033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96719303-400E-4DBA-A149-6E5D8DB55033}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5AF9A2F0-56CE-42F6-A914-7805B9770526}
 	EndGlobalSection
 EndGlobal
