@@ -171,7 +171,9 @@ namespace 百邦所得税汇算底稿工具
                         Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
                         == "厦门百邦税务师事务所有限公司" ||
                         Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
-                        == "厦门明正税务师事务所有限公司")
+                        == "厦门明正税务师事务所有限公司" ||
+                        Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
+                        == "中汇（厦门）税务师事务所有限公司")
                     {
                         string 版本 =
                             Zifu(Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["首页"].Range["A1"].Value2);
