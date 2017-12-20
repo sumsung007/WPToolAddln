@@ -187,7 +187,7 @@ namespace 百邦所得税汇算底稿工具
                         }
                         else if (版本.IndexOf("V2017") >= 0)
                         {
-                            if (版本.IndexOf("V20170517") < 0)
+                            if (版本.IndexOf("V20171222") < 0)
                                 MessageBox.Show("该底稿非最新版本，请升级后使用，以免出现未知错误。");
                             WorkingPaper.版本号 = 2017;
                         }
@@ -203,34 +203,38 @@ namespace 百邦所得税汇算底稿工具
             WorkingPaper.OOO = false;
             return false;
         }
+
         public static void 工作表切换(params string[] str)
         {
             int C;
             if (WorkingPaper.OOO)
             {
-                try
+                WorkingPaper.Wb.Application.ScreenUpdating = false;
+                WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetVisible;
+                C = WorkingPaper.Wb.Worksheets.Count;
+                for (int i = 2; i <= C; i++)
                 {
-                    WorkingPaper.Wb.Application.ScreenUpdating = false;
-                    WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetVisible;
-                    C = WorkingPaper.Wb.Worksheets.Count;
-                    for (int i = 2; i <= C; i++)
-                    {
-                        WorkingPaper.Wb.Worksheets[i].Visible = XlSheetVisibility.xlSheetHidden;
-                    }
-                    foreach (string ss in str)
+                    WorkingPaper.Wb.Worksheets[i].Visible = XlSheetVisibility.xlSheetHidden;
+                }
+                foreach (string ss in str)
+                {
+
+                    try
                     {
                         WorkingPaper.Wb.Worksheets[ss].Visible = XlSheetVisibility.xlSheetVisible;
+
                     }
-                    WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetVeryHidden;
-                    WorkingPaper.Wb.Application.ScreenUpdating = true;
+                    catch (Exception ex)
+                    {
+                        //Globals.WPToolAddln.Application.ScreenUpdating = true;
+                        //System.Windows.Forms.MessageBox.Show("用户操作出现错误：" + ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Globals.WPToolAddln.Application.ScreenUpdating = true;
-                    System.Windows.Forms.MessageBox.Show("用户操作出现错误：" + ex.Message);
-                }
+                WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetVeryHidden;
+                WorkingPaper.Wb.Application.ScreenUpdating = true;
             }
         }
+
         public static double Shuzi(object tar)
         {
             double kk;
