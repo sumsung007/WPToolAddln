@@ -908,7 +908,7 @@ namespace 百邦所得税汇算底稿工具
                 Banben = Banben1;
                 switch  (Banben1.Substring(0,9))
                     {
-                    case "V20170517":
+                    case "V20171222":
                         升级 = false;
                         break;
                     default:
@@ -918,7 +918,7 @@ namespace 百邦所得税汇算底稿工具
                 
                 if (升级)
                 {
-                    if (MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20170517。是否升级？", "提示！",
+                    if (MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20171222。是否升级？", "提示！",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         if (MessageBox.Show("本操作具有不稳定性，会先保存当前文件，并以BAK后缀文件备份在文件同目录下。是否继续？", "警告！",
@@ -1122,6 +1122,86 @@ namespace 百邦所得税汇算底稿工具
                                 #endregion
                                 Banben = "V20170517-" + Banben.Substring(5);
                             } 
+
+                            if(Banben.Substring(0,9)=="V20170517")
+                            {
+                                #region 20170517升级为20171222
+                                //添加合并表格
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Rows["44:51"].Add();
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A44"].Value2 = "A110010";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B44"].Value2 = "    特殊性处理报告表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A45"].Value2 = "A110011";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B45"].Value2 = "    债务重组报告表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A46"].Value2 = "A110012";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B46"].Value2 = "    股权收购报告表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A47"].Value2 = "A110013";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B47"].Value2 = "    资产收购报告表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A48"].Value2 = "A110014";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B48"].Value2 = "    企业合并报告表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A49"].Value2 = "A110015";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B49"].Value2 = "    企业分立报告表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A50"].Value2 = "A110016";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B50"].Value2 = "    非货币资产投资递延纳税调整表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["A51"].Value2 = "A110017";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B51"].Value2 = "    居民企业资产（股权）划转特殊性税务处理申报表";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B44"], "#A110010特殊性处理报告表!A1",
+                                    Type.Missing, "#A110010特殊性处理报告表!A1", "    特殊性处理报告表");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B45"], "#A110011债务重组报告表!A1",
+                                    Type.Missing, "#A110011债务重组报告表!A1", "    债务重组报告表");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B46"], "#A110012股权收购报告表 !A1",
+                                    Type.Missing, "#A110012股权收购报告表 !A1", "    股权收购报告表");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B47"], "#A110013资产收购报告表!A1",
+                                    Type.Missing, "#A110013资产收购报告表!A1", "    资产收购报告表");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B48"], "#A110014企业合并报告表 !A1",
+                                    Type.Missing, "#A110014企业合并报告表 !A1", "    企业合并报告表");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B49"], "#A110015企业分立申报表!A1",
+                                    Type.Missing, "#A110015企业分立申报表!A1", "    企业分立报告表");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B50"], "#A110016非货币资产投资递延纳税调整表!A1",
+                                    Type.Missing, "#A110016非货币资产投资递延纳税调整表!A1", "    非货币资产投资递延纳税调整表 ");
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Hyperlinks.Add(
+                                    Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["B51"],
+                                    "#A110017居民企业资产（股权）划转特殊性税务处理申报表!A1", Type.Missing,
+                                    "#A110017居民企业资产（股权）划转特殊性税务处理申报表!A1", "    居民企业资产（股权）划转特殊性税务处理申报表");
+                                Wb.Worksheets["主页"].Hyperlinks.Add(Wb.Worksheets["主页"].Range["G26"],
+                                    "#A110010特殊性处理报告表!A1", Type.Missing, "#A110010特殊性处理报告表!A1", "特殊性处理报告表");
+                                Wb.Worksheets["主页"].Hyperlinks.Add(Wb.Worksheets["主页"].Range["G27"],
+                                    "#A110011债务重组报告表!A1", Type.Missing, "#A110011债务重组报告表!A1", "债务重组报告表");
+                                Wb.Worksheets["主页"].Hyperlinks.Add(Wb.Worksheets["主页"].Range["G28"],
+                                    "#A110012股权收购报告表 !A1", Type.Missing, "#A110012股权收购报告表 !A1", "股权收购报告表");
+                                Wb.Worksheets["主页"].Hyperlinks.Add(Wb.Worksheets["主页"].Range["G29"],
+                                    "#A110013资产收购报告表!A1", Type.Missing, "#A110013资产收购报告表!A1", "资产收购报告表");
+                                Wb.Worksheets["主页"].Hyperlinks.Add(Wb.Worksheets["主页"].Range["G30"],
+                                    "#A110014企业合并报告表 !A1", Type.Missing, "#A110014企业合并报告表 !A1", "企业合并报告表");
+                                Wb.Worksheets["主页"].Hyperlinks.Add(Wb.Worksheets["主页"].Range["G31"],
+                                    "#A110015企业分立申报表!A1", Type.Missing, "#A110015企业分立申报表!A1", "企业分立报告表");
+                                Wb.Worksheets["主页"].Hyperlinks.Add(Wb.Worksheets["主页"].Range["G32"],
+                                    "#A110016非货币资产投资递延纳税调整表!A1", Type.Missing, "#A110016非货币资产投资递延纳税调整表!A1",
+                                    "非货币资产投资递延纳税调整表");
+                                Wb.Worksheets["主页"].Hyperlinks.Add(Wb.Worksheets["主页"].Range["G33"],
+                                    "#A110017居民企业资产（股权）划转特殊性税务处理申报表!A1", Type.Missing,
+                                    "#A110017居民企业资产（股权）划转特殊性税务处理申报表!A1", "居民企业资产（股权）划转特殊性税务处理申报表");
+
+
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F44"].Value2 = "否";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F45"].Value2 = "否";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F46"].Value2 = "否";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F47"].Value2 = "否";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F48"].Value2 = "否";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F49"].Value2 = "否";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F50"].Value2 = "否";
+                                Wb.Worksheets["（三）企业所得税年度纳税申报表填报表单"].Range["F51"].Value2 = "否";
+
+                                #endregion
+                                Banben = "V20171222-" + Banben.Substring(5);
+                            }
+
                             WorkingPaper.Wb.Worksheets["首页"].Range["A1"].Value2 = Banben;
                             WorkingPaper.Wb.Worksheets["首页"].Protect();
                             Globals.WPToolAddln.Application.StatusBar = false;
@@ -1131,7 +1211,7 @@ namespace 百邦所得税汇算底稿工具
                 }
                 else
                 {
-                    MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20170517。不需要升级", "提示！",
+                    MessageBox.Show("当前版本为："+Banben+ "，最新版本为：V20171222。不需要升级", "提示！",
                         MessageBoxButtons.OK);
                 }
             }

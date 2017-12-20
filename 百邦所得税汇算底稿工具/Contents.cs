@@ -792,7 +792,7 @@ namespace 百邦所得税汇算底稿工具
             pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D49"].Value2);
             if (name1 == "" || pass1 == "")
                 MessageBox.Show("国税用户名密码未填写，请填写[基本情况].[B49,D49]后重试！");
-            else if (国税信息(name1, pass1))
+            else if (国税信息(name1,base64(pass1)))
                 MessageBox.Show("国税信息抓取成功！");
             else
                 MessageBox.Show("国税抓取失败！");
@@ -1346,7 +1346,7 @@ namespace 百邦所得税汇算底稿工具
             };
             HttpResult result = http.GetHtml(item);
             string str = result.Html;
-            str = Regex.Match(str, "@@.*@@").ToString().Replace("@@","").Replace("&#x2F;", "/");
+            str = Regex.Match(str, @"(?<=@@)([\S\s]*?)(?=@@)").ToString();
             if (str == "")
             {
                 str = "获取失败";
