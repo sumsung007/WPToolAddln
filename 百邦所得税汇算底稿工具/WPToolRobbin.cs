@@ -16,7 +16,7 @@ namespace 百邦所得税汇算底稿工具
         public static Workbook Wb,wb打印;
         public static Boolean OOO=false;
         public static int 版本号;
-        public static string 当前版本 = Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", "");
+        public static string 当前版本 = "20171222修复版"; //Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", "");
         public static int Excel版本;
 
         public Dictionary<int, Microsoft.Office.Tools.CustomTaskPane> TaskPanels =
