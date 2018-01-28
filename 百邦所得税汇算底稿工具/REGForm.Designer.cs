@@ -75,9 +75,9 @@
             this.Label1.Font = new System.Drawing.Font("微软雅黑", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Label1.Location = new System.Drawing.Point(184, 40);
             this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(706, 50);
+            this.Label1.Size = new System.Drawing.Size(630, 50);
             this.Label1.TabIndex = 7;
-            this.Label1.Text = "中汇百邦（厦门）税务师事务所有限公司";
+            this.Label1.Text = "中汇（厦门）税务师事务所有限公司";
             // 
             // Label2
             // 

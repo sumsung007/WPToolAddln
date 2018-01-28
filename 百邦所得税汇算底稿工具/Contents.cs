@@ -152,6 +152,9 @@ namespace 百邦所得税汇算底稿工具
             if ((WorkingPaper.Wb.Worksheets["基本情况"].Cells[8, 2].Value == "中汇百邦（厦门）税务师事务所有限公司" &&
                 WorkingPaper.Wb.Worksheets["档案封面"].Cells[6, 1].Value == "中汇百邦（厦门）税务师事务所有限公司" &&
                 WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[16, 2].Value == "中汇百邦（厦门）税务师事务所有限公司")||
+                (WorkingPaper.Wb.Worksheets["基本情况"].Cells[8, 2].Value == "中汇（厦门）税务师事务所有限公司" &&
+                 WorkingPaper.Wb.Worksheets["档案封面"].Cells[6, 1].Value == "中汇（厦门）税务师事务所有限公司" &&
+                 WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[16, 2].Value == "中汇（厦门）税务师事务所有限公司")||
                 (WorkingPaper.Wb.Worksheets["基本情况"].Cells[8, 2].Value == "厦门明正税务师事务所有限公司" &&
                 WorkingPaper.Wb.Worksheets["档案封面"].Cells[6, 1].Value == "厦门明正税务师事务所有限公司" &&
                 WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[16, 2].Value == "厦门明正税务师事务所有限公司"))
@@ -567,6 +570,9 @@ namespace 百邦所得税汇算底稿工具
                 if (((WorkingPaper.Wb.Sheets["基本情况"].Cells[8, 2].Value == "中汇百邦（厦门）税务师事务所有限公司") &&
                     (WorkingPaper.Wb.Sheets["档案封面"].Cells[6, 1].Value == "中汇百邦（厦门）税务师事务所有限公司") &&
                     (WorkingPaper.Wb.Sheets["基本情况（封面）"].Cells[16, 2].Value == "中汇百邦（厦门）税务师事务所有限公司"))||
+                    (WorkingPaper.Wb.Worksheets["基本情况"].Cells[8, 2].Value == "中汇（厦门）税务师事务所有限公司" &&
+                     WorkingPaper.Wb.Worksheets["档案封面"].Cells[6, 1].Value == "中汇（厦门）税务师事务所有限公司" &&
+                     WorkingPaper.Wb.Worksheets["基本情况（封面）"].Cells[16, 2].Value == "中汇（厦门）税务师事务所有限公司")||
                     ((WorkingPaper.Wb.Sheets["基本情况"].Cells[8, 2].Value == "厦门明正税务师事务所有限公司") &&
                     (WorkingPaper.Wb.Sheets["档案封面"].Cells[6, 1].Value == "厦门明正税务师事务所有限公司") &&
                     (WorkingPaper.Wb.Sheets["基本情况（封面）"].Cells[16, 2].Value == "厦门明正税务师事务所有限公司")

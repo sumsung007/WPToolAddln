@@ -577,10 +577,11 @@
 </value>
   </data>
   <data name="textBoxDescription.Text" xml:space="preserve">
-    <value>V20171218❄冬月❄
+    <value>V20171218❄冬至❄
 1、修复打印报告部分文字错误
 2、新增2017年度选项
 3、修改事务所名称
+4、恢复A110010-A110017目录
 
 V20170621🌤夏至🌤
 1、修复底稿打印
