@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "百邦所得税汇算底稿工具", "百邦所得税汇算底稿工具\百邦所得税汇算底稿工具.csproj", "{2F9DF10D-2A51-4094-8366-ADA0DF87355F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5802CB44-9171-44C0-A652-8433EF4B00D4} = {5802CB44-9171-44C0-A652-8433EF4B00D4}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHS", "DHS\DHS.csproj", "{5802CB44-9171-44C0-A652-8433EF4B00D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{2F9DF10D-2A51-4094-8366-ADA0DF87355F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9DF10D-2A51-4094-8366-ADA0DF87355F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F9DF10D-2A51-4094-8366-ADA0DF87355F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5802CB44-9171-44C0-A652-8433EF4B00D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5802CB44-9171-44C0-A652-8433EF4B00D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5802CB44-9171-44C0-A652-8433EF4B00D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5802CB44-9171-44C0-A652-8433EF4B00D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
