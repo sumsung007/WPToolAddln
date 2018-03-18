@@ -132,14 +132,12 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>.\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Vbe.Interop, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -193,6 +191,7 @@
   -->
   <ItemGroup>
     <Compile Include="2017Olds.cs" />
+    <Compile Include="Codes2018.cs" />
     <Compile Include="AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -324,7 +323,6 @@
     </Compile>
     <AppDesigner Include="Properties\" />
     <None Include="百邦所得税汇算底稿工具_TemporaryKey.pfx" />
-    <None Include="税审底稿模板.xltx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ic_screen_lock_portrait_black_48dp.png" />
@@ -525,7 +523,7 @@
     <ManifestKeyFile>百邦所得税汇算底稿工具_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>00DC2FA400060B2B999E53782676DBAA534C5F41</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E5D5E2B3B3F4C4AB9B8E46032460A8678E4F1A48</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\border.ico</ApplicationIcon>
@@ -538,7 +536,7 @@
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
-        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
         <Host Name="Excel" GeneratedCodeNamespace="百邦所得税汇算底稿工具" IconIndex="0">
           <HostItem Name="ThisAddIn" Code="WPToolAddln.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="WPToolAddln.Designer.xml" GeneratedCode="WPToolAddln.Designer.cs" />
         </Host>

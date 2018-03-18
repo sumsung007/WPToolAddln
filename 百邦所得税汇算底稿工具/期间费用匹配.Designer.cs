@@ -247,7 +247,12 @@
             "",
             "√"}, -1);
             System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem(new string[] {
-            "43、其他",
+            "43、党组织工作经费",
+            "",
+            "√",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem(new string[] {
+            "44、其他",
             "√",
             "√",
             "√"}, -1);
@@ -279,8 +284,8 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(10, 10);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(30);
+            this.splitContainer1.Location = new System.Drawing.Point(8, 8);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(24, 24, 24, 24);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -293,8 +298,9 @@
             this.splitContainer1.Panel2.Controls.Add(this.button3);
             this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Size = new System.Drawing.Size(1059, 575);
-            this.splitContainer1.SplitterDistance = 492;
+            this.splitContainer1.Size = new System.Drawing.Size(847, 460);
+            this.splitContainer1.SplitterDistance = 393;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 2;
             this.splitContainer1.TabStop = false;
             // 
@@ -302,6 +308,7 @@
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -311,8 +318,9 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.listView2);
-            this.splitContainer2.Size = new System.Drawing.Size(1059, 492);
-            this.splitContainer2.SplitterDistance = 657;
+            this.splitContainer2.Size = new System.Drawing.Size(847, 393);
+            this.splitContainer2.SplitterDistance = 525;
+            this.splitContainer2.SplitterWidth = 3;
             this.splitContainer2.TabIndex = 2;
             this.splitContainer2.TabStop = false;
             // 
@@ -344,9 +352,10 @@
             listViewItem1,
             listViewItem2});
             this.listView1.Location = new System.Drawing.Point(0, 0);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(657, 492);
+            this.listView1.Size = new System.Drawing.Size(525, 393);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -425,11 +434,13 @@
             listViewItem42,
             listViewItem43,
             listViewItem44,
-            listViewItem45});
+            listViewItem45,
+            listViewItem46});
             this.listView2.Location = new System.Drawing.Point(0, 0);
+            this.listView2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listView2.Name = "listView2";
             this.listView2.ShowGroups = false;
-            this.listView2.Size = new System.Drawing.Size(398, 492);
+            this.listView2.Size = new System.Drawing.Size(319, 393);
             this.listView2.TabIndex = 0;
             this.listView2.TileSize = new System.Drawing.Size(168, 34);
             this.listView2.UseCompatibleStateImageBehavior = false;
@@ -460,9 +471,10 @@
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button3.Location = new System.Drawing.Point(769, 26);
+            this.button3.Location = new System.Drawing.Point(615, 22);
+            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(154, 34);
+            this.button3.Size = new System.Drawing.Size(123, 27);
             this.button3.TabIndex = 0;
             this.button3.Text = "匹配完成关闭窗体";
             this.button3.UseVisualStyleBackColor = true;
@@ -473,9 +485,10 @@
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button2.Font = new System.Drawing.Font("宋体", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button2.ForeColor = System.Drawing.Color.Green;
-            this.button2.Location = new System.Drawing.Point(448, 26);
+            this.button2.Location = new System.Drawing.Point(358, 22);
+            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(154, 34);
+            this.button2.Size = new System.Drawing.Size(123, 27);
             this.button2.TabIndex = 0;
             this.button2.Text = "⊙自动匹配";
             this.button2.UseVisualStyleBackColor = true;
@@ -486,9 +499,10 @@
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button1.Font = new System.Drawing.Font("宋体", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button1.ForeColor = System.Drawing.Color.Red;
-            this.button1.Location = new System.Drawing.Point(127, 26);
+            this.button1.Location = new System.Drawing.Point(102, 22);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(154, 34);
+            this.button1.Size = new System.Drawing.Size(123, 27);
             this.button1.TabIndex = 0;
             this.button1.Text = "¤清空匹配结果";
             this.button1.UseVisualStyleBackColor = true;
@@ -497,15 +511,16 @@
             // QJFY
             // 
             this.AcceptButton = this.button3;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.button3;
-            this.ClientSize = new System.Drawing.Size(1079, 595);
+            this.ClientSize = new System.Drawing.Size(863, 476);
             this.Controls.Add(this.splitContainer1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "QJFY";
-            this.Padding = new System.Windows.Forms.Padding(10);
+            this.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "期间费用匹配";

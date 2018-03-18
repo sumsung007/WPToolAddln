@@ -12,57 +12,71 @@ namespace 百邦所得税汇算底稿工具
     {
         public static Boolean 事项说明()
         {
+
             if (WorkingPaper.OOO)
             {
-                Worksheet SH = WorkingPaper.Wb.Sheets["(二)附表-纳税调整额的审核"];
-                SH.Range["A7:E" + SH.Cells[SH.UsedRange.Rows.Count + 1, 1].End[XlDirection.xlUp].Row.ToString()].Value = "";
-                object[,] Nstz = WorkingPaper.Wb.Sheets["事项说明"].Range["B31:F81"].Value2;
-                List<string> Xiangmu = new List<string>();
-                List<double> Zhangzai = new List<double>();
-                List<double> Shuishou = new List<double>();
-                List<double> Tiaozheng = new List<double>();
-                //List<String> Yuanyin = new List<string>();
 
-                for (int tz = 1; tz <= 51; tz++)
+                if (WorkingPaper.版本号 == 2018)
                 {
-                    if (CU.Shuzi(Nstz[tz, 5]) > 0)
-                    {
-                        Xiangmu.Add(CU.Zifu(Nstz[tz, 1]));
-                        Zhangzai.Add(CU.Shuzi(Nstz[tz, 3]));
-                        Shuishou.Add(CU.Shuzi(Nstz[tz, 4]));
-                        Tiaozheng.Add(CU.Shuzi(Nstz[tz, 5]));
-                        //Yuanyin.Add("税法规定");
-                    }
+                    WorkingPaper.Wb.Sheets["企业基本情况"].Range["$H$21:$H$128"].AutoFilter(Field: 1, Criteria1: "=1");
                 }
+                else
+                {
 
-                Nstz = WorkingPaper.Wb.Sheets["事项说明"].Range["B85:F117"].Value2;
-                for (int tz = 1; tz <= 33; tz++)
-                {
-                    if (CU.Shuzi(Nstz[tz, 5]) > 0)
+
+                    Worksheet SH = WorkingPaper.Wb.Sheets["(二)附表-纳税调整额的审核"];
+                    SH.Range["A7:E" + SH.Cells[SH.UsedRange.Rows.Count + 1, 1].End[XlDirection.xlUp].Row.ToString()]
+                        .Value = "";
+                    object[,] Nstz = WorkingPaper.Wb.Sheets["事项说明"].Range["B31:F81"].Value2;
+                    List<string> Xiangmu = new List<string>();
+                    List<double> Zhangzai = new List<double>();
+                    List<double> Shuishou = new List<double>();
+                    List<double> Tiaozheng = new List<double>();
+                    //List<String> Yuanyin = new List<string>();
+
+                    for (int tz = 1; tz <= 51; tz++)
                     {
-                        Xiangmu.Add(CU.Zifu(Nstz[tz, 1]));
-                        Zhangzai.Add(CU.Shuzi(Nstz[tz, 3]));
-                        Shuishou.Add(CU.Shuzi(Nstz[tz, 4]));
-                        Tiaozheng.Add(-CU.Shuzi(Nstz[tz, 5]));
-                        //Yuanyin.Add("税法规定");
+                        if (CU.Shuzi(Nstz[tz, 5]) > 0)
+                        {
+                            Xiangmu.Add(CU.Zifu(Nstz[tz, 1]));
+                            Zhangzai.Add(CU.Shuzi(Nstz[tz, 3]));
+                            Shuishou.Add(CU.Shuzi(Nstz[tz, 4]));
+                            Tiaozheng.Add(CU.Shuzi(Nstz[tz, 5]));
+                            //Yuanyin.Add("税法规定");
+                        }
                     }
-                }
-                if (Xiangmu.Count > 0)
-                {
-                    string[,] xiangmu = new string[Xiangmu.Count, 1];
-                    double[,] jine = new double[Xiangmu.Count, 3];
-                    string[,] yuanyin = new string[Xiangmu.Count, 1];
-                    for(int k=0;k<Xiangmu.Count;k++)
-                    { 
-                        xiangmu[k, 0] = Xiangmu[k];
-                        jine[k, 0] = Zhangzai[k];
-                        jine[k, 1] = Shuishou[k];
-                        jine[k, 2] = Tiaozheng[k];
-                        yuanyin[k, 0] = "税法规定";
+
+                    Nstz = WorkingPaper.Wb.Sheets["事项说明"].Range["B85:F117"].Value2;
+                    for (int tz = 1; tz <= 33; tz++)
+                    {
+                        if (CU.Shuzi(Nstz[tz, 5]) > 0)
+                        {
+                            Xiangmu.Add(CU.Zifu(Nstz[tz, 1]));
+                            Zhangzai.Add(CU.Shuzi(Nstz[tz, 3]));
+                            Shuishou.Add(CU.Shuzi(Nstz[tz, 4]));
+                            Tiaozheng.Add(-CU.Shuzi(Nstz[tz, 5]));
+                            //Yuanyin.Add("税法规定");
+                        }
                     }
-                    SH.Range["A7:A" + (Xiangmu.Count + 6).ToString()].Value2 = xiangmu;
-                    SH.Range["B7:D" + (Xiangmu.Count + 6).ToString()].Value2 = jine;
-                    SH.Range["E7:E" + (Xiangmu.Count + 6).ToString()].Value2 = yuanyin;
+
+                    if (Xiangmu.Count > 0)
+                    {
+                        string[,] xiangmu = new string[Xiangmu.Count, 1];
+                        double[,] jine = new double[Xiangmu.Count, 3];
+                        string[,] yuanyin = new string[Xiangmu.Count, 1];
+                        for (int k = 0; k < Xiangmu.Count; k++)
+                        {
+                            xiangmu[k, 0] = Xiangmu[k];
+                            jine[k, 0] = Zhangzai[k];
+                            jine[k, 1] = Shuishou[k];
+                            jine[k, 2] = Tiaozheng[k];
+                            yuanyin[k, 0] = "税法规定";
+                        }
+
+                        SH.Range["A7:A" + (Xiangmu.Count + 6).ToString()].Value2 = xiangmu;
+                        SH.Range["B7:D" + (Xiangmu.Count + 6).ToString()].Value2 = jine;
+                        SH.Range["E7:E" + (Xiangmu.Count + 6).ToString()].Value2 = yuanyin;
+                    }
                 }
             }
             return true;
@@ -167,7 +181,7 @@ namespace 百邦所得税汇算底稿工具
                 if (Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"] != null)
                 {
                     if (Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
-                        == "中汇百邦（厦门）税务师事务所有限公司"||
+                        == "中汇百邦（厦门）税务师事务所有限公司" ||
                         Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
                         == "厦门百邦税务师事务所有限公司" ||
                         Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("B8").value
@@ -191,9 +205,31 @@ namespace 百邦所得税汇算底稿工具
                                 MessageBox.Show("该底稿非最新版本，请升级后使用，以免出现未知错误。");
                             WorkingPaper.版本号 = 2017;
                         }
+
                         WorkingPaper.Wb = Globals.WPToolAddln.Application.ActiveWorkbook;
                         WorkingPaper.OOO = true;
                         return true;
+                    }
+                    else
+                    {
+                        if (Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("F11").value
+                            == "厦门明正税务师事务所有限公司" ||
+                            Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["基本情况"].range("F11").value
+                            == "中汇（厦门）税务师事务所有限公司")
+                        {
+                            string 版本 =
+                                Zifu(Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["辅助表"].Range["I1"].Value2);
+                            if (版本.IndexOf("V2018") >= 0)
+                            {
+                                if (版本.IndexOf("V20180318") < 0)
+                                    MessageBox.Show("该底稿非最新版本，请升级后使用，以免出现未知错误。");
+                                WorkingPaper.版本号 = 2018;
+
+                                WorkingPaper.Wb = Globals.WPToolAddln.Application.ActiveWorkbook;
+                                WorkingPaper.OOO = true;
+                                return true;
+                            }
+                        }
                     }
                 }
             }

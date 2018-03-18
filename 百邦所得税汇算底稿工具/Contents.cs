@@ -140,12 +140,32 @@ namespace 百邦所得税汇算底稿工具
 
         private void button1_Click(object sender, EventArgs e)//2017报表填写
         {
-            _2017Olds.报表填写();
+
+            if (WorkingPaper.版本号 == 2018)
+            {
+
+                Codes2018.报表填写();
+            }
+            else
+            {
+
+                _2017Olds.报表填写();
+            }
+
         }
 
         private void button3_Click(object sender, EventArgs e)//2017底稿填写
         {
-            _2017Olds.底稿填写();
+
+            if (WorkingPaper.版本号 == 2018)
+            {
+
+                Codes2018.底稿填写();
+            }
+            else
+            {
+                _2017Olds.底稿填写();
+            }
         }      
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)//双击树状图
@@ -163,7 +183,15 @@ namespace 百邦所得税汇算底稿工具
 
         private void button4_Click(object sender, EventArgs e)//2017税费填写
         {
-            _2017Olds.税费填写();
+            if (WorkingPaper.版本号 == 2018)
+            {
+
+                Codes2018.税费填写();
+            }
+            else
+            {
+                _2017Olds.税费填写();
+            }
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -181,23 +209,50 @@ namespace 百邦所得税汇算底稿工具
         {
             if (!CU.文件判断())
                 return;
-            string name1, pass1;
-            name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B49"].Value2);
-            pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D49"].Value2);
-            if (name1 == "" || pass1 == "")
-                MessageBox.Show("国税用户名密码未填写，请填写[基本情况].[B49,D49]后重试！");
-            else if (国税信息(name1,base64(pass1)))
-                MessageBox.Show("国税信息抓取成功！");
+
+            if (WorkingPaper.版本号 == 2018)
+            {
+
+                string name1, pass1;
+                name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["F3"].Value2);
+                pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["H3"].Value2);
+                if (name1 == "" || pass1 == "")
+                    MessageBox.Show("国税用户名密码未填写，请填写[基本情况].[F3,H3]后重试！");
+                else if (国税信息(name1, base64(pass1)))
+                    MessageBox.Show("国税信息抓取成功！");
+                else
+                    MessageBox.Show("国税抓取失败！");
+                name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["F4"].Value2);
+                pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["H4"].Value2);
+                if (name1 == "" || pass1 == "")
+                    MessageBox.Show("地税用户名密码未填写，请填写[基本情况].[F4,H4]后重试！");
+                else if (地税信息(name1, pass1))
+                    MessageBox.Show("地税信息抓取成功！");
+                else
+                    MessageBox.Show("地税抓取失败！");
+            }
             else
-                MessageBox.Show("国税抓取失败！");
-            name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
-            pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
-            if (name1 == "" || pass1 == "")
-                MessageBox.Show("地税用户名密码未填写，请填写[基本情况].[B50,D50]后重试！");
-            else if (地税信息(name1,pass1))
-                MessageBox.Show("地税信息抓取成功！");
-            else
-                MessageBox.Show("地税抓取失败！");
+            {
+
+                string name1, pass1;
+                name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B49"].Value2);
+                pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D49"].Value2);
+                if (name1 == "" || pass1 == "")
+                    MessageBox.Show("国税用户名密码未填写，请填写[基本情况].[B49,D49]后重试！");
+                else if (国税信息(name1, base64(pass1)))
+                    MessageBox.Show("国税信息抓取成功！");
+                else
+                    MessageBox.Show("国税抓取失败！");
+                name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
+                pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
+                if (name1 == "" || pass1 == "")
+                    MessageBox.Show("地税用户名密码未填写，请填写[基本情况].[B50,D50]后重试！");
+                else if (地税信息(name1, pass1))
+                    MessageBox.Show("地税信息抓取成功！");
+                else
+                    MessageBox.Show("地税抓取失败！");
+            }
+
         }
         #endregion
 
@@ -205,16 +260,41 @@ namespace 百邦所得税汇算底稿工具
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            string strText, scookie, strName, strPass;
+            string strText, scookie, strName, strPass,year,ZSXMGS,ZSPMGS;
             if (!CU.文件判断())
                 return;
-            strName = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
-            strPass = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
-            if (strName == "" || strPass == "")
+
+            if (WorkingPaper.版本号 == 2018)
             {
-                MessageBox.Show("地税用户名和密码未填写，请填写[基本情况].[B50,D50]后重试！");
-                return;
+
+                strName = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["F4"].Value2);
+                strPass = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["H4"].Value2);
+                year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["F6"].Value2);
+                if (strName == "" || strPass == "")
+                {
+                    MessageBox.Show("地税用户名和密码未填写，请填写[基本情况].[F4,H4]后重试！");
+                    return;
+                }
+
+                ZSXMGS = "=VLOOKUP(RC[-11],辅助表!C[4]:C[5],2,0)";
+                ZSPMGS = "=VLOOKUP(RC[-11],辅助表!C[5]:C[6],2,0)";
             }
+            else
+            {
+
+                strName = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
+                strPass = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
+
+                year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B4"].Value2);
+                if (strName == "" || strPass == "")
+                {
+                    MessageBox.Show("地税用户名和密码未填写，请填写[基本情况].[B50,D50]后重试！");
+                    return;
+                }
+                ZSXMGS = "=VLOOKUP(RC[-11],首页!C[-6]:C[-5],2,0)";
+                ZSPMGS = "=VLOOKUP(RC[-11],首页!C[-5]:C[-4],2,0)";
+            }
+
             
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
@@ -318,7 +398,6 @@ namespace 百邦所得税汇算底稿工具
                     UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
                 };
                 result = http.GetHtml(item);
-                string year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B4"].Value2);
                 item = new HttpItem
                 {
                     URL = "https://www.xm-l-tax.gov.cn/dzsb/query/qnsssbrk_query.do", //URL     必需项
@@ -400,9 +479,9 @@ namespace 百邦所得税汇算底稿工具
                 Range rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["A2"].Resize[dr.GetLength(0), dr.GetLength(1)];
                 rng.Value2 = dr;
                 rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 1];
-                rng.FormulaR1C1 = "=VLOOKUP(RC[-11],首页!C[-6]:C[-5],2,0)";
+                rng.FormulaR1C1 = ZSXMGS;
                 rng = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["N2"].Resize[dr.GetLength(0), 1];
-                rng.FormulaR1C1 = "=VLOOKUP(RC[-11],首页!C[-5]:C[-4],2,0)";
+                rng.FormulaR1C1 = ZSPMGS;
                 object[,] arr = WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 2].Value2;
                 WorkingPaper.Wb.Worksheets["税金申报明细"].Range["B2"].Resize[dr.GetLength(0), 2].Value2 = arr;
                 WorkingPaper.Wb.Worksheets["税金申报明细"].Range["M2"].Resize[dr.GetLength(0), 2].Clear();

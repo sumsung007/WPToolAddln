@@ -183,6 +183,8 @@ namespace 百邦所得税汇算底稿工具
                                 m = "技术转让费";
                             if ((T.Contains("研究")) || (T.Contains("研发")))
                                 m = "研究费用";
+                            if (WorkingPaper.版本号 == 2018 && T.Contains("党组织工作经费") && G == "管理费用")
+                                m = "党组织工作经费";
                         }
                         item.SubItems[3].Text = m;
                         Kmlb[Convert.ToInt16(item.SubItems[4].Text), 1] = G + "-" + m;
@@ -211,6 +213,8 @@ namespace 百邦所得税汇算底稿工具
                         case "管理费用":
                             if (j == "√")
                             {
+                                if ((! (WorkingPaper.版本号 == 2018)) && l== "党组织工作经费")
+                                    break;
                                 item.SubItems[3].Text = l;
                                 Kmlb[Convert.ToInt16(item.SubItems[4].Text), 1] = "管理费用-" + l;
                             }

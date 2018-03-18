@@ -235,6 +235,7 @@
             // 
             // btn打印报告
             // 
+            this.btn打印报告.Enabled = false;
             this.btn打印报告.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_local_cafe_black_36dp;
             this.btn打印报告.Label = "打印报告";
             this.btn打印报告.Name = "btn打印报告";
@@ -247,7 +248,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20171222❄冬至❄修复版";
+            this.group2.Label = "V20180318 🐉二月二🐉";
             this.group2.Name = "group2";
             // 
             // sb导出数据
