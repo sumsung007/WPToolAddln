@@ -884,10 +884,14 @@ namespace 百邦所得税汇算底稿工具
 
         private void btn底稿打印_Click(object sender, RibbonControlEventArgs e)
         {
-            底稿打印 dgdy = new 底稿打印();
-            if (dgdy.ShowDialog() == DialogResult.Yes)
+            if (WorkingPaper.版本号 != 2018)
             {
-                WorkingPaper.Wb.PrintPreview();
+
+                底稿打印 dgdy = new 底稿打印();
+                if (dgdy.ShowDialog() == DialogResult.Yes)
+                {
+                    WorkingPaper.Wb.PrintPreview();
+                }
             }
         }
 
@@ -895,116 +899,131 @@ namespace 百邦所得税汇算底稿工具
         {
             if (WorkingPaper.OOO)
             {
-                if (Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D7"].Value2) +
-                    CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D8"].Value2), 2) !=
-                    Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D6"].Value2), 2))
+                if (WorkingPaper.版本号 != 2018)
                 {
-                    MessageBox.Show("A107040减免所得税优惠明细表，D6不等于D7+D8，请检查后重试。");
-                    return;
-                }
 
-                if (MessageBox.Show("现在要切换到打印状态。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    string 打印文件路径 = WorkingPaper.Wb.Path +"\\"+ Wb.Name.Substring(0, Wb.Name.LastIndexOf(".")) + "打印报告.xlsx";
-                    try
+                    if (Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D7"].Value2) +
+                                   CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D8"].Value2), 2) !=
+                        Math.Round(CU.Shuzi(WorkingPaper.Wb.Worksheets["A107040减免所得税优惠明细表"].Range["D6"].Value2), 2))
                     {
-                        Globals.WPToolAddln.Application.StatusBar = "正在导出报告...";
-                        Globals.WPToolAddln.Application.DisplayAlerts = false;
-                        File.Copy(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\打印报告.xlsx", 打印文件路径, true);
-                        CU.事项说明();
-                        WorkingPaper.wb打印 = Globals.WPToolAddln.Application.Workbooks.Open(打印文件路径, XlUpdateLinks.xlUpdateLinksNever);
-                        Globals.WPToolAddln.Application.ScreenUpdating = false;
-                        WorkingPaper.wb打印.ChangeLink(Name: @"E:\税审底稿 模板.xlsx", NewName: Wb.FullName,
-                            Type: XlLinkType.xlLinkTypeExcelLinks);
-                        //Newbook.UpdateLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
-                        //WorkingPaper.wb打印.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
-                        CU.自动调整行高("企业基本情况", "C10:F10", 46.78);
-                        CU.自动调整行高("企业基本情况", "A128:F128", 85.22);
-                        CU.自动调整行高("A000000企业基础信息表", "B7", 15.67);
-                        CU.自动调整行高("A000000企业基础信息表", "A21", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A22", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A23", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A24", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A25", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A28", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A29", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A30", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A31", 18.44);
-                        CU.自动调整行高("A000000企业基础信息表", "A32", 18.44);
-                        WorkingPaper.wb打印.Sheets["企业基本情况"].Range["$H$21:$H$128"].AutoFilter(Field: 1, Criteria1: "=1");
-                        object[,] 表单 = WorkingPaper.wb打印.Sheets["（三）企业所得税年度纳税申报表填报表单"].Range["$C$3:$D$56"].Value2;
-                        for (int i=1;i<=54;i++)
+                        MessageBox.Show("A107040减免所得税优惠明细表，D6不等于D7+D8，请检查后重试。");
+                        return;
+                    }
+
+                    if (MessageBox.Show("现在要切换到打印状态。是否继续？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        string 打印文件路径 = WorkingPaper.Wb.Path + "\\" + Wb.Name.Substring(0, Wb.Name.LastIndexOf(".")) +
+                                        "打印报告.xlsx";
+                        try
+                        {
+                            Globals.WPToolAddln.Application.StatusBar = "正在导出报告...";
+                            Globals.WPToolAddln.Application.DisplayAlerts = false;
+                            File.Copy(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\打印报告.xlsx", 打印文件路径,
+                                true);
+                            CU.事项说明();
+                            WorkingPaper.wb打印 =
+                                Globals.WPToolAddln.Application.Workbooks.Open(打印文件路径,
+                                    XlUpdateLinks.xlUpdateLinksNever);
+                            Globals.WPToolAddln.Application.ScreenUpdating = false;
+                            WorkingPaper.wb打印.ChangeLink(Name: @"E:\税审底稿 模板.xlsx", NewName: Wb.FullName,
+                                Type: XlLinkType.xlLinkTypeExcelLinks);
+                            //Newbook.UpdateLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
+                            //WorkingPaper.wb打印.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
+                            CU.自动调整行高("企业基本情况", "C10:F10", 46.78);
+                            CU.自动调整行高("企业基本情况", "A128:F128", 85.22);
+                            CU.自动调整行高("A000000企业基础信息表", "B7", 15.67);
+                            CU.自动调整行高("A000000企业基础信息表", "A21", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A22", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A23", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A24", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A25", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A28", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A29", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A30", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A31", 18.44);
+                            CU.自动调整行高("A000000企业基础信息表", "A32", 18.44);
+                            WorkingPaper.wb打印.Sheets["企业基本情况"].Range["$H$21:$H$128"]
+                                .AutoFilter(Field: 1, Criteria1: "=1");
+                            object[,] 表单 = WorkingPaper.wb打印.Sheets["（三）企业所得税年度纳税申报表填报表单"].Range["$C$3:$D$56"].Value2;
+                            for (int i = 1; i <= 54; i++)
                             {
-                                if (CU.Zifu(表单[i, 1]) == "否" && CU.Zifu(表单[i, 2])!="")
+                                if (CU.Zifu(表单[i, 1]) == "否" && CU.Zifu(表单[i, 2]) != "")
                                 {
                                     WorkingPaper.wb打印.Sheets[CU.Zifu(表单[i, 2])].Visible = false;
                                 }
 
                             }
-                        if (CU.Zifu(表单[54, 1]) == "是")
-                        {
-                            object[,] 其他相关费用= WorkingPaper.wb打印.Sheets["研发项目可加计扣除研究开发费用情况归集表"].Range["$B$35:$B$71"].Value2;
-                            Boolean konghang=false;
-                            int i;
-                            for (i = 1; i <= 37; i++)
+
+                            if (CU.Zifu(表单[54, 1]) == "是")
                             {
-                                if (CU.Zifu(其他相关费用[i, 1]) == "")
+                                object[,] 其他相关费用 = WorkingPaper.wb打印.Sheets["研发项目可加计扣除研究开发费用情况归集表"].Range["$B$35:$B$71"]
+                                    .Value2;
+                                Boolean konghang = false;
+                                int i;
+                                for (i = 1; i <= 37; i++)
                                 {
-                                    konghang = true;
-                                    break;
+                                    if (CU.Zifu(其他相关费用[i, 1]) == "")
+                                    {
+                                        konghang = true;
+                                        break;
+                                    }
+                                }
+
+                                if (konghang)
+                                    WorkingPaper.wb打印.Sheets["研发项目可加计扣除研究开发费用情况归集表"].Rows[(i + 34).ToString() + ":71"]
+                                        .Hidden = true;
+                            }
+
+                            if (WorkingPaper.Wb.Worksheets["基本情况"].range("B8").value == "厦门明正税务师事务所有限公司")
+                            {
+                                WorkingPaper.wb打印.Sheets["中汇封面"].Visible = false;
+                            }
+                            else
+                            {
+                                WorkingPaper.wb打印.Sheets["明正封面"].Visible = false;
+                            }
+
+                            if (CU.Zifu(WorkingPaper.wb打印.Sheets["A109010企业所得税汇总纳税分支机构所得税分配表"].Range["C3"].Value2) ==
+                                "分支机构")
+                            {
+                                WorkingPaper.wb打印.Sheets["分支机构企业所得税申报表（A类）"].Visible = true;
+                            }
+
+                            List<string> lists = new List<string>();
+
+                            int C = WorkingPaper.wb打印.Worksheets.Count;
+                            for (int i = 1; i <= C; i++)
+                            {
+                                //MessageBox.Show(WorkingPaper.wb打印.Worksheets[i].Visible.ToString()); 
+                                if (WorkingPaper.wb打印.Sheets[i].Visible == -1)
+                                {
+                                    lists.Add(WorkingPaper.wb打印.Worksheets[i].Name);
                                 }
                             }
-                            if (konghang)
-                                WorkingPaper.wb打印.Sheets["研发项目可加计扣除研究开发费用情况归集表"].Rows[(i + 34).ToString() + ":71"]
-                                    .Hidden = true;
+
+                            string[] s = lists.ToArray();
+
+                            WorkingPaper.wb打印.Worksheets[s].Select();
+                            Globals.WPToolAddln.Application.DisplayAlerts = true;
+                            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                            Globals.WPToolAddln.Application.StatusBar = false;
+                            WorkingPaper.wb打印.Activate();
+                            WorkingPaper.wb打印.PrintPreview();
+                            //Newbook.Save();
+                            //Newbook.Close();
+                            WorkingPaper.wb打印 = null;
                         }
-                        if (WorkingPaper.Wb.Worksheets["基本情况"].range("B8").value == "厦门明正税务师事务所有限公司")
+                        catch (Exception ex)
                         {
-                            WorkingPaper.wb打印.Sheets["中汇封面"].Visible = false;
-                        }
-                        else
-                        {
-                            WorkingPaper.wb打印.Sheets["明正封面"].Visible = false;
-                        }
-                        if (CU.Zifu(WorkingPaper.wb打印.Sheets["A109010企业所得税汇总纳税分支机构所得税分配表"].Range["C3"].Value2) == "分支机构")
-                        {
-                            WorkingPaper.wb打印.Sheets["分支机构企业所得税申报表（A类）"].Visible = true; 
+                            Globals.WPToolAddln.Application.DisplayAlerts = true;
+                            Globals.WPToolAddln.Application.ScreenUpdating = true;
+                            Globals.WPToolAddln.Application.StatusBar = false;
+                            MessageBox.Show("用户操作出现错误：" + ex.Message);
                         }
 
-                        List<string> lists = new List<string>();
 
-                        int C = WorkingPaper.wb打印.Worksheets.Count;
-                        for (int i = 1; i <= C; i++)
-                        {
-                            //MessageBox.Show(WorkingPaper.wb打印.Worksheets[i].Visible.ToString()); 
-                            if (WorkingPaper.wb打印.Sheets[i].Visible == -1)
-                            {
-                                lists.Add(WorkingPaper.wb打印.Worksheets[i].Name);
-                            }
-                        }
 
-                        string[] s = lists.ToArray();
-
-                        WorkingPaper.wb打印.Worksheets[s].Select();
-                        Globals.WPToolAddln.Application.DisplayAlerts = true;
-                        Globals.WPToolAddln.Application.ScreenUpdating = true;
-                        Globals.WPToolAddln.Application.StatusBar = false;
-                        WorkingPaper.wb打印.Activate();
-                        WorkingPaper.wb打印.PrintPreview();
-                        //Newbook.Save();
-                        //Newbook.Close();
-                        WorkingPaper.wb打印 = null;
                     }
-                    catch (Exception ex)
-                    {
-                        Globals.WPToolAddln.Application.DisplayAlerts = true;
-                        Globals.WPToolAddln.Application.ScreenUpdating = true;
-                        Globals.WPToolAddln.Application.StatusBar = false;
-                        MessageBox.Show("用户操作出现错误：" + ex.Message);
-                    }
-                    
-                    
-
                 }
             }
         }
@@ -1035,7 +1054,11 @@ namespace 百邦所得税汇算底稿工具
                             Globals.WPToolAddln.Application.SheetFollowHyperlink += Application_SheetFollowHyperlink;
                             break;
                         case "A000000企业基础信息表":
-                            Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
+                            if (WorkingPaper.版本号!=2018)
+                            {
+                                Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
+                            }
+                            
                             break;
                         case "固资折旧":
                             object[,] 期末原值 = Wb.ActiveSheet.Range["F8:F12"].Value2;
