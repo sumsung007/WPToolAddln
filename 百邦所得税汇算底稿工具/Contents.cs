@@ -20,74 +20,159 @@ namespace 百邦所得税汇算底稿工具
             InitializeComponent();
             显示选项卡("");
             树状图();
+            treeView2.Nodes.Clear();
+            treeView2.Nodes.Add("刷新底稿目录");
         }
         
         void 树状图()
         {
-            treeView1.Nodes.Clear();
-            string[] Text,Tag;
-            TreeNode Tn;
 
-            Tn=treeView1.Nodes.Add("综合类底稿");
-            Text =Properties.Resources.Text1.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            Tag = Properties.Resources.Tag1.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            for  (int i=0;i<Text.Length;i++)
+            if (WorkingPaper.版本号 == 2016 || WorkingPaper.版本号 == 2017)
             {
-                TreeNode tn=new TreeNode();
-                tn.Tag = Tag[i];
-                tn.Text = Text[i];
-                Tn.Nodes.Add(tn);
+                treeView1.Nodes.Clear();
+                string[] Text, Tag;
+                TreeNode Tn;
+
+                Tn = treeView1.Nodes.Add("综合类底稿");
+                Text = Properties.Resources.Text1.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag1.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("调整类底稿");
+                Text = Properties.Resources.Text2.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag2.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("资产类底稿");
+                Text = Properties.Resources.Text5.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag5.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("负债及权益类底稿");
+                Text = Properties.Resources.Text6.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag6.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("损益类底稿");
+                Text = Properties.Resources.Text3.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag3.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("审核报告");
+                Text = Properties.Resources.Text4.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag4.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
             }
-            Tn = treeView1.Nodes.Add("调整类底稿");
-            Text = Properties.Resources.Text2.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            Tag = Properties.Resources.Tag2.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < Text.Length; i++)
+            else
             {
-                TreeNode tn = new TreeNode();
-                tn.Tag = Tag[i];
-                tn.Text = Text[i];
-                Tn.Nodes.Add(tn);
+
+                treeView1.Nodes.Clear();
+                string[] Text, Tag;
+                TreeNode Tn;
+
+                Tn = treeView1.Nodes.Add("Integrated综合类底稿");
+                Text = Properties.Resources.Tag81.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag81.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("Basic基本资料类底稿");
+                Text = Properties.Resources.Tag82.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag82.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("Assets资产类底稿");
+                Text = Properties.Resources.Tag83.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag83.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("Liabilities and Rights负债及权益类底稿");
+                Text = Properties.Resources.Tag84.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag84.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("Gains and Losses损益类底稿");
+                Text = Properties.Resources.Tag85.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag85.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("Adjustment调整类底稿");
+                Text = Properties.Resources.Tag86.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag86.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
+                Tn = treeView1.Nodes.Add("Declaration报告及申报表");
+                Text = Properties.Resources.Tag87.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                Tag = Properties.Resources.Tag87.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Text.Length; i++)
+                {
+                    TreeNode tn = new TreeNode();
+                    tn.Tag = Tag[i];
+                    tn.Text = Text[i];
+                    Tn.Nodes.Add(tn);
+                }
             }
-            Tn = treeView1.Nodes.Add("资产类底稿");
-            Text = Properties.Resources.Text5.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            Tag = Properties.Resources.Tag5.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < Text.Length; i++)
-            {
-                TreeNode tn = new TreeNode();
-                tn.Tag = Tag[i];
-                tn.Text = Text[i];
-                Tn.Nodes.Add(tn);
-            }
-            Tn = treeView1.Nodes.Add("负债及权益类底稿");
-            Text = Properties.Resources.Text6.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            Tag = Properties.Resources.Tag6.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < Text.Length; i++)
-            {
-                TreeNode tn = new TreeNode();
-                tn.Tag = Tag[i];
-                tn.Text = Text[i];
-                Tn.Nodes.Add(tn);
-            }
-            Tn = treeView1.Nodes.Add("损益类底稿");
-            Text = Properties.Resources.Text3.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            Tag = Properties.Resources.Tag3.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < Text.Length; i++)
-            {
-                TreeNode tn = new TreeNode();
-                tn.Tag = Tag[i];
-                tn.Text = Text[i];
-                Tn.Nodes.Add(tn);
-            }
-            Tn = treeView1.Nodes.Add("审核报告");
-            Text = Properties.Resources.Text4.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            Tag = Properties.Resources.Tag4.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < Text.Length; i++)
-            {
-                TreeNode tn = new TreeNode();
-                tn.Tag = Tag[i];
-                tn.Text = Text[i];
-                Tn.Nodes.Add(tn);
-            }
+
         }
 
         //
@@ -827,5 +912,20 @@ namespace 百邦所得税汇算底稿工具
             return str;
         }
         #endregion
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void treeView2_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+
+        private void treeView2_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            树状图();
+        }
     }
 }

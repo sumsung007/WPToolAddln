@@ -19,7 +19,7 @@ namespace 百邦所得税汇算底稿工具.Properties {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -621,6 +621,69 @@ namespace 百邦所得税汇算底稿工具.Properties {
         public static string Tag6 {
             get {
                 return ResourceManager.GetString("Tag6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 档案封面||待办事项||签发单||三级复核||业务约定||税审收费标准||当局声明||计划||内控||审核问卷||重大问题||交换意见||资料清单||审核标识||盘点表||通用记录||使用说明 的本地化字符串。
+        /// </summary>
+        public static string Tag81 {
+            get {
+                return ResourceManager.GetString("Tag81", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 基本情况||资产负债表||利润表||余额表||检查表||凭证检查 的本地化字符串。
+        /// </summary>
+        public static string Tag82 {
+            get {
+                return ResourceManager.GetString("Tag82", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 货币资金||现金证明||银行调节||应收||预付||其他应收||存货||待摊预提||在建工程||对外投资||固资折旧||折旧测算||无形长摊 的本地化字符串。
+        /// </summary>
+        public static string Tag83 {
+            get {
+                return ResourceManager.GetString("Tag83", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 应付||预收||其他应付||借款||实收公积||未分利润 的本地化字符串。
+        /// </summary>
+        public static string Tag84 {
+            get {
+                return ResourceManager.GetString("Tag84", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主营收支||其他业务||应交税费||收入与申报核对表||毛利分析||制造费用、生产成本||成本倒轧||存货计价测试||税金附加||税费缴纳测算||销售费用||管理费用||财务费用||营外收支||招待||工资福利||广宣||社保||社保明细工资人数||利息||租金 的本地化字符串。
+        /// </summary>
+        public static string Tag85 {
+            get {
+                return ResourceManager.GetString("Tag85", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 调整事项||无限期结转扣除项目审核表||跨年度确认所得情况表||公允价值变动审定表||减值准备审核表||视同销售和房地产开发企业特定业务审核表||未按权责发生制确认收入审核表||投资收益审核表||专项用途财政性资金审核表||捐赠||固定资产加速折旧审核表||资产损失税前扣除审核表||企业重组审核表||政策性搬迁审核表||特殊行业准备金审核表||补亏||免税、减计收入及加计扣除优惠审核表||股息红利优惠审核表||研发费用加计扣除优惠审核表||所得减免优惠审核表||抵扣应纳税所得额审核表||减免所得税优惠审核表||高新技术企业优惠情况审核表||软件、集成电路企业优惠情况审核表||税额抵免优惠审核表||境外所得税收抵免审核表||境外所得纳税调整后所得审核表||境外分支机构弥补亏损审核表||跨年度结转抵免境外所得税审核表||跨地区经营汇总纳税企业年度分摊企业所得税审核表||企业所得税汇总纳税分支机构所得税分配表 的本地化字符串。
+        /// </summary>
+        public static string Tag86 {
+            get {
+                return ResourceManager.GetString("Tag86", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 报告正文||企业基本情况||封面||企业所得税年度纳税申报表填报表单||A000000 企业基础信息表||A100000 中华人民共和国企业所得税年度纳税申报表（A类）||A101010 一般企业收入明细表||A101020 金融企业收入明细表||A102010 一般企业成本支出明细表||A102020 金融企业支出明细表||A103000事业单位、民间非营利组织收入、支出明细表||A104000期间费用明细表||A105000纳税调整项目明细表||A105010视同销售和房地产开发企业特定业务纳税调整明细表||A105020未按权责发生制确认收入纳税调整明细表||A105030投资收益纳税调整明细表||A105040专项用途财政性资金纳税调整表||A105050职工薪酬支出及纳税调整明细表||A105060广告费和业务宣传费跨年度纳税调整明细表||A105070捐赠支出及纳税调整明细表||A105080 资产折旧、摊销及纳税调整明细表||A105090资产损失税前扣除及纳税调整明细表||A105100企业重组及递延纳税事项调整明细表||A105110政策性搬迁纳税调整明细表||A105120 特殊行业准备金 [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        public static string Tag87 {
+            get {
+                return ResourceManager.GetString("Tag87", resourceCulture);
             }
         }
         

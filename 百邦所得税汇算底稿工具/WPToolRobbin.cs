@@ -123,16 +123,34 @@ namespace 百邦所得税汇算底稿工具
             {
                 try
                 {
-                    WorkingPaper.Wb.Application.ScreenUpdating = false;
-                    WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetVisible;
-                    int C = WorkingPaper.Wb.Worksheets.Count;
-                    for (int i = 2; i <= C; i++)
+                    if (WorkingPaper.版本号 == 2018)
                     {
-                        WorkingPaper.Wb.Worksheets[i].Visible = XlSheetVisibility.xlSheetVisible;
+                        WorkingPaper.Wb.Application.ScreenUpdating = false;
+                        WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetVisible;
+                        int C = WorkingPaper.Wb.Worksheets.Count;
+                        for (int i = 2; i <= C; i++)
+                        {
+                            WorkingPaper.Wb.Worksheets[i].Visible = XlSheetVisibility.xlSheetVisible;
+                        }
+                        WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetHidden;
+                        WorkingPaper.Wb.Sheets["开始"].Select();
+                        WorkingPaper.Wb.Application.ScreenUpdating = true;
+
                     }
-                    WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetHidden;
-                    WorkingPaper.Wb.Sheets["主页"].Select();
-                    WorkingPaper.Wb.Application.ScreenUpdating = true;
+                    else
+                    {
+
+                        WorkingPaper.Wb.Application.ScreenUpdating = false;
+                        WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetVisible;
+                        int C = WorkingPaper.Wb.Worksheets.Count;
+                        for (int i = 2; i <= C; i++)
+                        {
+                            WorkingPaper.Wb.Worksheets[i].Visible = XlSheetVisibility.xlSheetVisible;
+                        }
+                        WorkingPaper.Wb.Worksheets[1].Visible = XlSheetVisibility.xlSheetHidden;
+                        WorkingPaper.Wb.Sheets["主页"].Select();
+                        WorkingPaper.Wb.Application.ScreenUpdating = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -259,30 +277,32 @@ namespace 百邦所得税汇算底稿工具
         //菜单按键
         private void btn基本情况_Click(object sender, RibbonControlEventArgs e)
         {
-            if (WorkingPaper.版本号==2018)
-            {
-                CU.工作表切换(new string[] { "基本情况", "地税、基本情况", "A000000企业基础信息表" });
-                Wb.Worksheets["基本情况"].Select();
-            }
-            else
+            if (OOO)
             {
 
-                CU.工作表切换(new string[] {"基本情况", "地税、基本情况", "A000000企业基础信息表"});
-                Wb.Worksheets["基本情况"].Select();
+                if (WorkingPaper.版本号 == 2018)
+                {
+                    CU.工作表切换(new string[] {"基本情况", "地税、基本情况", "A000000 企业基础信息表"});
+                    Wb.Worksheets["基本情况"].Select();
+                }
+                else
+                {
+
+                    CU.工作表切换(new string[] {"基本情况", "地税、基本情况", "A000000企业基础信息表"});
+                    Wb.Worksheets["基本情况"].Select();
+                }
             }
         }
 
         private void btn余额报表_Click(object sender, RibbonControlEventArgs e)
         {
-
             if (WorkingPaper.版本号 == 2018)
             {
-                CU.工作表切换(new string[] {"余额表", "资产负债", "利润"});
+                CU.工作表切换(new string[] { "余额表", "资产负债表", "利润表" });
             }
             else
             {
-
-                CU.工作表切换(new string[] {"余额表", "资产负债表", "利润表"});
+                CU.工作表切换(new string[] { "余额表", "资产负债", "利润" });
             }
         }
 
@@ -291,13 +311,13 @@ namespace 百邦所得税汇算底稿工具
             if (WorkingPaper.版本号 == 2018)
             {
                 CU.工作表切换(new string[] { "应交税费","收入与申报核对表","税金附加","税费缴纳测算",
-                    "社保明细工资人数","补亏","企业各税审核汇总表"});
+                    "社保明细工资人数","补亏","企业各税审核汇总表","税金申报明细"});
             }
             else
             {
 
                 CU.工作表切换(new string[] { "纳税申报数据","主营税金","税费缴纳测算","纳税申报数据",
-                    "收入与申报核对表","企业各税审核汇总表","税金申报明细","社保明细工资人数","补亏","税金申报明细"});
+                    "收入与申报核对表","企业各税审核汇总表","税金申报明细","社保明细工资人数","补亏"});
             }
 
         }
@@ -1072,10 +1092,12 @@ namespace 百邦所得税汇算底稿工具
                 {
                     Globals.WPToolAddln.Application.ScreenUpdating = false;
                     string add = target.Range.Hyperlinks[1].SubAddress;
-                    add = add.Substring(0, add.IndexOf("!")).Replace("'","");
+                    add = add.Substring(0, add.IndexOf("!")).Replace("'", "");
+                    
                     Wb.Worksheets[add].Visible = true;
                     if (Wb.ActiveSheet.Cells[1, 7].Value.ToString() == "跳转超链接所选页面")
                         Wb.Worksheets[add].Select();
+
                     Globals.WPToolAddln.Application.ScreenUpdating = true;
                 }
                 catch (Exception)

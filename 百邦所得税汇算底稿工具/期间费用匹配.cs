@@ -33,7 +33,14 @@ namespace 百邦所得税汇算底稿工具
 
         private void QJFY_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Sh.Range["J2:J" + N].Value2=Kmlb ;
+            if (WorkingPaper.版本号 == 2018)
+            {
+                Sh.Range["J5:J" + N].Value2 = Kmlb;
+            }
+            else
+            {
+                Sh.Range["J2:J" + N].Value2 = Kmlb;
+            }
         }
 
         /*private void ListView1_DragOver(object sender, DragEventArgs e)
@@ -240,11 +247,22 @@ namespace 百邦所得税汇算底稿工具
                 string yykm, glkm, cwkm;
                 this.listView1.BeginUpdate();
                 this.listView1.Items.Clear();
-                Yeb = Sh.Range["A2:H" + N].Value2;    //余额表
-                Kmlb = Sh.Range["J2:J" + N].Value2;   //科目类别
-                yyfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N11"].Value));      //营业费用
-                glfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N10"].Value));      //管理费用
-                cwfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N13"].Value));      //财务费用
+                if (WorkingPaper.版本号 == 2018)
+                {
+                    Yeb = Sh.Range["A5:H" + N].Value2;    //余额表
+                    Kmlb = Sh.Range["J5:J" + N].Value2;   //科目类别
+                    yyfy = Convert.ToInt16(CU.Shuzi(Sh.Range["K1"].Value));      //营业费用
+                    glfy = Convert.ToInt16(CU.Shuzi(Sh.Range["L1"].Value));      //管理费用
+                    cwfy = Convert.ToInt16(CU.Shuzi(Sh.Range["M1"].Value));      //财务费用
+                }
+                else
+                {
+                    Yeb = Sh.Range["A2:H" + N].Value2;    //余额表
+                    Kmlb = Sh.Range["J2:J" + N].Value2;   //科目类别
+                    yyfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N11"].Value));      //营业费用
+                    glfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N10"].Value));      //管理费用
+                    cwfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N13"].Value));      //财务费用   
+                }
                 if (yyfy != 0)//营业费用
                 {
                     yykm = CU.Zifu(Yeb[yyfy - 1, 1]);

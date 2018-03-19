@@ -941,7 +941,7 @@ namespace 百邦所得税汇算底稿工具
                         double[,] c = new double[13, 1], e = new double[13, 1], m = new double[6, 1], k = new double[6, 1];
                         int n = SH.Cells[SH.UsedRange.Rows.Count + 1, 1].End[XlDirection.xlUp].Row;
                         object[,] Shuifei = SH.Range["A2:L" + n.ToString()].Value2;
-                        string year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B4"].Value2);
+                        string year = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["F6"].Value2);
                         for (int i = 1; i <= n - 1; i++)
                         {
                             if (Shuifei[i, 2] != null && CU.Zifu(Shuifei[i, 5]).Substring(0, 4) == year)
