@@ -243,7 +243,7 @@ namespace 百邦所得税汇算底稿工具
             N = Sh.Cells[Sh.UsedRange.Rows.Count + 1, 2].End[XlDirection.xlUp].Row;
             if (N>1)
             {
-                int yyfy, glfy, cwfy, i;
+                int yyfy, glfy, cwfy, i,k;
                 string yykm, glkm, cwkm;
                 this.listView1.BeginUpdate();
                 this.listView1.Items.Clear();
@@ -254,6 +254,7 @@ namespace 百邦所得税汇算底稿工具
                     yyfy = Convert.ToInt16(CU.Shuzi(Sh.Range["K1"].Value));      //营业费用
                     glfy = Convert.ToInt16(CU.Shuzi(Sh.Range["L1"].Value));      //管理费用
                     cwfy = Convert.ToInt16(CU.Shuzi(Sh.Range["M1"].Value));      //财务费用
+                    k = 3;//偏移
                 }
                 else
                 {
@@ -262,11 +263,12 @@ namespace 百邦所得税汇算底稿工具
                     yyfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N11"].Value));      //营业费用
                     glfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N10"].Value));      //管理费用
                     cwfy = Convert.ToInt16(CU.Shuzi(Sh.Range["N13"].Value));      //财务费用   
+                    k = 0;//偏移
                 }
                 if (yyfy != 0)//营业费用
                 {
                     yykm = CU.Zifu(Yeb[yyfy - 1, 1]);
-                    if ((yyfy == N) || (!CU.Zifu(Yeb[yyfy, 1]).Contains(yykm)))
+                    if ((yyfy == N-k) || (!CU.Zifu(Yeb[yyfy, 1]).Contains(yykm)))
                     {
                         ListViewItem lvi = new ListViewItem();
                         lvi.Group = listView1.Groups["yyfy"];
@@ -292,20 +294,20 @@ namespace 百邦所得税汇算底稿工具
                             lvi.SubItems.Add(Kmlb[i, 1] == null ? "" : CU.Zifu(Kmlb[i, 1]).
                                 Substring(CU.Zifu(Kmlb[i, 1]).IndexOf("-") + 1));
                             lvi.SubItems.Add(i.ToString());
-                            if ((i == N - 1) || (!CU.Zifu(Yeb[i + 1, 1]).Contains(CU.Zifu(Yeb[i, 1]))))
+                            if ((i == N - k-1) || (!CU.Zifu(Yeb[i + 1, 1]).Contains(CU.Zifu(Yeb[i, 1]))))
                                 lvi.SubItems.Add("0");
                             else
                                 lvi.SubItems.Add("1");
                             this.listView1.Items.Add(lvi);
                             i++;
-                        } while ((i < N) && (CU.Zifu(Yeb[i, 1]).Contains(yykm)));
+                        } while ((i < N-k) && (CU.Zifu(Yeb[i, 1]).Contains(yykm)));
                     }
                 }
 
                 if (glfy != 0)//管理费用
                 {
                     glkm = CU.Zifu(Yeb[glfy - 1, 1]);
-                    if ((glfy == N) || (!CU.Zifu(Yeb[glfy, 1]).Contains(glkm)))
+                    if ((glfy == N-k) || (!CU.Zifu(Yeb[glfy, 1]).Contains(glkm)))
                     {
                         ListViewItem lvi = new ListViewItem();
                         lvi.Group = listView1.Groups["glfy"];
@@ -331,20 +333,20 @@ namespace 百邦所得税汇算底稿工具
                             lvi.SubItems.Add(Kmlb[i, 1] == null ? "" : CU.Zifu(Kmlb[i, 1]).
                                 Substring(CU.Zifu(Kmlb[i, 1]).IndexOf("-") + 1));
                             lvi.SubItems.Add(i.ToString());
-                            if ((i == N - 1) || (!CU.Zifu(Yeb[i + 1, 1]).Contains(CU.Zifu(Yeb[i, 1]))))
+                            if ((i == N - k-1) || (!CU.Zifu(Yeb[i + 1, 1]).Contains(CU.Zifu(Yeb[i, 1]))))
                                 lvi.SubItems.Add("0");
                             else
                                 lvi.SubItems.Add("1");
                             this.listView1.Items.Add(lvi);
                             i++;
-                        } while ((i < N) && (CU.Zifu(Yeb[i, 1]).Contains(glkm)));
+                        } while ((i < N-k) && (CU.Zifu(Yeb[i, 1]).Contains(glkm)));
                     }
                 }
 
                 if (cwfy != 0)//财务费用
                 {
                     cwkm = CU.Zifu(Yeb[cwfy - 1, 1]);
-                    if ((cwfy == N) || (!CU.Zifu(Yeb[cwfy, 1]).Contains(cwkm)))
+                    if ((cwfy == N-k) || (!CU.Zifu(Yeb[cwfy, 1]).Contains(cwkm)))
                     {
                         ListViewItem lvi = new ListViewItem();
                         lvi.Group = listView1.Groups["cwfy"];
@@ -370,13 +372,13 @@ namespace 百邦所得税汇算底稿工具
                             lvi.SubItems.Add(Kmlb[i, 1] == null ? "" : CU.Zifu(Kmlb[i, 1]).
                                 Substring(CU.Zifu(Kmlb[i, 1]).IndexOf("-") + 1));
                             lvi.SubItems.Add(i.ToString());
-                            if ((i == N - 1) || (!CU.Zifu(Yeb[i + 1, 1]).Contains(CU.Zifu(Yeb[i, 1]))))
+                            if ((i == N - k-1) || (!CU.Zifu(Yeb[i + 1, 1]).Contains(CU.Zifu(Yeb[i, 1]))))
                                 lvi.SubItems.Add("0");
                             else
                                 lvi.SubItems.Add("1");
                             this.listView1.Items.Add(lvi);
                             i++;
-                        } while ((i < N) && (CU.Zifu(Yeb[i, 1]).Contains(cwkm)));
+                        } while ((i < N-k) && (CU.Zifu(Yeb[i, 1]).Contains(cwkm)));
                     }
                 }
             }

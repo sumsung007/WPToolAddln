@@ -33,7 +33,12 @@ namespace 百邦所得税汇算底稿工具
                                 .Value = "";
                             Worksheet SH = WorkingPaper.Wb.Sheets["余额表"];
                             int N = SH.Cells[SH.UsedRange.Rows.Count + 1, 2].End[XlDirection.xlUp].Row;
-                            int changdu = (int)WorkingPaper.Wb.Sheets["辅助表"].Range["B16"].Value;// 一级科目长度
+                            int changdu = CU.Shuzi( WorkingPaper.Wb.Sheets["辅助表"].Range["B16"].Value2);// 一级科目长度
+                            if (changdu==0)
+                            {
+                                MessageBox.Show("未找到一级科目的长度！请检查后重试。");
+                                return;
+                            }
                             object[,] YEB = SH.Range["A5:H" + N.ToString()].Value2;
                             double[] qc = new double[60], qm = new double[60], lrb = new double[18];
                             N = N - 4;

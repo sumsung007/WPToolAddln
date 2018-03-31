@@ -38,9 +38,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag1.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("调整类底稿");
@@ -48,9 +50,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag2.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("资产类底稿");
@@ -58,9 +62,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag5.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("负债及权益类底稿");
@@ -68,9 +74,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag6.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("损益类底稿");
@@ -78,9 +86,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag3.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("审核报告");
@@ -88,9 +98,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag4.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
             }
@@ -106,9 +118,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag81.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("Basic基本资料类底稿");
@@ -116,9 +130,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag82.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("Assets资产类底稿");
@@ -126,9 +142,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag83.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("Liabilities and Rights负债及权益类底稿");
@@ -136,9 +154,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag84.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("Gains and Losses损益类底稿");
@@ -146,9 +166,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag85.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("Adjustment调整类底稿");
@@ -156,9 +178,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag86.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
                 Tn = treeView1.Nodes.Add("Declaration报告及申报表");
@@ -166,9 +190,11 @@ namespace 百邦所得税汇算底稿工具
                 Tag = Properties.Resources.Tag87.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    TreeNode tn = new TreeNode();
-                    tn.Tag = Tag[i];
-                    tn.Text = Text[i];
+                    TreeNode tn = new TreeNode
+                    {
+                        Tag = Tag[i],
+                        Text = Text[i]
+                    };
                     Tn.Nodes.Add(tn);
                 }
             }
@@ -187,6 +213,11 @@ namespace 百邦所得税汇算底稿工具
                     splitContainer3.Panel1Collapsed = false;
                     splitContainer3.Panel2Collapsed = true;
                     groupBox1.Text = "余额表";
+                    if (splitContainer1.Height - 100 >= splitContainer1.Panel1MinSize)
+                    {
+                        splitContainer1.SplitterDistance = 200;
+                    }
+
                     break;
                 case "税金申报明细":
                     //tP税费.Parent= tabControl1;
@@ -195,6 +226,11 @@ namespace 百邦所得税汇算底稿工具
                     splitContainer3.Panel1Collapsed = true;
                     splitContainer4.Panel1Collapsed = false;
                     splitContainer4.Panel2Collapsed = true;
+                    if (splitContainer1.Height - 100 >= splitContainer1.Panel1MinSize)
+                    {
+                        splitContainer1.SplitterDistance = 150;
+                    }
+
                     groupBox1.Text = "税费测算";
                     break;
                 case "基本情况":
@@ -204,6 +240,11 @@ namespace 百邦所得税汇算底稿工具
                     splitContainer3.Panel1Collapsed = true;
                     splitContainer4.Panel2Collapsed = false;
                     splitContainer4.Panel1Collapsed = true;
+                    if (splitContainer1.Height-100>=splitContainer1.Panel1MinSize)
+                    {
+                        splitContainer1.SplitterDistance = 100;
+
+                    }
                     groupBox1.Text = "基本情况";
                     break;
                 default:
@@ -212,7 +253,7 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)//期间费用
+        private void Button2_Click(object sender, EventArgs e)//期间费用
         {
             CU.文件判断();
             if (WorkingPaper.Wb.ActiveSheet.Name == "余额表")
@@ -223,7 +264,7 @@ namespace 百邦所得税汇算底稿工具
 
         }
 
-        private void button1_Click(object sender, EventArgs e)//2017报表填写
+        private void Button1_Click(object sender, EventArgs e)//2017报表填写
         {
 
             if (WorkingPaper.版本号 == 2018)
@@ -239,7 +280,7 @@ namespace 百邦所得税汇算底稿工具
 
         }
 
-        private void button3_Click(object sender, EventArgs e)//2017底稿填写
+        private void Button3_Click(object sender, EventArgs e)//2017底稿填写
         {
 
             if (WorkingPaper.版本号 == 2018)
@@ -253,7 +294,7 @@ namespace 百邦所得税汇算底稿工具
             }
         }      
 
-        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)//双击树状图
+        private void TreeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)//双击树状图
         {
             if (e.Node.GetNodeCount(false) == 0)
             {
@@ -266,7 +307,7 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)//2017税费填写
+        private void Button4_Click(object sender, EventArgs e)//2017税费填写
         {
             if (WorkingPaper.版本号 == 2018)
             {
@@ -279,12 +320,12 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void GroupBox1_Enter(object sender, EventArgs e)
         {
 
         }
@@ -405,8 +446,10 @@ namespace 百邦所得税汇算底稿工具
 
             //把得到的Byte转成图片
             Image img = byteArrayToImage(result.ResultByte);
-            验证码 pic = new 验证码(img,"地税验证码");
-            pic.StartPosition = FormStartPosition.CenterParent;
+            验证码 pic = new 验证码(img, "地税验证码")
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
             pic.ShowDialog();
             strText = pic.pictext;
             //strPass = md5(strPass);
@@ -609,8 +652,10 @@ namespace 百邦所得税汇算底稿工具
 
             //把得到的Byte转成图片
             Image img = byteArrayToImage(result.ResultByte);
-            验证码 pic = new 验证码(img, "地税验证码");
-            pic.StartPosition = FormStartPosition.CenterParent;
+            验证码 pic = new 验证码(img, "地税验证码")
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
             pic.ShowDialog();
             strText = pic.pictext;
             strPass = base64(strPass);
@@ -765,8 +810,10 @@ namespace 百邦所得税汇算底稿工具
 
             //把得到的Byte转成图片
             Image img = byteArrayToImage(result.ResultByte);
-            验证码 pic = new 验证码(img, "国税验证码");
-            pic.StartPosition = FormStartPosition.CenterParent;
+            验证码 pic = new 验证码(img, "国税验证码")
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
             pic.ShowDialog();
             strText = pic.pictext;
 
@@ -850,7 +897,7 @@ namespace 百邦所得税汇算底稿工具
             return ExecuteScript("base64encode(\"" + pass + "\")", result.Html);
         }
 
-        private string md5(string pass)
+        private string Md5(string pass)
         {
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
@@ -865,9 +912,11 @@ namespace 百邦所得税汇算底稿工具
 
         private string ExecuteScript(string sExpression, string sCode)
         {
-            MSScriptControl.ScriptControl scriptControl = new MSScriptControl.ScriptControl();
-            scriptControl.UseSafeSubset = true;
-            scriptControl.Language = "JScript";
+            MSScriptControl.ScriptControl scriptControl = new MSScriptControl.ScriptControl
+            {
+                UseSafeSubset = true,
+                Language = "JScript"
+            };
             scriptControl.AddCode(sCode);
             try
             {

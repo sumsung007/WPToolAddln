@@ -7,11 +7,11 @@ using System.Security;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("所得税汇算底稿工具")]
-[assembly: AssemblyDescription("20180318")]
+[assembly: AssemblyDescription("20180401")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("厦门中汇&明正")]
 [assembly: AssemblyProduct("中汇·明正所得税汇算底稿工具")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,6 +33,6 @@ using System.Security;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("20.1.80.318")]
+[assembly: AssemblyVersion("20.1.80.401")]
 [assembly: AssemblyFileVersion("1.1.0.0")]
 
