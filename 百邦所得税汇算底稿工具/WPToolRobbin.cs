@@ -541,7 +541,7 @@ namespace 百邦所得税汇算底稿工具
                     Banben = Banben1;
                     switch (Banben1.Substring(0, 9))
                     {
-                        case "V20180401":
+                        case "V20180420":
                             升级 = false;
                             break;
                         default:
@@ -581,7 +581,7 @@ namespace 百邦所得税汇算底稿工具
                                     Wb.Worksheets["营外收支"].Range["B38"].Formula =
                                         "=IF(C22<>利润表!C19,\"营业外收入账载数与报表数相差\"&RMB(C22-利润表!C19,2)&\"元！\",\"营业外收入账载数与报表数一致！\")";
                                     Wb.Worksheets["营外收支"].Range["D38"].Formula =
-                                        "=IF(C22<>利润表!C20,\"营业外收入账载数与报表数相差\"&RMB(C22-利润表!C20,2)&\"元！\",\"营业外收入账载数与报表数一致！\")";
+                                        "=IF(C37<>利润表!C20,\"营业外支出账载数与报表数相差\"&RMB(C37-利润表!C20,2)&\"元！\",\"营业外支出账载数与报表数一致！\")";
 
                                     Globals.WPToolAddln.Application.StatusBar = "正在升级底稿...正在升级第02项/共14项";
                                     //利润表，营业利润计算公式
@@ -667,7 +667,7 @@ namespace 百邦所得税汇算底稿工具
                                     //工资薪金申报表改为审定数
                                     Wb.Worksheets["工资福利"].Rows["18:18"].Insert(Shift: XlInsertShiftDirection.xlShiftDown);
                                     Wb.Worksheets["工资福利"].Range["A18:B18"].Merge();
-                                    Wb.Worksheets["工资福利"].Range["B18:C18"].Merge();
+                                    Wb.Worksheets["工资福利"].Range["C18:D18"].Merge();
                                     Wb.Worksheets["工资福利"].Range["A18"].Value2 = "实际发生额";
                                     Wb.Worksheets["工资福利"].Range["E16"].ClearContents();
                                     Wb.Worksheets["工资福利"].Range["G34:H34"].ClearContents();
@@ -708,6 +708,173 @@ namespace 百邦所得税汇算底稿工具
 
                                 }
 
+                                if (Banben.Substring(0, 9) == "V20180401")
+                                {
+                                    #region V20180401升级为V20180420
+
+                                    string updateName = "正在将V20180401升级为V20180420";     //升级名称
+                                    int updateNum = 15;         //本次升级项目数量
+                                    int j = 0;                  //当前升级项目
+
+                                    //报告正文 9和10对调，先弥补再抵扣
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =$"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["报告正文"].Range["B31"].Value2 = "9.减：弥补以前年度亏损";
+                                    Wb.Worksheets["报告正文"].Range["B32"].Value2 = "10.减：抵扣应纳税所得额";
+
+                                    //A100000 中华人民共和国企业所得税年度纳税申报表（A类）  税金及附加、已缴所得税、序号
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A100000 中华人民共和国企业所得税年度纳税申报表（A类）"].Range["D6"].Formula = "=税金附加!G20";
+                                    Wb.Worksheets["A100000 中华人民共和国企业所得税年度纳税申报表（A类）"].Range["D35"].Formula = "=应交税费!H11";
+                                    Wb.Worksheets["A100000 中华人民共和国企业所得税年度纳税申报表（A类）"].Range["A1"].Value2 = "A100000";
+
+                                    //A101010 一般企业收入明细表 审定数改 账载数
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A101010 一般企业收入明细表"].Range["C6:C11"].Replace(What: "23", Replacement: "20",
+                                        LookAt: XlLookAt.xlPart, SearchOrder: XlSearchOrder.xlByRows, MatchCase: false,
+                                        SearchFormat: false,
+                                        ReplaceFormat: false);
+                                    Wb.Worksheets["A101010 一般企业收入明细表"].Range["C13:C29"].Replace(What: "E", Replacement: "C",
+                                        LookAt: XlLookAt.xlPart, SearchOrder: XlSearchOrder.xlByRows, MatchCase: false,
+                                        SearchFormat: false,
+                                        ReplaceFormat: false);
+
+                                    //A102010 一般企业成本支出明细表 审定数改 账载数
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A102010 一般企业成本支出明细表"].Range["C6:C11"].Replace(What: "40", Replacement: "37",
+                                        LookAt: XlLookAt.xlPart, SearchOrder: XlSearchOrder.xlByRows, MatchCase: false,
+                                        SearchFormat: false,
+                                        ReplaceFormat: false);
+                                    Wb.Worksheets["A102010 一般企业成本支出明细表"].Range["C13:C18"].Replace(What: "J", Replacement: "H",
+                                        LookAt: XlLookAt.xlPart, SearchOrder: XlSearchOrder.xlByRows, MatchCase: false,
+                                        SearchFormat: false,
+                                        ReplaceFormat: false);
+                                    Wb.Worksheets["A102010 一般企业成本支出明细表"].Range["C20:C29"].Replace(What: "E", Replacement: "C",
+                                        LookAt: XlLookAt.xlPart, SearchOrder: XlSearchOrder.xlByRows, MatchCase: false,
+                                        SearchFormat: false,
+                                        ReplaceFormat: false);
+
+                                    //企业所得税年度纳税申报表填报表单  捐赠支出 判断公式
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["企业所得税年度纳税申报表填报表单"].Range["G19"].Formula =
+                                        "=SUM(A105070捐赠支出及纳税调整明细表!C12:D12,A105070捐赠支出及纳税调整明细表!F12)<>0";
+
+                                    //报告数字类型改为会计
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    string 数字类型_会计 = "_ * #,##0.00_ ;_ * -#,##0.00_ ;_ * \"-\"??_ ;_ @_ ";
+                                    Wb.Worksheets["A100000 中华人民共和国企业所得税年度纳税申报表（A类）"].Range["D4:D26"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A100000 中华人民共和国企业所得税年度纳税申报表（A类）"].Range["D28:D39"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A101010 一般企业收入明细表"].Range["C4:C29"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A101020 金融企业收入明细表"].Range["C4:C45"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A102010 一般企业成本支出明细表"].Range["C4:C29"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A102020 金融企业支出明细表"].Range["C4:C42"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A104000期间费用明细表"].Range["C6:H31"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105000纳税调整项目明细表"].Range["C5:H49"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["C5:D36"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105020未按权责发生制确认收入纳税调整明细表"].Range["C7:H20"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105030投资收益纳税调整明细表"].Range["C9:M18"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105040专项用途财政性资金纳税调整表"].Range["D8:P16"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["C6:D18"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["F6:I18"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105060广告费和业务宣传费跨年度纳税调整明细表"].Range["C4:C7,C9:C18"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105070捐赠支出及纳税调整明细表"].Range["C5:I12"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105080 资产折旧、摊销及纳税调整明细表"].Range["D12:L51"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105090资产损失税前扣除及纳税调整明细表"].Range["C5:H18"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105100企业重组及递延纳税事项调整明细表"].Range["C6:I21"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105110政策性搬迁纳税调整明细表"].Range["C4:C27"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A105120 特殊行业准备金及纳税调整明细表"].Range["E5:G47"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A106000 企业所得税弥补亏损明细表"].Range["D8:M13,M14"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A107010免税、减计收入及加计扣除优惠明细表"].Range["C4:C34"].NumberFormatLocal = 数字类型_会计;
+                                    Wb.Worksheets["A107040减免所得税优惠明细表"].Range["C4:C39"].NumberFormatLocal = 数字类型_会计;
+
+                                    //A106000 企业所得税弥补亏损明细表 K12 星号
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A106000 企业所得税弥补亏损明细表"].Range["K12"].Value2 = "*";
+
+                                    //A106000 企业所得税弥补亏损明细表 L10 、M9:M12公式有误
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A106000 企业所得税弥补亏损明细表"].Range["L10"].Formula =
+                                        "=IF(OR(F10>=0,补亏!E18<=0),0,MIN(-F10-K10,补亏!E18-L8-L9))";
+                                    Wb.Worksheets["A106000 企业所得税弥补亏损明细表"].Range["M9:M11"].FormulaR1C1 = "=-RC[-7]-RC[-1]-RC[-2]";
+
+                                    //工资福利 A18 合并有误
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    if (Wb.Worksheets["工资福利"].Range["A18"].MergeArea.Address== "$A$18:$C$18")
+                                    {
+                                        Wb.Worksheets["工资福利"].Range["A18:C18"].UnMerge();
+                                        Wb.Worksheets["工资福利"].Range["A18:B18"].Merge();
+                                        Wb.Worksheets["工资福利"].Range["C18:D18"].Merge();
+                                        Wb.Worksheets["工资福利"].Range["A18"].Value2 = "实际发生额";
+                                        Wb.Worksheets["工资福利"].Range["C18"].Formula = "=C17-G29";
+                                    }
+
+                                    //凭证检查 收入 公式修改
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["检查表"].Range["C16"].Formula =
+                                        "=IF(ROUND(主营收支!$H$20-利润表!$C$6,2)<>0,\"不符\",0)";
+
+                                    //部分日期格式修改
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    string 数字类型_日期 = "[$-F800]dddd, mmmm dd, yyyy";
+                                    Wb.Worksheets["档案封面"].Range["D15"].NumberFormatLocal = 数字类型_日期;
+                                    Wb.Worksheets["基本情况"].Range["F25:F28"].NumberFormatLocal = 数字类型_日期;
+                                    Wb.Worksheets["内控"].Range["H4:H5"].NumberFormatLocal = 数字类型_日期;
+                                    Wb.Worksheets["通用记录"].Range["G5"].NumberFormatLocal = 数字类型_日期;
+                                    Wb.Worksheets["签发单"].Range["B8"].Formula =
+                                        "=\"  签字：\"&基本情况!$F$19&\"\"&\"                         日期：\"";
+                                    Wb.Worksheets["签发单"].Range["B11"].Formula =
+                                        "=\"  签字：\"&基本情况!$F$18&\"\"&\"                         日期：\"";
+                                    Wb.Worksheets["签发单"].Range["B14"].Formula =
+                                        "=\"  签字：\"&基本情况!$F$17&\"                         日期：\"";
+                                    Wb.Worksheets["签发单"].Range["B17"].Formula =
+                                        "=\"  签字：\"&基本情况!$F$16&\"\"&\"                         日期：\"";
+                                    Wb.Worksheets["三级复核"].Range["F14"].Formula =
+                                        "=\"签名：\"&基本情况!$F$18&\"\"&\"               日期：\"";
+                                    Wb.Worksheets["三级复核"].Range["F24"].Formula =
+                                        "=\"签名：\"&基本情况!$F$17&\"\"&\"               日期：\"";
+                                    Wb.Worksheets["三级复核"].Range["F32"].Formula =
+                                        "=\"签名：\"&基本情况!$F$16&\"\"&\"               日期：\"";
+
+                                    //A105050职工薪酬支出及纳税调整明细表 的 税收金额
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["G8"].Formula = "=ROUND(工资福利!E19,2)";
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["G10"].Formula = "=ROUND(工资福利!F19,2)";
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["G12"].Formula = "=ROUND(工资福利!G19,2)";
+
+                                    //添加当前版本号
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["开始"].Range["K1"].Formula = "=辅助表!I1";
+                                    Wb.Worksheets["基本情况"].Range["A1"].Formula = "=辅助表!I1&\"基 本 情 况 表\"";
+
+                                    //调整事项自动获取调整名称
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["调整事项"].Range["C53:C61"].FormulaR1C1 = "=IFERROR(INDEX(凭证检查!R7C20:R31C20,MATCH(调整事项!RC[-1],凭证检查!R7C21:R31C21,0)),\"\")";
+
+                                    //社保 公积金 税收金额取较小值
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar = $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["社保"].Range["E17"].Formula = "=MIN(社保明细工资人数!F22,D17)";
+
+
+                                    #endregion
+
+                                    Banben = "V20180420-" + Banben.Substring(5);
+                                }
+
+
                                 Wb.Worksheets["辅助表"].Unprotect();
                                 Wb.Worksheets["辅助表"].Range["I1"].Value2 = Banben;
                                 Wb.Worksheets["辅助表"].Protect();
@@ -715,6 +882,10 @@ namespace 百邦所得税汇算底稿工具
                                 MessageBox.Show("升级完成，请检查！");
                             }
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"当前版本为{当前版本}，不需要升级！");
                     }
                 }
                 else
@@ -1412,13 +1583,13 @@ namespace 百邦所得税汇算底稿工具
             if (最新版本 == "获取失败")
                 MessageBox.Show("版本获取失败，请检查网络后重试！");
             else
-                if (最新版本 != 当前版本)
+                if (最新版本 != 当前版本+"修复版")
             {
-                MessageBox.Show("当前版本为：" + 当前版本 + "，发现新版本：" + 最新版本 + "。请通过微信公众号下载新版本！");
+                MessageBox.Show("当前版本为：" + 当前版本 + "修复版" + "，发现新版本：" + 最新版本 + "。请通过微信公众号下载新版本！");
             }
             else
                 if(O)
-                MessageBox.Show("当前版本为：" + 当前版本 + "，最新版本为：" + 最新版本 + "，不需要更新。请关注微信公众号以获取最新版本动态！");
+                MessageBox.Show("当前版本为：" + 当前版本 + "修复版" + "，最新版本为：" + 最新版本 + "，不需要更新。请关注微信公众号以获取最新版本动态！");
         }
 
         //工作簿激活事件

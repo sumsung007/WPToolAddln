@@ -118,7 +118,7 @@ namespace 百邦所得税汇算底稿工具
                         }
                         else
                         {
-                            if ((T.Contains("工资")) || (T.Contains("薪金")) || (T.Contains("薪酬")))
+                            if (T.Contains("工资") || T.Contains("薪金") || T.Contains("薪酬")||T.Contains("年终奖"))
                                 m = "工资薪金支出";
                             if (T.Contains("福利费"))
                                 m = "职工福利费支出";
@@ -180,7 +180,7 @@ namespace 百邦所得税汇算底稿工具
                                 m = "差旅费";
                             if (Regex.IsMatch(T, "(财.*保险)|(身.*保险)|(责.*保险)|(综.*保险)|(危.*保险)|(交.*保险)"))
                                 m = "保险费";
-                            if (Regex.IsMatch(T, "(运输.*费)|(仓储.*费)"))
+                            if (Regex.IsMatch(T, "(运输.*费)|(仓储.*费)|(运费)"))
                                 m = "运输、仓储费";
                             if (T.Contains("修理"))
                                 m = "修理费";

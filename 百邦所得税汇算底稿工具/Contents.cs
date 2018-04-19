@@ -384,7 +384,7 @@ namespace 百邦所得税汇算底稿工具
 
         #region 申报数据获取
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btnDP_Click(object sender, EventArgs e)
         {
             string strText, scookie, strName, strPass,year,ZSXMGS,ZSPMGS;
             if (!CU.文件判断())
@@ -976,5 +976,6 @@ namespace 百邦所得税汇算底稿工具
         {
             树状图();
         }
+        
     }
 }

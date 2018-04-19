@@ -23,7 +23,7 @@ namespace 百邦所得税汇算底稿工具
                 {
                     if (true)
                     {
-                        //try
+                        try
                         {
                             string kemu, daima;
                             WorkingPaper.Wb.Application.ScreenUpdating = false;
@@ -33,7 +33,7 @@ namespace 百邦所得税汇算底稿工具
                                 .Value = "";
                             Worksheet SH = WorkingPaper.Wb.Sheets["余额表"];
                             int N = SH.Cells[SH.UsedRange.Rows.Count + 1, 2].End[XlDirection.xlUp].Row;
-                            int changdu = CU.Shuzi( WorkingPaper.Wb.Sheets["辅助表"].Range["B16"].Value2);// 一级科目长度
+                            int changdu =(int) CU.Shuzi( WorkingPaper.Wb.Sheets["辅助表"].Range["B16"].Value2);// 一级科目长度
                             if (changdu==0)
                             {
                                 MessageBox.Show("未找到一级科目的长度！请检查后重试。");
@@ -517,11 +517,10 @@ namespace 百邦所得税汇算底稿工具
                             WorkingPaper.Wb.Sheets["利润表"].Cells[22, 3].Value = lrb[11]; //所得税
                             WorkingPaper.Wb.Application.ScreenUpdating = true;
                         }
-                        //catch (Exception ex)
-                        //{
-                        //    WorkingPaper.Wb.Application.ScreenUpdating = true;
+                        finally {
+                            WorkingPaper.Wb.Application.ScreenUpdating = true;
                         //    MessageBox.Show("用户操作出现错误：" + ex.Message);
-                        //}
+                        }
                         if (CU.Shuzi(WorkingPaper.Wb.Sheets["资产负债表"].Range["C35"].Value2) != 0)
                         {
                             MessageBox.Show("报表填写完毕，请复查!" + "资产负债表未分配利润期末余额与利润表期末未分配利润差异" +
