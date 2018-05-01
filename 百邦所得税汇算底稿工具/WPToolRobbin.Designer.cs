@@ -247,7 +247,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20180420 🌧谷雨🌧";
+            this.group2.Label = "V20180501 👨‍劳动节👩‍";
             this.group2.Name = "group2";
             // 
             // sb导出数据

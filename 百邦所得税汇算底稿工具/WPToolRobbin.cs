@@ -541,7 +541,7 @@ namespace 百邦所得税汇算底稿工具
                     Banben = Banben1;
                     switch (Banben1.Substring(0, 9))
                     {
-                        case "V20180420":
+                        case "V20180501":
                             升级 = false;
                             break;
                         default:
@@ -872,6 +872,127 @@ namespace 百邦所得税汇算底稿工具
                                     #endregion
 
                                     Banben = "V20180420-" + Banben.Substring(5);
+                                }
+
+                                if (Banben.Substring(0, 9) == "V20180420")
+                                {
+                                    #region V20180420升级为V20180501
+
+                                    string updateName = "正在将V20180420升级为V20180501";     //升级名称
+                                    int updateNum = 15;         //本次升级项目数量
+                                    int j = 0;                  //当前升级项目
+                                    
+                                    //无形长摊钩稽关系
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["无形长摊"].Range["C30"].Formula = "=IF(K7<>资产负债表!$C$30,\"长期待摊费用账载数与报表数相差\"&RMB(K7-资产负债表!$C$30,2)&\"元！\",\"长期待摊费用账载数与报表数相符！\")";
+                                    Wb.Worksheets["无形长摊"].Range["H30"].Formula = "=IF(K17<>资产负债表!$C$28,\"无形资产账载数与报表数相差\"&RMB(K17-资产负债表!$C$28,2)&\"元！\",\"无形资产账载数与报表数相符！\")";
+
+                                    //房地产预计毛利公式修改
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["C28"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!C30,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["C29"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!C31,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["D29"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!D31,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["C30"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!C32,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["D30"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!D32,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["C33"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!C34,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["C34"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!C35,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["D34"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!D35,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["C35"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!C36,2)";
+                                    Wb.Worksheets["A105010视同销售和房地产开发企业特定业务纳税调整明细表"].Range["D35"].Formula =
+                                        "=ROUND(视同销售和房地产开发企业特定业务审核表!D36,2)";
+
+                                    //利润表 上年数修改
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["利润表"].Range["E21"].Formula = "=E18+E19-E20";
+                                    Wb.Worksheets["利润表"].Range["E23"].Formula = "=E21-E22";
+                                    Wb.Worksheets["利润表"].Range["E27"].Formula = "=E23+E24+E25+E26";
+                                    Wb.Worksheets["利润表"].Range["E34"].Formula = "=E27-E28-E29-E30-E31-E32-E33";
+                                    Wb.Worksheets["利润表"].Range["E41"].Formula = "=E34-E35-E36-E37-E38-E39-E40";
+
+                                    //跨地区经营汇总纳税企业年度分摊企业所得税明细表 修改项目
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B4"].Value2 = "一、实际应纳所得税额";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B7"].Value2 = "二、用于分摊的本年实际应纳所得税（1-2+3）";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B9"].Value2 = "   （一）总机构直接管理建筑项目部已预分所得税额";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B12"].Value2 = "   （四）分支机构已分摊所得税额";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B14"].Value2 = "四、本年度应分摊的应补（退）的所得税额（4-5）";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B15"].Value2 = "   （一）总机构分摊本年应补（退）的所得税额（11×总机构分摊比例）";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B16"].Value2 = "   （二）财政集中分配本年应补（退）的所得税额（11×财政集中分配比例）";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B17"].Value2 = "   （三）分支机构分摊本年应补（退）的所得税额（11×分支机构分摊比例）";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B18"].Value2 = "         其中：总机构主体生产经营部门分摊本年应补（退）的所得税额（11×总机构主体生产经营部门分摊比例）";
+                                    Wb.Worksheets["A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表"].Range["B19"].Value2 = "五、境外所得抵免后的应纳所得税额（2-3）";
+
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B4"].Value2 = "一、实际应纳所得税额";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B7"].Value2 = "二、用于分摊的本年实际应纳所得税（1-2+3）";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B9"].Value2 = "   （一）总机构直接管理建筑项目部已预分所得税额";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B12"].Value2 = "   （四）分支机构已分摊所得税额";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B14"].Value2 = "四、本年度应分摊的应补（退）的所得税额（4-5）";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B16"].Value2 = "   （一）总机构分摊本年应补（退）的所得税额（11×总机构分摊比例）";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B18"].Value2 = "   （二）财政集中分配本年应补（退）的所得税额（11×财政集中分配比例）";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B20"].Value2 = "   （三）分支机构分摊本年应补（退）的所得税额（11×分支机构分摊比例）";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B21"].Value2 = "         其中：总机构主体生产经营部门分摊本年应补（退）的所得税额（11×总机构主体生产经营部门分摊比例）";
+                                    Wb.Worksheets["跨地区经营汇总纳税企业年度分摊企业所得税审核表"].Range["B22"].Value2 = "五、境外所得抵免后的应纳所得税额（2-3）";
+
+                                    //修改当前版本号
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["基本情况"].Range["A1"].Formula = "=LEFT(辅助表!I1,9)&\"基 本 情 况 表\"";
+
+                                    //企业所得税年度纳税申报表填报表单 广宣费
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["企业所得税年度纳税申报表填报表单"].Range["G18"].Formula =
+                                        "=SUM(A105060广告费和业务宣传费跨年度纳税调整明细表!C4:C6,A105060广告费和业务宣传费跨年度纳税调整明细表!C10:C18)<>0";
+
+                                    //纳税调整明细表 折旧、资产损失、41-44行
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A105000纳税调整项目明细表"].Range["E36"].Formula =
+                                        "=IF(\'A105080 资产折旧、摊销及纳税调整明细表\'!$L$50>=0,\'A105080 资产折旧、摊销及纳税调整明细表\'!$L$50,0)";
+                                    Wb.Worksheets["A105000纳税调整项目明细表"].Range["E38"].Formula =
+                                        "=IF(A105090资产损失税前扣除及纳税调整明细表!$H$18>=0,A105090资产损失税前扣除及纳税调整明细表!$H$18,0)";
+                                    Wb.Worksheets["A105000纳税调整项目明细表"].Range["E41"].Formula =
+                                        "=IF(A105100企业重组及递延纳税事项调整明细表!I21>=0,A105100企业重组及递延纳税事项调整明细表!I21,0)";
+                                    Wb.Worksheets["A105000纳税调整项目明细表"].Range["E42"].Formula =
+                                        "=IF(A105110政策性搬迁纳税调整明细表!$C$27>=0,A105110政策性搬迁纳税调整明细表!$C$27,0)";
+                                    Wb.Worksheets["A105000纳税调整项目明细表"].Range["E43"].Formula =
+                                        "=IF(\'A105120 特殊行业准备金及纳税调整明细表\'!G47>=0,\'A105120 特殊行业准备金及纳税调整明细表\'!G47,0)";
+                                    Wb.Worksheets["A105000纳税调整项目明细表"].Range["E44"].Formula =
+                                        "=IF(A105010视同销售和房地产开发企业特定业务纳税调整明细表!$D$25>=0,A105010视同销售和房地产开发企业特定业务纳税调整明细表!$C$25,0)";
+
+                                    //	8. 招待J20\J22,广宣J23=0
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["招待"].Range["J20"].Formula ="=MAX(0,SUM(J17:K19)+J24)";
+                                    Wb.Worksheets["招待"].Range["J22"].Formula = "=MAX(0,MIN(J16,J21))";
+                                    Wb.Worksheets["广宣"].Range["J32"].Value2 = "0";
+
+
+
+
+                                    #endregion
+                                    Banben = "V20180501-" + Banben.Substring(5);
                                 }
 
 
@@ -1583,13 +1704,13 @@ namespace 百邦所得税汇算底稿工具
             if (最新版本 == "获取失败")
                 MessageBox.Show("版本获取失败，请检查网络后重试！");
             else
-                if (最新版本 != 当前版本+"修复版")
+                if (最新版本 != 当前版本)
             {
-                MessageBox.Show("当前版本为：" + 当前版本 + "修复版" + "，发现新版本：" + 最新版本 + "。请通过微信公众号下载新版本！");
+                MessageBox.Show("当前版本为：" + 当前版本  + "，发现新版本：" + 最新版本 + "。请通过微信公众号下载新版本！");
             }
             else
                 if(O)
-                MessageBox.Show("当前版本为：" + 当前版本 + "修复版" + "，最新版本为：" + 最新版本 + "，不需要更新。请关注微信公众号以获取最新版本动态！");
+                MessageBox.Show("当前版本为：" + 当前版本  + "，最新版本为：" + 最新版本 + "，不需要更新。请关注微信公众号以获取最新版本动态！");
         }
 
         //工作簿激活事件
