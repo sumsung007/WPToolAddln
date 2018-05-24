@@ -247,7 +247,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20180501 👨‍劳动节👩‍";
+            this.group2.Label = "V20180521 迟到的小满‍";
             this.group2.Name = "group2";
             // 
             // sb导出数据
@@ -320,7 +320,8 @@
             // 
             // button1
             // 
-            this.button1.Label = "修复打印报告权限";
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.Label = "修复日期格式";
             this.button1.Name = "button1";
             this.button1.ShowImage = true;
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click_1);

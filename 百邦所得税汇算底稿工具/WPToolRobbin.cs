@@ -444,6 +444,36 @@ namespace 百邦所得税汇算底稿工具
 
         void 查看报告()
         {
+            
+            object[,] 期末原值 = Wb.Worksheets["固资折旧"].Range["F8:F12"].Value2;
+            object[,] 期末折旧 = Wb.Worksheets["固资折旧"].Range["F18:F22"].Value2;
+            object[,] 期末税收折旧 = Wb.Worksheets["固资折旧"].Range["A8:A12"].Value2;
+            if (CU.Shuzi(期末原值[1, 1]) < CU.Shuzi(期末折旧[1, 1]) || CU.Shuzi(期末原值[1, 1]) < CU.Shuzi(期末税收折旧[1, 1]))
+            {
+                MessageBox.Show("房屋建筑累计折旧大于原值！");
+                return;
+            }
+            if (CU.Shuzi(期末原值[2, 1]) < CU.Shuzi(期末折旧[2, 1]) || CU.Shuzi(期末原值[2, 1]) < CU.Shuzi(期末税收折旧[2, 1]))
+            {
+                MessageBox.Show("机械设备累计折旧大于原值！");
+                return;
+            }
+
+            if (CU.Shuzi(期末原值[3, 1]) < CU.Shuzi(期末折旧[3, 1]) || CU.Shuzi(期末原值[3, 1]) < CU.Shuzi(期末税收折旧[3, 1]))
+            {
+                MessageBox.Show("工器家具累计折旧大于原值！");
+                return;
+            }
+            if (CU.Shuzi(期末原值[4, 1]) < CU.Shuzi(期末折旧[4, 1]) || CU.Shuzi(期末原值[4, 1]) < CU.Shuzi(期末税收折旧[4, 1]))
+            {
+                MessageBox.Show("运输工具累计折旧大于原值！");
+                return;
+            }
+            if (CU.Shuzi(期末原值[5, 1]) < CU.Shuzi(期末折旧[5, 1]) || CU.Shuzi(期末原值[5, 1]) < CU.Shuzi(期末税收折旧[5, 1]))
+            {
+                MessageBox.Show("电子设备累计折旧大于原值！");
+                return;
+            }
             if (WorkingPaper.版本号 == 2018)
             {
                 CU.工作表切换(new string[]
@@ -541,7 +571,7 @@ namespace 百邦所得税汇算底稿工具
                     Banben = Banben1;
                     switch (Banben1.Substring(0, 9))
                     {
-                        case "V20180501":
+                        case "V20180521":
                             升级 = false;
                             break;
                         default:
@@ -995,6 +1025,54 @@ namespace 百邦所得税汇算底稿工具
                                     Banben = "V20180501-" + Banben.Substring(5);
                                 }
 
+                                if (Banben.Substring(0, 9) == "V20180501")
+                                {
+                                    #region V20180501升级为V20180521
+
+                                    string updateName = "正在将V20180420升级为V20180501";     //升级名称
+                                    int updateNum = 5;         //本次升级项目数量
+                                    int j = 0;                  //当前升级项目
+
+                                    //基本情况，D23改为=RIGHT(地税、基本情况!$F$6,LEN(地税、基本情况!$F$6)-4)
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["基本情况"].Range["D23"].Formula = "=RIGHT(地税、基本情况!$F$6,LEN(地税、基本情况!$F$6)-4)";
+
+                                    //工资福利 实际发生额等于税收金额
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["工资福利"].Range["C18:G18"].FormulaR1C1 = "=R[1]C";
+
+                                    //工资薪金 实际支出=税收金额
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["D13"].Formula = "=社保!E8";
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["D14"].Formula = "=社保!E17";
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["D15"].Formula = "=社保!E15";
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["D16"].Formula = "=社保!E16";
+                                    Wb.Worksheets["A105050职工薪酬支出及纳税调整明细表"].Range["D17"].Formula = "=社保!E18";
+
+                                    //固定资产原值，加判断，如果本期折旧低于期末余额，则显示期初+本期增加；否则未期末余额
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["A105080 资产折旧、摊销及纳税调整明细表"].Range["D13:D17"].FormulaR1C1 = "=IF(固资折旧!R23C4>固资折旧!R13C6,固资折旧!R[-5]C[-1]+固资折旧!R[-5]C,固资折旧!R[-5]C[2])";
+                                    Wb.Worksheets["A105080 资产折旧、摊销及纳税调整明细表"].Range["F13:F17"].FormulaR1C1 = "=IF(固资折旧!R23C4>固资折旧!R13C6,固资折旧!R[5]C[-3]+固资折旧!R[5]C[-2],固资折旧!R[5]C)";
+                                    Wb.Worksheets["A105080 资产折旧、摊销及纳税调整明细表"].Range["K13:K17"].FormulaR1C1 = "=固资折旧!R[5]C[-8]+固资折旧!R[5]C[-4]-IF(固资折旧!R23C4>固资折旧!R13C6,0,固资折旧!R[5]C[-6])";
+
+                                    //招待的 收入，长投持有收益税收+税收计算处置收入
+                                    j++;
+                                    Globals.WPToolAddln.Application.StatusBar =
+                                        $"{updateName}...正在升级第{j:00}项/共{updateNum:00}项";
+                                    Wb.Worksheets["招待"].Range["J18"].Formula = "=IF(基本情况!$C$10=\"是\",投资收益审核表!$D$11+投资收益审核表!$G$11,0)";
+
+
+                                    #endregion
+                                    Banben = "V20180521-" + Banben.Substring(5);
+                                }
 
                                 Wb.Worksheets["辅助表"].Unprotect();
                                 Wb.Worksheets["辅助表"].Range["I1"].Value2 = Banben;
@@ -1340,14 +1418,38 @@ namespace 百邦所得税汇算底稿工具
 
         private void button1_Click_1(object sender, RibbonControlEventArgs e)
         {
-            if(WorkingPaper.OOO)
+                //WorkingPaper.Wb.Application.ScreenUpdating = true;
+                //Globals.WPToolAddln.Application.Workbooks.Open(
+                //    AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\打印报告.xlsx",
+                //    XlUpdateLinks.xlUpdateLinksNever);
+                //MessageBox.Show("如果打印报告权限出错，请打开打印报告源文件，修改权限为可编辑！");
+
+                string NF;
+                Range rg= Globals.WPToolAddln.Application.ActiveCell;
+            NF = rg.NumberFormat;
+            if (Regex.IsMatch(NF, @"^\[\$.*\]dddd.*yyyy$"))
             {
-                WorkingPaper.Wb.Application.ScreenUpdating = true;
-                Globals.WPToolAddln.Application.Workbooks.Open(
-                    AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\打印报告.xlsx",
-                    XlUpdateLinks.xlUpdateLinksNever);
-                MessageBox.Show("如果打印报告权限出错，请打开打印报告源文件，修改权限为可编辑！");
+                Globals.WPToolAddln.Application.StatusBar = "删除日期格式，请勿操作Excel！";
+                if (WorkingPaper.OOO)
+                {
+                    Wb.Application.ScreenUpdating = false;
+                    Wb.Worksheets["辅助表"].Unprotect();
+                    Wb.DeleteNumberFormat(NumberFormat: NF);
+                    Wb.Worksheets["辅助表"].Protect();
+                    Wb.Worksheets["基本情况"].Range["F25:F28"].NumberFormat = "yyyy-mm-dd";
+                    Wb.Application.ScreenUpdating = true;
+                    MessageBox.Show("删除成功，请检查！");
+                }
+                else
+                {
+                    Globals.WPToolAddln.Application.ActiveWorkbook.DeleteNumberFormat(NumberFormat: NF);
+
+                }
+                Globals.WPToolAddln.Application.StatusBar = false;
             }
+            else
+                MessageBox.Show("本单元格不是特殊日期格式！");
+
         }
 
         private void btn底稿打印_Click(object sender, RibbonControlEventArgs e)
@@ -1365,6 +1467,36 @@ namespace 百邦所得税汇算底稿工具
 
         private void btn打印报告_Click(object sender, RibbonControlEventArgs e)
         {
+
+            object[,] 期末原值 = Wb.Worksheets["固资折旧"].Range["F8:F12"].Value2;
+            object[,] 期末折旧 = Wb.Worksheets["固资折旧"].Range["F18:F22"].Value2;
+            object[,] 期末税收折旧 = Wb.Worksheets["固资折旧"].Range["A8:A12"].Value2;
+            if (CU.Shuzi(期末原值[1, 1]) < CU.Shuzi(期末折旧[1, 1]) || CU.Shuzi(期末原值[1, 1]) < CU.Shuzi(期末税收折旧[1, 1]))
+            {
+                MessageBox.Show("房屋建筑累计折旧大于原值！");
+                return;
+            }
+            if (CU.Shuzi(期末原值[2, 1]) < CU.Shuzi(期末折旧[2, 1]) || CU.Shuzi(期末原值[2, 1]) < CU.Shuzi(期末税收折旧[2, 1]))
+            {
+                MessageBox.Show("机械设备累计折旧大于原值！");
+                return;
+            }
+
+            if (CU.Shuzi(期末原值[3, 1]) < CU.Shuzi(期末折旧[3, 1]) || CU.Shuzi(期末原值[3, 1]) < CU.Shuzi(期末税收折旧[3, 1]))
+            {
+                MessageBox.Show("工器家具累计折旧大于原值！");
+                return;
+            }
+            if (CU.Shuzi(期末原值[4, 1]) < CU.Shuzi(期末折旧[4, 1]) || CU.Shuzi(期末原值[4, 1]) < CU.Shuzi(期末税收折旧[4, 1]))
+            {
+                MessageBox.Show("运输工具累计折旧大于原值！");
+                return;
+            }
+            if (CU.Shuzi(期末原值[5, 1]) < CU.Shuzi(期末折旧[5, 1]) || CU.Shuzi(期末原值[5, 1]) < CU.Shuzi(期末税收折旧[5, 1]))
+            {
+                MessageBox.Show("电子设备累计折旧大于原值！");
+                return;
+            }
             if (WorkingPaper.OOO)
             {
                 if (WorkingPaper.版本号 != 2018)
@@ -1510,10 +1642,19 @@ namespace 百邦所得税汇算底稿工具
                                 Globals.WPToolAddln.Application.Workbooks.Open(打印文件路径,
                                     XlUpdateLinks.xlUpdateLinksNever);
                             Globals.WPToolAddln.Application.ScreenUpdating = false;
-                            WorkingPaper.wb打印.ChangeLink(Name: @"E:\税审底稿2017模板.xlsx", NewName: Wb.FullName,
-                                Type: XlLinkType.xlLinkTypeExcelLinks);
+                            string wbname = "[" + Wb.Name + "]";
+                            foreach (Worksheet worksheet in wb打印.Worksheets)
+                            {
+                                worksheet.Cells.Replace(What: "E:\\[税审底稿2017模板.xlsx]", Replacement: wbname,
+                                    LookAt: XlLookAt.xlPart, SearchOrder: XlSearchOrder.xlByRows, MatchCase: false,
+                                    SearchFormat: false,
+                                    ReplaceFormat: false);
+                            }
+
+                            //WorkingPaper.wb打印.ChangeLink(Name: @"E:\税审底稿2017模板.xlsx", NewName: Wb.FullName,
+                            //Type: XlLinkType.xlLinkTypeExcelLinks);
                             //WorkingPaper.wb打印.UpdateLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);  //文档打开时候不能也不需更新数值
-                            WorkingPaper.wb打印.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
+                            //WorkingPaper.wb打印.BreakLink(WorkingPaper.Wb.FullName, XlLinkType.xlLinkTypeExcelLinks);
                             CU.自动调整行高("企业基本情况", "C10:F10", 46.78);
                             CU.自动调整行高("企业基本情况", "A128:F128", 85.22);
                             CU.自动调整行高("A000000 企业基础信息表", "A28", 18.44);
@@ -1610,32 +1751,6 @@ namespace 百邦所得税汇算底稿工具
                                 Globals.WPToolAddln.Application.SheetSelectionChange += Application_SheetSelectionChange;
                             }
                             
-                            break;
-                        case "固资折旧":
-                            object[,] 期末原值 = Wb.ActiveSheet.Range["F8:F12"].Value2;
-                            object[,] 期末折旧 = Wb.ActiveSheet.Range["F18:F22"].Value2;
-                            object[,] 期末税收折旧 = Wb.ActiveSheet.Range["A8:A12"].Value2;
-                            if(CU.Shuzi(期末原值[1,1])<CU.Shuzi(期末折旧[1,1]) || CU.Shuzi(期末原值[1, 1]) < CU.Shuzi(期末税收折旧[1, 1]))
-                            {
-                                MessageBox.Show("房屋建筑累计折旧大于原值！");
-                            }
-                            if (CU.Shuzi(期末原值[2, 1]) < CU.Shuzi(期末折旧[2, 1]) || CU.Shuzi(期末原值[2, 1]) < CU.Shuzi(期末税收折旧[2, 1]))
-                            {
-                                MessageBox.Show("机械设备累计折旧大于原值！");
-                            }
-
-                            if (CU.Shuzi(期末原值[3, 1]) < CU.Shuzi(期末折旧[3, 1]) || CU.Shuzi(期末原值[3, 1]) < CU.Shuzi(期末税收折旧[3, 1]))
-                            {
-                                MessageBox.Show("工器家具累计折旧大于原值！");
-                            }
-                            if (CU.Shuzi(期末原值[4, 1]) < CU.Shuzi(期末折旧[4, 1]) || CU.Shuzi(期末原值[4, 1]) < CU.Shuzi(期末税收折旧[4, 1]))
-                            {
-                                MessageBox.Show("运输工具累计折旧大于原值！");
-                            }
-                            if (CU.Shuzi(期末原值[5, 1]) < CU.Shuzi(期末折旧[5, 1]) || CU.Shuzi(期末原值[5, 1]) < CU.Shuzi(期末税收折旧[5, 1]))
-                            {
-                                MessageBox.Show("电子设备累计折旧大于原值！");
-                            }
                             break;
                         default:
                             Globals.WPToolAddln.Application.SheetFollowHyperlink -= Application_SheetFollowHyperlink;

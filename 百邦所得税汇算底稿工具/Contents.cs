@@ -789,7 +789,7 @@ namespace 百邦所得税汇算底稿工具
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
             {
-                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/", //URL     必需项
+                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/wzlogin/index.do", //URL     必需项
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
                 UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
             };
@@ -798,9 +798,9 @@ namespace 百邦所得税汇算底稿工具
 
             item = new HttpItem
             {
-                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/login/checkcode.do?r=Math.random()&ct=bsfw",
+                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/login/checkcode.do?r=Math.random()&ct=gsbst",
                 //URL     必需项
-                Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/", //来源URL     可选项
+                Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/wzlogin/index.do", //来源URL     可选项
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
                 Cookie = scookie,
                 ResultType = ResultType.Byte, //返回数据类型，是Byte还是String
@@ -819,16 +819,16 @@ namespace 百邦所得税汇算底稿工具
 
             item = new HttpItem
             {
-                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/login/checkAndLogin.do", //URL     必需项
+                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/login/checkgsbstLogin.do", //URL     必需项
                 Method = "post", //URL     可选项 默认为Get
-                Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/", //来源URL     可选项
+                Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/wzlogin/index.do", //来源URL     可选项
                 Cookie = scookie,
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
-                ContentType = "application/json;charset=UTF-8", //返回类型    可选项有默认值
+                ContentType = "application/x-www-form-urlencoded;charset=UTF-8", //返回类型    可选项有默认值
+                Accept = "application/json, text/javascript, */*; q=0.01",//    可选项有默认值
                 UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
                 Postdata =
-                    @"{""login"":{""nsrsbh"":""" + strName + @""",""yhmm"":""" + strPass + @""",""checkCode"":""" +
-                    strText + @""",""loginType"":""bsfw""}}", //Post数据
+                    @"nsrsbh=" + strName + @"&yhmm=" + strPass + @"&yzm=" + strText , //Post数据
             };
             item.Header.Add("x-requested-with", "XMLHttpRequest");
 
@@ -839,7 +839,7 @@ namespace 百邦所得税汇算底稿工具
                 item = new HttpItem
                 {
                     URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/index.do", //URL     必需项
-                    Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/", //来源URL     可选项
+                    Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/wzlogin/index.do", //来源URL     可选项
                     Cookie = scookie,
                     UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
                 };
@@ -889,7 +889,7 @@ namespace 百邦所得税汇算底稿工具
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
             {
-                URL = "https://www.xm-l-tax.gov.cn/res/js/Base64.js", //URL     必需项
+                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/res/js/Base64.js", //URL     必需项
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
                 UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
             };
