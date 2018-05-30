@@ -54,6 +54,7 @@
             this.btn导出报告 = this.Factory.CreateRibbonButton();
             this.separator3 = this.Factory.CreateRibbonSeparator();
             this.btn打印报告 = this.Factory.CreateRibbonButton();
+            this.btnPrint = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.sb导出数据 = this.Factory.CreateRibbonSplitButton();
             this.separator1 = this.Factory.CreateRibbonSeparator();
@@ -216,6 +217,7 @@
             this.splitButton1.Items.Add(this.btn导出报告);
             this.splitButton1.Items.Add(this.separator3);
             this.splitButton1.Items.Add(this.btn打印报告);
+            this.splitButton1.Items.Add(this.btnPrint);
             this.splitButton1.Label = "报告导出";
             this.splitButton1.Name = "splitButton1";
             // 
@@ -236,10 +238,17 @@
             // btn打印报告
             // 
             this.btn打印报告.Image = global::百邦所得税汇算底稿工具.Properties.Resources.ic_local_cafe_black_36dp;
-            this.btn打印报告.Label = "打印报告";
+            this.btn打印报告.Label = "打印报告（不断开公式）";
             this.btn打印报告.Name = "btn打印报告";
             this.btn打印报告.ShowImage = true;
             this.btn打印报告.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btn打印报告_Click);
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.Label = "打印报告（断开公式）";
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.ShowImage = true;
+            this.btnPrint.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnPrint_Click);
             // 
             // group2
             // 
@@ -247,7 +256,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20180521 迟到的小满‍";
+            this.group2.Label = "V20180526 修复16年打印";
             this.group2.Name = "group2";
             // 
             // sb导出数据
@@ -435,6 +444,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnUpdata;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnGongzhonghao;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnGetURL;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPrint;
     }
 
     partial class ThisRibbonCollection

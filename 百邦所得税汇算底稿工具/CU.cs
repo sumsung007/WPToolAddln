@@ -221,7 +221,7 @@ namespace 百邦所得税汇算底稿工具
                                 Zifu(Globals.WPToolAddln.Application.ActiveWorkbook.Worksheets["辅助表"].Range["I1"].Value2);
                             if (版本.IndexOf("V2018") >= 0)
                             {
-                                if (版本.IndexOf("V"+WorkingPaper.当前版本) < 0)
+                                if (版本.IndexOf("V"+WorkingPaper.底稿版本) < 0)
                                     MessageBox.Show("该底稿非最新版本，请升级后使用，以免出现未知错误。");
                                 WorkingPaper.版本号 = 2018;
 
