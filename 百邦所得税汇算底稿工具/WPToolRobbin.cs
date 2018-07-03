@@ -16,7 +16,7 @@ namespace 百邦所得税汇算底稿工具
         public static Workbook Wb,wb打印;
         public static Boolean OOO=false;
         public static int 版本号;
-        public static string 当前版本 = "20180526";  //Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", "");
+        public static string 当前版本 = "20180702";  //Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", "");
         public static string 底稿版本= Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", "");
         public static int Excel版本;
 
@@ -1487,7 +1487,16 @@ namespace 百邦所得税汇算底稿工具
             if (WorkingPaper.版本号 != 2018)
             {
 
-                底稿打印 dgdy = new 底稿打印();
+                底稿打印 dgdy = new 底稿打印(2017);
+                if (dgdy.ShowDialog() == DialogResult.Yes)
+                {
+                    WorkingPaper.Wb.PrintPreview();
+                }
+            }
+            else
+            {
+
+                底稿打印 dgdy = new 底稿打印(2018);
                 if (dgdy.ShowDialog() == DialogResult.Yes)
                 {
                     WorkingPaper.Wb.PrintPreview();

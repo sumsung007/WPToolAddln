@@ -256,7 +256,7 @@
             this.group2.Items.Add(this.btn工具设置);
             this.group2.Items.Add(this.Contact);
             this.group2.Items.Add(this.btn注册);
-            this.group2.Label = "V20180526 修复16年打印";
+            this.group2.Label = "V20180702 底稿打印";
             this.group2.Name = "group2";
             // 
             // sb导出数据

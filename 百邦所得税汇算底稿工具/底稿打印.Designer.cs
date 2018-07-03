@@ -77,7 +77,7 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 98F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.lv待选, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
@@ -86,11 +86,12 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1077, 493);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1067, 448);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lv待选
@@ -121,9 +122,10 @@
             listViewItem1,
             listViewItem2,
             listViewItem3});
-            this.lv待选.Location = new System.Drawing.Point(3, 3);
+            this.lv待选.Location = new System.Drawing.Point(2, 2);
+            this.lv待选.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lv待选.Name = "lv待选";
-            this.lv待选.Size = new System.Drawing.Size(467, 438);
+            this.lv待选.Size = new System.Drawing.Size(480, 405);
             this.lv待选.TabIndex = 0;
             this.lv待选.UseCompatibleStateImageBehavior = false;
             this.lv待选.View = System.Windows.Forms.View.Details;
@@ -144,9 +146,10 @@
             this.panel1.Controls.Add(this.btn识别);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(476, 3);
+            this.panel1.Location = new System.Drawing.Point(486, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(124, 438);
+            this.panel1.Size = new System.Drawing.Size(94, 405);
             this.panel1.TabIndex = 3;
             // 
             // groupBox1
@@ -154,18 +157,21 @@
             this.groupBox1.Controls.Add(this.btn全移);
             this.groupBox1.Controls.Add(this.btn移出);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox1.Location = new System.Drawing.Point(3, 216);
+            this.groupBox1.Location = new System.Drawing.Point(2, 173);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(118, 121);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(88, 97);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "移出";
             // 
             // btn全移
             // 
-            this.btn全移.Location = new System.Drawing.Point(9, 73);
+            this.btn全移.Location = new System.Drawing.Point(7, 58);
+            this.btn全移.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn全移.Name = "btn全移";
-            this.btn全移.Size = new System.Drawing.Size(103, 34);
+            this.btn全移.Size = new System.Drawing.Size(77, 27);
             this.btn全移.TabIndex = 0;
             this.btn全移.Text = "<-移出全部";
             this.btn全移.UseVisualStyleBackColor = true;
@@ -173,9 +179,10 @@
             // 
             // btn移出
             // 
-            this.btn移出.Location = new System.Drawing.Point(9, 24);
+            this.btn移出.Location = new System.Drawing.Point(7, 19);
+            this.btn移出.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn移出.Name = "btn移出";
-            this.btn移出.Size = new System.Drawing.Size(103, 34);
+            this.btn移出.Size = new System.Drawing.Size(77, 27);
             this.btn移出.TabIndex = 0;
             this.btn移出.Text = "<--移出";
             this.btn移出.UseVisualStyleBackColor = true;
@@ -184,17 +191,19 @@
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(124, 65);
+            this.pictureBox1.Size = new System.Drawing.Size(93, 52);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // btn识别
             // 
-            this.btn识别.Location = new System.Drawing.Point(12, 354);
+            this.btn识别.Location = new System.Drawing.Point(9, 283);
+            this.btn识别.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn识别.Name = "btn识别";
-            this.btn识别.Size = new System.Drawing.Size(103, 34);
+            this.btn识别.Size = new System.Drawing.Size(77, 27);
             this.btn识别.TabIndex = 0;
             this.btn识别.Text = "智能识别";
             this.btn识别.UseVisualStyleBackColor = true;
@@ -205,18 +214,21 @@
             this.groupBox2.Controls.Add(this.btn全选);
             this.groupBox2.Controls.Add(this.btn选中);
             this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox2.Location = new System.Drawing.Point(3, 71);
+            this.groupBox2.Location = new System.Drawing.Point(2, 57);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(118, 121);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(88, 97);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "选中";
             // 
             // btn全选
             // 
-            this.btn全选.Location = new System.Drawing.Point(8, 72);
+            this.btn全选.Location = new System.Drawing.Point(6, 58);
+            this.btn全选.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn全选.Name = "btn全选";
-            this.btn全选.Size = new System.Drawing.Size(103, 34);
+            this.btn全选.Size = new System.Drawing.Size(77, 27);
             this.btn全选.TabIndex = 0;
             this.btn全选.Text = "选中全部->";
             this.btn全选.UseVisualStyleBackColor = true;
@@ -224,9 +236,10 @@
             // 
             // btn选中
             // 
-            this.btn选中.Location = new System.Drawing.Point(9, 24);
+            this.btn选中.Location = new System.Drawing.Point(7, 19);
+            this.btn选中.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn选中.Name = "btn选中";
-            this.btn选中.Size = new System.Drawing.Size(103, 34);
+            this.btn选中.Size = new System.Drawing.Size(77, 27);
             this.btn选中.TabIndex = 0;
             this.btn选中.Text = "选中-->";
             this.btn选中.UseVisualStyleBackColor = true;
@@ -237,17 +250,19 @@
             this.panel2.Controls.Add(this.btn取消);
             this.panel2.Controls.Add(this.btn打印);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(606, 447);
+            this.panel2.Location = new System.Drawing.Point(584, 411);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(468, 43);
+            this.panel2.Size = new System.Drawing.Size(481, 35);
             this.panel2.TabIndex = 4;
             // 
             // btn取消
             // 
             this.btn取消.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn取消.Location = new System.Drawing.Point(255, 3);
+            this.btn取消.Location = new System.Drawing.Point(256, 2);
+            this.btn取消.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn取消.Name = "btn取消";
-            this.btn取消.Size = new System.Drawing.Size(103, 34);
+            this.btn取消.Size = new System.Drawing.Size(77, 27);
             this.btn取消.TabIndex = 0;
             this.btn取消.Text = "取消打印";
             this.btn取消.UseVisualStyleBackColor = true;
@@ -256,9 +271,10 @@
             // btn打印
             // 
             this.btn打印.ForeColor = System.Drawing.Color.Green;
-            this.btn打印.Location = new System.Drawing.Point(13, 3);
+            this.btn打印.Location = new System.Drawing.Point(10, 2);
+            this.btn打印.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn打印.Name = "btn打印";
-            this.btn打印.Size = new System.Drawing.Size(103, 34);
+            this.btn打印.Size = new System.Drawing.Size(77, 27);
             this.btn打印.TabIndex = 0;
             this.btn打印.Text = "批量打印";
             this.btn打印.UseVisualStyleBackColor = true;
@@ -292,9 +308,10 @@
             listViewItem4,
             listViewItem5,
             listViewItem6});
-            this.lv选中.Location = new System.Drawing.Point(606, 3);
+            this.lv选中.Location = new System.Drawing.Point(584, 2);
+            this.lv选中.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lv选中.Name = "lv选中";
-            this.lv选中.Size = new System.Drawing.Size(468, 438);
+            this.lv选中.Size = new System.Drawing.Size(481, 405);
             this.lv选中.TabIndex = 5;
             this.lv选中.UseCompatibleStateImageBehavior = false;
             this.lv选中.View = System.Windows.Forms.View.Details;
@@ -312,20 +329,22 @@
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(3, 444);
+            this.label1.Location = new System.Drawing.Point(2, 409);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(467, 49);
+            this.label1.Size = new System.Drawing.Size(480, 39);
             this.label1.TabIndex = 6;
             this.label1.Text = "STEP.1  选择需要打印的工作表";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // 底稿打印
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1077, 493);
+            this.ClientSize = new System.Drawing.Size(1067, 448);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "底稿打印";
             this.Text = "♪(^∇^*)  底稿打印";
             this.tableLayoutPanel1.ResumeLayout(false);

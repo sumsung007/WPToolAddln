@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace 百邦所得税汇算底稿工具
 {
@@ -16,6 +18,7 @@ namespace 百邦所得税汇算底稿工具
         string[] MustName, MustArea, MustDirection, MustZoom, ChooseName, ChooseArea, ChooseCondition, 
             ChooseDirection, ChooseZoom, NonName;
         string group;
+        private int DYYear;
 
         private void Lv待选_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
@@ -199,9 +202,10 @@ namespace 百邦所得税汇算底稿工具
             }
         }
 
-        public 底稿打印()
+        public 底稿打印(int Year)
         {
             InitializeComponent();
+            DYYear = Year;
             刷新();
             lv待选.MouseDoubleClick += Lv待选_MouseDoubleClick;
             lv选中.MouseDoubleClick += Lv选中_MouseDoubleClick;
@@ -213,86 +217,174 @@ namespace 百邦所得税汇算底稿工具
             this.lv待选.BeginUpdate();
             this.lv选中.Items.Clear();
             this.lv待选.Items.Clear();
-
-            //必选打印
-            if (Properties.Settings.Default.MustN != "" ||
-                Properties.Settings.Default.MustA != "" ||
-                Properties.Settings.Default.MustD != "" ||
-                Properties.Settings.Default.MustZ != "")
+            if (DYYear == 2017)
             {
-                MustName = Properties.Settings.Default.MustN.Split(new char[] { '/' });
-                MustArea = Properties.Settings.Default.MustA.Split(new char[] { '/' });
-                MustDirection = Properties.Settings.Default.MustD.Split(new char[] { '/' });
-                MustZoom = Properties.Settings.Default.MustZ.Split(new char[] { '/' });
-                for (int i = 0; i < MustName.Length; i++)
+                //必选打印
+                if (Properties.Settings.Default.MustN != "" ||
+                    Properties.Settings.Default.MustA != "" ||
+                    Properties.Settings.Default.MustD != "" ||
+                    Properties.Settings.Default.MustZ != "")
                 {
-                    ListViewItem lvi = new ListViewItem();
-                    lvi.Group = lv选中.Groups["MustGroup"];
-                    lvi.Text = MustName[i];
-                    lvi.SubItems.Add("必选");
-                    lvi.SubItems.Add(i.ToString());
-                    this.lv选中.Items.Add(lvi);
-                }
-            }
-
-            //选择打印
-            if (Properties.Settings.Default.ChooseN != "" ||
-                Properties.Settings.Default.ChooseA != "" ||
-                Properties.Settings.Default.ChooseC != "" ||
-                Properties.Settings.Default.ChooseD != "" ||
-                Properties.Settings.Default.ChooseZ != "")
-            {
-                ChooseName = Properties.Settings.Default.ChooseN.Split(new char[] { '/' });
-                ChooseArea = Properties.Settings.Default.ChooseA.Split(new char[] { '/' });
-                ChooseCondition = Properties.Settings.Default.ChooseC.Split(new char[] { '/' });
-                ChooseDirection = Properties.Settings.Default.ChooseD.Split(new char[] { '/' });
-                ChooseZoom = Properties.Settings.Default.ChooseZ.Split(new char[] { '/' });
-                string[,] Condition = new string[ChooseName.Length, 1];
-                for (int i = 0; i < ChooseName.Length; i++)
-                {
-                    Condition[i, 0] = ChooseCondition[i];
-                }
-                WorkingPaper.Wb.Worksheets["首页"].Unprotect();
-                WorkingPaper.Wb.Worksheets["首页"].Range["M1:M" + ChooseName.Length].FormulaArray = Condition;
-                WorkingPaper.Wb.Worksheets["首页"].Protect();
-                object[,] V = WorkingPaper.Wb.Worksheets["首页"].Range["M1:M" + ChooseName.Length].Value2;
-                    for (int i = 0; i < ChooseName.Length; i++)
-                {
-                    if(CU.Shuzi(V[i+1,1])==0)
+                    MustName = Properties.Settings.Default.MustN.Split(new char[] {'/'});
+                    MustArea = Properties.Settings.Default.MustA.Split(new char[] {'/'});
+                    MustDirection = Properties.Settings.Default.MustD.Split(new char[] {'/'});
+                    MustZoom = Properties.Settings.Default.MustZ.Split(new char[] {'/'});
+                    for (int i = 0; i < MustName.Length; i++)
                     {
                         ListViewItem lvi = new ListViewItem();
-                        lvi.Group = lv待选.Groups["ChooseGroup"];
-                        lvi.Text = ChooseName[i];
-                        lvi.SubItems.Add("无数");
-                        lvi.SubItems.Add(i.ToString());
-                        this.lv待选.Items.Add(lvi);
-
-                    }
-                    else
-                    {
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.Group = lv选中.Groups["ChooseGroup"];
-                        lvi.Text = ChooseName[i];
-                        lvi.SubItems.Add("有数");
+                        lvi.Group = lv选中.Groups["MustGroup"];
+                        lvi.Text = MustName[i];
+                        lvi.SubItems.Add("必选");
                         lvi.SubItems.Add(i.ToString());
                         this.lv选中.Items.Add(lvi);
                     }
                 }
-            }
 
-            //不用打印
-            if (Properties.Settings.Default.NonN != "")
-            {
-                NonName = Properties.Settings.Default.NonN.Split(new char[] { '/' });
-                for (int i = 0; i < NonName.Length; i++)
+                //选择打印
+                if (Properties.Settings.Default.ChooseN != "" ||
+                    Properties.Settings.Default.ChooseA != "" ||
+                    Properties.Settings.Default.ChooseC != "" ||
+                    Properties.Settings.Default.ChooseD != "" ||
+                    Properties.Settings.Default.ChooseZ != "")
                 {
-                    ListViewItem lvi = new ListViewItem();
-                    lvi.Group = lv待选.Groups["NonGroup"];
-                    lvi.Text = NonName[i];
-                    lvi.SubItems.Add("无需");
-                    lvi.SubItems.Add(i.ToString());
-                    this.lv待选.Items.Add(lvi);
+                    ChooseName = Properties.Settings.Default.ChooseN.Split(new char[] {'/'});
+                    ChooseArea = Properties.Settings.Default.ChooseA.Split(new char[] {'/'});
+                    ChooseCondition = Properties.Settings.Default.ChooseC.Split(new char[] {'/'});
+                    ChooseDirection = Properties.Settings.Default.ChooseD.Split(new char[] {'/'});
+                    ChooseZoom = Properties.Settings.Default.ChooseZ.Split(new char[] {'/'});
+                    string[,] Condition = new string[ChooseName.Length, 1];
+                    for (int i = 0; i < ChooseName.Length; i++)
+                    {
+                        Condition[i, 0] = ChooseCondition[i];
+                    }
+
+                    WorkingPaper.Wb.Worksheets["首页"].Unprotect();
+                    WorkingPaper.Wb.Worksheets["首页"].Range["M1:M" + ChooseName.Length].FormulaArray = Condition;
+                    WorkingPaper.Wb.Worksheets["首页"].Protect();
+                    object[,] V = WorkingPaper.Wb.Worksheets["首页"].Range["M1:M" + ChooseName.Length].Value2;
+                    for (int i = 0; i < ChooseName.Length; i++)
+                    {
+                        if (CU.Shuzi(V[i + 1, 1]) == 0)
+                        {
+                            ListViewItem lvi = new ListViewItem();
+                            lvi.Group = lv待选.Groups["ChooseGroup"];
+                            lvi.Text = ChooseName[i];
+                            lvi.SubItems.Add("无数");
+                            lvi.SubItems.Add(i.ToString());
+                            this.lv待选.Items.Add(lvi);
+
+                        }
+                        else
+                        {
+                            ListViewItem lvi = new ListViewItem();
+                            lvi.Group = lv选中.Groups["ChooseGroup"];
+                            lvi.Text = ChooseName[i];
+                            lvi.SubItems.Add("有数");
+                            lvi.SubItems.Add(i.ToString());
+                            this.lv选中.Items.Add(lvi);
+                        }
+                    }
                 }
+
+                //不用打印
+                if (Properties.Settings.Default.NonN != "")
+                {
+                    NonName = Properties.Settings.Default.NonN.Split(new char[] {'/'});
+                    for (int i = 0; i < NonName.Length; i++)
+                    {
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Group = lv待选.Groups["NonGroup"];
+                        lvi.Text = NonName[i];
+                        lvi.SubItems.Add("无需");
+                        lvi.SubItems.Add(i.ToString());
+                        this.lv待选.Items.Add(lvi);
+                    }
+                }
+            }
+            else
+            {
+
+                WorkingPaper.Wb.Worksheets["补亏"].PageSetup.PrintComments = XlPrintLocation.xlPrintNoComments;
+                string jsonfile = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\PrintSetting2018.json";
+
+                using (System.IO.StreamReader file = System.IO.File.OpenText(jsonfile))
+                {
+                    using (JsonTextReader reader = new JsonTextReader(file))
+                    {
+                        JObject o = (JObject) JToken.ReadFrom(reader);
+
+                        //必选打印
+                        var MustPrintArea = o["MustPrint"];
+                        MustName = MustPrintArea.Select(c => c["Sheetname"].ToString()).ToArray();
+                        MustArea = MustPrintArea.Select(c => c["Printarea"].ToString()).ToArray();
+                        MustDirection = MustPrintArea.Select(c => c["Pagedirection"].ToString()).ToArray();
+                        MustZoom = MustPrintArea.Select(c => c["Zoom"].ToString()).ToArray();
+                        for (int i = 0; i < MustName.Length; i++)
+                        {
+                            ListViewItem lvi = new ListViewItem();
+                            lvi.Group = lv选中.Groups["MustGroup"];
+                            lvi.Text = MustName[i];
+                            lvi.SubItems.Add("必选");
+                            lvi.SubItems.Add(i.ToString());
+                            this.lv选中.Items.Add(lvi);
+                        }
+
+                        //选择打印
+                        var ChoosePrintArea = o["ChoosePrint"];
+                        ChooseName = ChoosePrintArea.Select(c => c["Sheetname"].ToString()).ToArray();
+                        ChooseArea = ChoosePrintArea.Select(c => c["Printarea"].ToString()).ToArray();
+                        ChooseCondition = ChoosePrintArea.Select(c => c["Formula"].ToString()).ToArray();
+                        ChooseDirection = ChoosePrintArea.Select(c => c["Pagedirection"].ToString()).ToArray();
+                        ChooseZoom = ChoosePrintArea.Select(c => c["Zoom"].ToString()).ToArray();
+                        string[,] Condition = new string[ChooseName.Length, 1];
+                        for (int i = 0; i < ChooseName.Length; i++)
+                        {
+                            Condition[i, 0] = ChooseCondition[i];
+                        }
+
+                        WorkingPaper.Wb.Worksheets["辅助表"].Unprotect();
+                        WorkingPaper.Wb.Worksheets["辅助表"].Range["X1:X" + ChooseName.Length].FormulaArray = Condition;
+                        WorkingPaper.Wb.Worksheets["辅助表"].Protect();
+                        object[,] V = WorkingPaper.Wb.Worksheets["辅助表"].Range["X1:X" + ChooseName.Length].Value2;
+                        for (int i = 0; i < ChooseName.Length; i++)
+                        {
+                            if (CU.Shuzi(V[i + 1, 1]) == 0)
+                            {
+                                ListViewItem lvi = new ListViewItem();
+                                lvi.Group = lv待选.Groups["ChooseGroup"];
+                                lvi.Text = ChooseName[i];
+                                lvi.SubItems.Add("无数");
+                                lvi.SubItems.Add(i.ToString());
+                                this.lv待选.Items.Add(lvi);
+
+                            }
+                            else
+                            {
+                                ListViewItem lvi = new ListViewItem();
+                                lvi.Group = lv选中.Groups["ChooseGroup"];
+                                lvi.Text = ChooseName[i];
+                                lvi.SubItems.Add("有数");
+                                lvi.SubItems.Add(i.ToString());
+                                this.lv选中.Items.Add(lvi);
+                            }
+                        }
+
+
+                        //不用打印
+                        var NoPrintArea = o["NoPrint"];
+                        NonName = NoPrintArea.Select(c => c.ToString()).ToArray();
+                        for (int i = 0; i < NonName.Length; i++)
+                        {
+                            ListViewItem lvi = new ListViewItem();
+                            lvi.Group = lv待选.Groups["NonGroup"];
+                            lvi.Text = NonName[i];
+                            lvi.SubItems.Add("无需");
+                            lvi.SubItems.Add(i.ToString());
+                            this.lv待选.Items.Add(lvi);
+                        }
+                    }
+                }
+
             }
 
             this.lv选中.EndUpdate();
@@ -367,7 +459,13 @@ namespace 百邦所得税汇算底稿工具
                             j = WorkingPaper.Wb.Worksheets[iName].Range["A65586"].End[XlDirection.xlUp].Row;
                             WorkingPaper.Wb.Worksheets[iName].PageSetup.PrintArea = "$A$1:$O$" + j;
                             break;
-                        case "应收":
+                        case "现金证明":
+                                WorkingPaper.Wb.Worksheets[iName].Range["C18"].NumberFormatLocal = "yyyy-mm-dd";
+                                break;
+                        case "银行调节":
+                            WorkingPaper.Wb.Worksheets[iName].Range["A36"].NumberFormatLocal = "yyyy-mm-dd";
+                            break;
+                            case "应收":
                         case "预付":
                         case "其他应收":
                         case "应付":

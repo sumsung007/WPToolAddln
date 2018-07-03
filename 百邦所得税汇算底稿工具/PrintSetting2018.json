@@ -1,0 +1,621 @@
+{
+    "ChoosePrint": [
+        {
+            "Sheetname": "凭证检查",
+            "Printarea": "$A$1:$Q$212",
+            "Pagedirection": "竖向",
+            "Zoom": "1-0",
+            "Formula": "=SUM(IFERROR(ABS(凭证检查!$G$7:$G$206),0))"
+        },
+        {
+            "Sheetname": "货币资金",
+            "Printarea": "$A$1:$H$29",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(IFERROR(ABS(货币资金!$D$25:$H$25),0))"
+        },
+        {
+            "Sheetname": "现金证明",
+            "Printarea": "$A$1:$E$18",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(IFERROR(ABS(现金证明!$D$8:$D$10),0))"
+        },
+        {
+            "Sheetname": "银行调节",
+            "Printarea": "$A$1:$B$36",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(IFERROR(ABS(银行调节!$A$5),0))"
+        },
+        {
+            "Sheetname": "应收",
+            "Printarea": "$A$1:$F$305",
+            "Pagedirection": "竖向",
+            "Zoom": "1-0",
+            "Formula": "=SUMPRODUCT(ABS(应收!$B$12:$F$12))+SUMPRODUCT(ABS(应收!$B$14:$F$15))"
+        },
+        {
+            "Sheetname": "预付",
+            "Printarea": "$A$1:$F$305",
+            "Pagedirection": "竖向",
+            "Zoom": "1-0",
+            "Formula": "=SUMPRODUCT(ABS(预付!$B$12:$F$12))+SUMPRODUCT(ABS(预付!$B$14:$F$15))"
+        },
+        {
+            "Sheetname": "其他应收",
+            "Printarea": "$A$1:$F$305",
+            "Pagedirection": "竖向",
+            "Zoom": "1-0",
+            "Formula": "=SUMPRODUCT(ABS(其他应收!$B$12:$F$12))+SUMPRODUCT(ABS(其他应收!$B$14:$F$15))"
+        },
+        {
+            "Sheetname": "存货",
+            "Printarea": "$A$1:$F$32",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(存货!$C$28:$F$28)"
+        },
+        {
+            "Sheetname": "待摊预提",
+            "Printarea": "$A$1:$J$24",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(待摊预提!$D$13:$J$13,待摊预提!$D$20:$J$20)"
+        },
+        {
+            "Sheetname": "在建工程",
+            "Printarea": "$A$1:$H$20",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(在建工程!$C$16:$H$16)"
+        },
+        {
+            "Sheetname": "对外投资",
+            "Printarea": "$A$1:$J$30",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(对外投资!$D$16:$J$16,对外投资!$D$26:$J$26)"
+        },
+        {
+            "Sheetname": "应付",
+            "Printarea": "$A$1:$F$303",
+            "Pagedirection": "竖向",
+            "Zoom": "1-0",
+            "Formula": "=SUMPRODUCT(ABS(应付!$B$12:$F$13))"
+        },
+        {
+            "Sheetname": "预收",
+            "Printarea": "$A$1:$F$303",
+            "Pagedirection": "竖向",
+            "Zoom": "1-0",
+            "Formula": "=SUMPRODUCT(ABS(预收!$B$12:$F$13))"
+        },
+        {
+            "Sheetname": "其他应付",
+            "Printarea": "$A$1:$F$303",
+            "Pagedirection": "竖向",
+            "Zoom": "1-0",
+            "Formula": "=SUMPRODUCT(ABS(其他应付!$B$12:$F$13))"
+        },
+        {
+            "Sheetname": "借款",
+            "Printarea": "$A$1:$K$30",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(借款!$D$16:$K$16,借款!$D$26:$K$26)"
+        },
+        {
+            "Sheetname": "实收公积",
+            "Printarea": "$A$1:$H$37",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(实收公积!$C$19:$H$19,实收公积!$C$24:$H$24,实收公积!$C$30:$H$30,实收公积!$H$31)"
+        },
+        {
+            "Sheetname": "未分利润",
+            "Printarea": "$A$1:$G$28",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(未分利润!$C$8:$E$24)"
+        },
+        {
+            "Sheetname": "主营收支",
+            "Printarea": "$A$1:$H$48",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(主营收支!$C$23:$H$23,主营收支!$C$40:$H$40)"
+        },
+        {
+            "Sheetname": "其他业务",
+            "Printarea": "$A$1:$J$26",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(其他业务!C19:$J$19)"
+        },
+        {
+            "Sheetname": "应交税费",
+            "Printarea": "$A$1:$H$22",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(应交税费!$D$7:$D$16,应交税费!$F$7:$F$19,应交税费!$H$7:$H$15)"
+        },
+        {
+            "Sheetname": "收入与申报核对表",
+            "Printarea": "$A$1:$K$22",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(收入与申报核对表!$D$8:$J$20)"
+        },
+        {
+            "Sheetname": "毛利分析",
+            "Printarea": "$A$1:$G$40",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(毛利分析!$C$8:$F$20)"
+        },
+        {
+            "Sheetname": "制造费用、生产成本",
+            "Printarea": "$A$1:$G$48",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(制造费用、生产成本!$B$8:$G$8,制造费用、生产成本!$B$21:$G$21)"
+        },
+        {
+            "Sheetname": "成本倒轧",
+            "Printarea": "$A$1:$H$45",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(成本倒轧!$D$8:$E$40)"
+        },
+        {
+            "Sheetname": "存货计价测试",
+            "Printarea": "$A$1:$O$20",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(存货计价测试!$B$8:$O$19)"
+        },
+        {
+            "Sheetname": "税金附加",
+            "Printarea": "$A$1:$J$29",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(税金附加!$G$20:$I$20)"
+        },
+        {
+            "Sheetname": "税费缴纳测算",
+            "Printarea": "$A$1:$H$27,$A$29:$H$59",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(税费缴纳测算!$C$25:$G$25,税费缴纳测算!$D$57:$G$57)"
+        },
+        {
+            "Sheetname": "销售费用",
+            "Printarea": "$A$1:$H$48",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(销售费用!$D$6:$H$44)"
+        },
+        {
+            "Sheetname": "管理费用",
+            "Printarea": "$A$1:$H$49",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(管理费用!$D$6:$H$45)"
+        },
+        {
+            "Sheetname": "财务费用",
+            "Printarea": "$A$1:$H$31",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(财务费用!$D$6:$H$27)"
+        },
+        {
+            "Sheetname": "营外收支",
+            "Printarea": "$A$1:$G$45",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(营外收支!$C$7:$F$37)"
+        },
+        {
+            "Sheetname": "招待",
+            "Printarea": "$A$1:$M$31",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(招待!$E$15:$K$15)"
+        },
+        {
+            "Sheetname": "固资折旧",
+            "Printarea": "$A$1:$G$35",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(固资折旧!$C$13:$G$13,固资折旧!$C$16:$F$16,固资折旧!$C$23:$G$23,固资折旧!$C$26:$F$26)"
+        },
+        {
+            "Sheetname": "折旧测算",
+            "Printarea": "$A$1:$O$1004",
+            "Pagedirection": "竖向",
+            "Zoom": "1-0",
+            "Formula": "=SUM(折旧测算!$C$8:$O$8)"
+        },
+        {
+            "Sheetname": "无形长摊",
+            "Printarea": "$A$1:$O$33",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(无形长摊!$C$7:$O$7,无形长摊!$C$17:$O$17,无形长摊!$C$27:$O$27)"
+        },
+        {
+            "Sheetname": "社保",
+            "Printarea": "$A$1:$G$34",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(社保!$D$20:$F$20)"
+        },
+        {
+            "Sheetname": "社保明细工资人数",
+            "Printarea": "$A$1:$J$37",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(社保明细工资人数!$B$22:$J$22,社保明细工资人数!$B$37:$J$37)"
+        },
+        {
+            "Sheetname": "利息",
+            "Printarea": "$A$1:$L$28",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(利息!$D$18:$J$18,利息!$C$21:$J$21)"
+        },
+        {
+            "Sheetname": "租金",
+            "Printarea": "$A$1:$J$28",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(租金!$E$8:$J$18,租金!$B$21:$J$21)"
+        },
+        {
+            "Sheetname": "调整事项",
+            "Printarea": "$A$1:$I$97",
+            "Pagedirection": "横向",
+            "Zoom": "1-0",
+            "Formula": "=SUM(调整事项!$H$97:$I$97)"
+        },
+        {
+            "Sheetname": "无限期结转扣除项目审核表",
+            "Printarea": "$A$1:$L$10",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(无限期结转扣除项目审核表!$C$6:$K$10)"
+        },
+        {
+            "Sheetname": "跨年度确认所得情况表",
+            "Printarea": "$A$1:$G$17",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(跨年度确认所得情况表!$D$8:$D$17,跨年度确认所得情况表!$F$8:$F$17)"
+        },
+        {
+            "Sheetname": "公允价值变动审定表",
+            "Printarea": "$A$1:$G$17",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(公允价值变动审定表!$C$8:$G$17)"
+        },
+        {
+            "Sheetname": "减值准备审核表",
+            "Printarea": "$A$1:$H$22",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(减值准备审核表!$C$22:$H$22)"
+        },
+        {
+            "Sheetname": "视同销售和房地产开发企业特定业务审核表",
+            "Printarea": "$A$1:$E$36",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(视同销售和房地产开发企业特定业务审核表!$C$8:$C$36)"
+        },
+        {
+            "Sheetname": "未按权责发生制确认收入审核表",
+            "Printarea": "$A$1:$I$19",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(未按权责发生制确认收入审核表!$C$6:$H$19)"
+        },
+        {
+            "Sheetname": "投资收益审核表",
+            "Printarea": "$A$1:$N$15",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(投资收益审核表!$C$6:$M$15)"
+        },
+        {
+            "Sheetname": "专项用途财政性资金审核表",
+            "Printarea": "$A$1:$Q$13",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(专项用途财政性资金审核表!$D$13:$F$13,专项用途财政性资金审核表!$L$13:$M$13)"
+        },
+        {
+            "Sheetname": "工资福利",
+            "Printarea": "$A$1:$H$43",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(工资福利!$C$17:$G$17,工资福利!$F$22)"
+        },
+        {
+            "Sheetname": "广宣",
+            "Printarea": "$A$1:$K$42",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(广宣!$E$7:$J$24,广宣!$J$33,广宣!$J$36:$J$37)"
+        },
+        {
+            "Sheetname": "捐赠",
+            "Printarea": "$A$1:$J$26",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(捐赠!$C$16:$J$16,捐赠!$C$22:$J$22)"
+        },
+        {
+            "Sheetname": "固定资产加速折旧审核表",
+            "Printarea": "$A$1:$L$17",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(固定资产加速折旧审核表!$D$7:$L$17)"
+        },
+        {
+            "Sheetname": "资产损失税前扣除审核表",
+            "Printarea": "$A$1:$H$18",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(资产损失税前扣除审核表!$C$5:$H$18)"
+        },
+        {
+            "Sheetname": "企业重组审核表",
+            "Printarea": "$A$1:$I$21",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(企业重组审核表!$C$6:$I$21)"
+        },
+        {
+            "Sheetname": "政策性搬迁审核表",
+            "Printarea": "$A$1:$D$27",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(政策性搬迁审核表!$C$4:$C$27)"
+        },
+        {
+            "Sheetname": "特殊行业准备金审核表",
+            "Printarea": "$A$1:$G$47",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(特殊行业准备金审核表!$E$5:$G$47)"
+        },
+        {
+            "Sheetname": "补亏",
+            "Printarea": "$A$1:$H$21",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(补亏!$B$8:$G$18)"
+        },
+        {
+            "Sheetname": "免税、减计收入及加计扣除优惠审核表",
+            "Printarea": "$A$1:$C$34",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(免税、减计收入及加计扣除优惠审核表!$C$4:$C$34)"
+        },
+        {
+            "Sheetname": "股息红利优惠审核表",
+            "Printarea": "$A$1:$R$15",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(股息红利优惠审核表!$E$6:$R$12)"
+        },
+        {
+            "Sheetname": "研发费用加计扣除优惠审核表",
+            "Printarea": "$A$1:$D$55",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(研发费用加计扣除优惠审核表!$D$7:$D$52)"
+        },
+        {
+            "Sheetname": "所得减免优惠审核表",
+            "Printarea": "$A$1:$M$27",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(所得减免优惠审核表!$F$6:$M$27)"
+        },
+        {
+            "Sheetname": "抵扣应纳税所得额审核表",
+            "Printarea": "$A$1:$E$22",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(抵扣应纳税所得额审核表!$C$8:$C$9,抵扣应纳税所得额审核表!$C$22:$E$22,抵扣应纳税所得额审核表!$C$15:$C$18)"
+        },
+        {
+            "Sheetname": "减免所得税优惠审核表",
+            "Printarea": "$A$1:$D$39",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(减免所得税优惠审核表!$C$4:$C$39)"
+        },
+        {
+            "Sheetname": "高新技术企业优惠情况审核表",
+            "Printarea": "$A$1:$I$38",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(高新技术企业优惠情况审核表!$I$21:$I$38,高新技术企业优惠情况审核表!$F$21:$H$35,高新技术企业优惠情况审核表!$I$9:$I$18)"
+        },
+        {
+            "Sheetname": "软件、集成电路企业优惠情况审核表",
+            "Printarea": "$A$1:$E$30",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(软件、集成电路企业优惠情况审核表!$E$9:$E$30)"
+        },
+        {
+            "Sheetname": "税额抵免优惠审核表",
+            "Printarea": "$A$1:$N$16",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(税额抵免优惠审核表!$E$6:$E$11,税额抵免优惠审核表!$K$14:$N$16)"
+        },
+        {
+            "Sheetname": "境外所得税收抵免审核表",
+            "Printarea": "$A$1:$T$16",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(境外所得税收抵免审核表!$C$15:$T$15)"
+        },
+        {
+            "Sheetname": "境外所得纳税调整后所得审核表",
+            "Printarea": "$A$1:$S$16",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(境外所得纳税调整后所得审核表!$C$15:$S$15)"
+        },
+        {
+            "Sheetname": "境外分支机构弥补亏损审核表",
+            "Printarea": "$A$1:$T$19",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(境外分支机构弥补亏损审核表!$C$18:$T$18)"
+        },
+        {
+            "Sheetname": "跨年度结转抵免境外所得税审核表",
+            "Printarea": "$A$1:$T$15",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(跨年度结转抵免境外所得税审核表!$C$15:$T$15)"
+        },
+        {
+            "Sheetname": "跨地区经营汇总纳税企业年度分摊企业所得税审核表",
+            "Printarea": "$A$1:$C$23",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(跨地区经营汇总纳税企业年度分摊企业所得税审核表!$C$4:$C$14)"
+        },
+        {
+            "Sheetname": "企业所得税汇总纳税分支机构所得税分配表",
+            "Printarea": "$A$1:$H$24",
+            "Pagedirection": "横向",
+            "Zoom": "1-1",
+            "Formula": "=SUM(企业所得税汇总纳税分支机构所得税分配表!$D$24:$F$24)"
+        }
+    ],
+    "NoPrint": [
+        "待办事项",
+        "业务约定",
+        "税审收费标准",
+        "当局声明",
+        "资料清单",
+        "审核标识",
+        "盘点表",
+        "通用记录",
+        "使用说明",
+        "基本情况",
+        "资产负债表",
+        "利润表",
+        "余额表",
+        "检查表",
+        "报告正文",
+        "企业基本情况",
+        "封面",
+        "企业所得税年度纳税申报表填报表单",
+        "A000000 企业基础信息表",
+        "A100000 中华人民共和国企业所得税年度纳税申报表（A类）",
+        "A101010 一般企业收入明细表",
+        "A101020 金融企业收入明细表",
+        "A102010 一般企业成本支出明细表",
+        "A102020 金融企业支出明细表",
+        "A103000事业单位、民间非营利组织收入、支出明细表",
+        "A104000期间费用明细表",
+        "A105000纳税调整项目明细表",
+        "A105010视同销售和房地产开发企业特定业务纳税调整明细表",
+        "A105020未按权责发生制确认收入纳税调整明细表",
+        "A105030投资收益纳税调整明细表",
+        "A105040专项用途财政性资金纳税调整表",
+        "A105050职工薪酬支出及纳税调整明细表",
+        "A105060广告费和业务宣传费跨年度纳税调整明细表",
+        "A105070捐赠支出及纳税调整明细表",
+        "A105080 资产折旧、摊销及纳税调整明细表",
+        "A105090资产损失税前扣除及纳税调整明细表",
+        "A105100企业重组及递延纳税事项调整明细表",
+        "A105110政策性搬迁纳税调整明细表",
+        "A105120 特殊行业准备金及纳税调整明细表",
+        "A106000 企业所得税弥补亏损明细表",
+        "A107010免税、减计收入及加计扣除优惠明细表",
+        "A107011符合条件的居民企业之间的股息、红利等…优惠明细表",
+        "A107012 研发费用加计扣除优惠明细表",
+        "A107020所得减免优惠明细表",
+        "A107030 抵扣应纳税所得额明细表",
+        "A107040减免所得税优惠明细表",
+        "A107041 高新技术企业优惠情况及明细表",
+        "A107042软件、集成电路企业优惠情况及明细表",
+        "A107050 税额抵免优惠明细表",
+        "A108000境外所得税收抵免明细表",
+        "A108010境外所得纳税调整后所得明细表",
+        "A108020境外分支机构弥补亏损明细表",
+        "A108030 跨年度结转抵免境外所得税明细表",
+        "A109000跨地区经营汇总纳税企业年度分摊企业所得税明细表",
+        "A109010 企业所得税汇总纳税分支机构所得税分配表",
+        "研发项目可加计扣除研究开发费用情况归集表",
+        "“研发支出”辅助账汇总表",
+        "(二)附表-科目说明",
+        "企业各税审核汇总表",
+        "地税、基本情况",
+        "税金申报明细"
+    ],
+    "MustPrint": [
+        {
+            "Sheetname": "档案封面",
+            "Printarea": "$A$1:$I$21",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1"
+        },
+        {
+            "Sheetname": "签发单",
+            "Printarea": "$A$1:$E$25",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1"
+        },
+        {
+            "Sheetname": "三级复核",
+            "Printarea": "$A$1:$K$44",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1"
+        },
+        {
+            "Sheetname": "计划",
+            "Printarea": "$B$1:$K$31",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1"
+        },
+        {
+            "Sheetname": "内控",
+            "Printarea": "$A$1:$K$33",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1"
+        },
+        {
+            "Sheetname": "审核问卷",
+            "Printarea": "$A$1:$N$47",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1"
+        },
+        {
+            "Sheetname": "重大问题",
+            "Printarea": "$A$1:$G$17",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1"
+        },
+        {
+            "Sheetname": "交换意见",
+            "Printarea": "$A$1:$G$31",
+            "Pagedirection": "竖向",
+            "Zoom": "1-1"
+        }
+    ]
+}
