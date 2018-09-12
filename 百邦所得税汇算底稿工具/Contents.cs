@@ -348,14 +348,14 @@ namespace 百邦所得税汇算底稿工具
                     MessageBox.Show("国税信息抓取成功！");
                 else
                     MessageBox.Show("国税抓取失败！");
-                name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["F4"].Value2);
-                pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["H4"].Value2);
-                if (name1 == "" || pass1 == "")
-                    MessageBox.Show("地税用户名密码未填写，请填写[基本情况].[F4,H4]后重试！");
-                else if (地税信息(name1, pass1))
-                    MessageBox.Show("地税信息抓取成功！");
-                else
-                    MessageBox.Show("地税抓取失败！");
+                //name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["F4"].Value2);
+                //pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["H4"].Value2);
+                //if (name1 == "" || pass1 == "")
+                //    MessageBox.Show("地税用户名密码未填写，请填写[基本情况].[F4,H4]后重试！");
+                //else if (地税信息(name1, pass1))
+                //    MessageBox.Show("地税信息抓取成功！");
+                //else
+                //    MessageBox.Show("地税抓取失败！");
             }
             else
             {
@@ -369,14 +369,14 @@ namespace 百邦所得税汇算底稿工具
                     MessageBox.Show("国税信息抓取成功！");
                 else
                     MessageBox.Show("国税抓取失败！");
-                name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
-                pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
-                if (name1 == "" || pass1 == "")
-                    MessageBox.Show("地税用户名密码未填写，请填写[基本情况].[B50,D50]后重试！");
-                else if (地税信息(name1, pass1))
-                    MessageBox.Show("地税信息抓取成功！");
-                else
-                    MessageBox.Show("地税抓取失败！");
+                //name1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["B50"].Value2);
+                //pass1 = CU.Zifu(WorkingPaper.Wb.Worksheets["基本情况"].Range["D50"].Value2);
+                //if (name1 == "" || pass1 == "")
+                //    MessageBox.Show("地税用户名密码未填写，请填写[基本情况].[B50,D50]后重试！");
+                //else if (地税信息(name1, pass1))
+                //    MessageBox.Show("地税信息抓取成功！");
+                //else
+                //    MessageBox.Show("地税抓取失败！");
             }
 
         }
@@ -785,26 +785,28 @@ namespace 百邦所得税汇算底稿工具
 
         private Boolean 国税信息(string strName, string strPass)
         {
-            string strText, scookie;
+            string strText, scookie,strUserAgent, lhrz_clicent_ticket;
+            strUserAgent =
+                "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)";
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
             {
-                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/wzlogin/index.do", //URL     必需项
+                URL = "http://wsbsfwt1.xmtax.gov.cn:8001/login/index.do", //URL     必需项
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
-                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                UserAgent = strUserAgent,
             };
             HttpResult result = http.GetHtml(item);
             scookie = result.Cookie;
 
             item = new HttpItem
             {
-                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/login/checkcode.do?r=Math.random()&ct=gsbst",
+                URL = "http://wsbsfwt1.xmtax.gov.cn:8001/bsfw/login/checkcode.do?rand=" + DateTime.Now.ToString("ddd MMM dd HH:mm:ss CST yyyy") ,
                 //URL     必需项
-                Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/wzlogin/index.do", //来源URL     可选项
+                Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/login/index.do", //来源URL     可选项
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
                 Cookie = scookie,
                 ResultType = ResultType.Byte, //返回数据类型，是Byte还是String
-                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                UserAgent = strUserAgent,
             };
             result = http.GetHtml(item);
 
@@ -819,16 +821,16 @@ namespace 百邦所得税汇算底稿工具
 
             item = new HttpItem
             {
-                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/login/checkgsbstLogin.do", //URL     必需项
+                URL = "http://wsbsfwt1.xmtax.gov.cn:8001/bsfw/login/checkLoginNew.do", //URL     必需项
                 Method = "post", //URL     可选项 默认为Get
-                Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/wzlogin/index.do", //来源URL     可选项
+                Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/login/index.do", //来源URL     可选项
                 Cookie = scookie,
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
                 ContentType = "application/x-www-form-urlencoded;charset=UTF-8", //返回类型    可选项有默认值
                 Accept = "application/json, text/javascript, */*; q=0.01",//    可选项有默认值
-                UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                UserAgent = strUserAgent,
                 Postdata =
-                    @"nsrsbh=" + strName + @"&yhmm=" + strPass + @"&yzm=" + strText , //Post数据
+                    @"loginId=" + strName + @"&userPassword=" + strPass + @"&checkCode=" + strText , //Post数据
             };
             item.Header.Add("x-requested-with", "XMLHttpRequest");
 
@@ -838,41 +840,101 @@ namespace 百邦所得税汇算底稿工具
             {
                 item = new HttpItem
                 {
-                    URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/index.do", //URL     必需项
-                    Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/wzlogin/index.do", //来源URL     可选项
+                    URL = "http://wsbsfwt1.xmtax.gov.cn:8001/login/opener.do", //URL     必需项
+                    Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/login/index.do", //来源URL     可选项
                     Cookie = scookie,
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    UserAgent = strUserAgent,
                 };
                 result = http.GetHtml(item);
+
                 item = new HttpItem
                 {
-                    URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/sscx_index.do", //URL     必需项
-                    Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/index.do", //来源URL     可选项
+                    URL = "http://wsbsfwt1.xmtax.gov.cn:8001/login/xgabcd.do", //URL     必需项
+                    Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/login/opener.do", //来源URL     可选项
                     Cookie = scookie,
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    UserAgent = strUserAgent,
                 };
                 result = http.GetHtml(item);
+
                 item = new HttpItem
                 {
-                    URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/nsrgl/queryNsrjbxx.do", //URL     必需项
-                    Referer = "http://wsbsdt.xm-n-tax.gov.cn:8001/bsfw/home/sscx_index.do", //来源URL     可选项
+                    URL = "http://wsbsfwt1.xmtax.gov.cn:8001/nsfwHome/index.do", //URL     必需项
+                    Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/login/opener.do", //来源URL     可选项
                     Cookie = scookie,
-                    UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
+                    UserAgent = strUserAgent,
                 };
                 result = http.GetHtml(item);
-                string html = result.Html;
-                Regex reg = new Regex(@"<table[^>]*>[\s\S]*</table>",
+
+                item = new HttpItem
+                {
+                    URL = "http://wsbsfwt1.xmtax.gov.cn:8001/swxxtx/index/indexConter.do", //URL     必需项
+                    Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/nsfwHome/index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = strUserAgent,
+                };
+                result = http.GetHtml(item);
+
+                item = new HttpItem
+                {
+                    URL = "http://lhrzportal.xm-n-tax.gov.cn:7001/servlet/GetPortalTicket?redirect=http%3A%2F%2Fwsbsfwt1.xmtax.gov.cn%3A8001%2Flhpt%2Findex.do%3Fmenu_item_id%3DSSCX_001%26gdsbz%3DGS&nologinredirect=http%3A%2F%2Fwsbsfwt1.xmtax.gov.cn%3A8001%2Fbsfw%2Flogin%2Findex.do", //URL     必需项
+                    Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/nsfwHome/index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = strUserAgent,
+                };
+                result = http.GetHtml(item);
+                lhrz_clicent_ticket = Regex.Match(result.ToString(), "(?<=<a.*>).*(?=</a>)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled).Groups[1].Value;
+
+                item = new HttpItem
+                {
+                    URL = lhrz_clicent_ticket, //URL     必需项
+                    Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/nsfwHome/index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = strUserAgent,
+                };
+                result = http.GetHtml(item);
+
+                item = new HttpItem
+                {
+                    URL = "http://wsbsfwt1.xmtax.gov.cn:8001/bsfw/home/home.do", //URL     必需项
+                    Referer = lhrz_clicent_ticket, //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = strUserAgent,
+                };
+                result = http.GetHtml(item);
+
+                item = new HttpItem
+                {
+                    URL = "http://wsbsfwt1.xmtax.gov.cn:8001/bsfw/home/sscx_index.do", //URL     必需项
+                    Referer = lhrz_clicent_ticket, //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = strUserAgent,
+                };
+                result = http.GetHtml(item);
+
+                item = new HttpItem
+                {
+                    URL = "http://wsbsfwt1.xmtax.gov.cn:8001/bsfw/nsrgl/queryNsrjbxx.do", //URL     必需项
+                    Referer = "http://wsbsfwt1.xmtax.gov.cn:8001/bsfw/home/sscx_index.do", //来源URL     可选项
+                    Cookie = scookie,
+                    UserAgent = strUserAgent,
+                };
+                result = http.GetHtml(item);
+                string html = result.Html.Replace("\r", "").Replace("\n", "");
+                Regex reg = new Regex(@"<table[^>]*>.*?</table>",
                     RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
-                html = reg.Match(html).Value;
+                html = reg.Match(html).Groups[0].Value;
+                html = Regex.Replace(html, @"<!--.*?-->","", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
                 html =
                     Regex.Replace(html, @"&nbsp;", "",
                         RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
                 html =
                     Regex.Replace(html, @"^\s+|(\>)\s+(\<)|\s+$", "$1$2",
-                        RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled).Replace("\r", "").Replace("\n", "");
+                        RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+                int ii = html.IndexOf("<td class=\"tdButtomLeft\"><div align=\"right\">纳税人状态：");
+                html = html.Substring(0,ii)+"<tr>"+ html.Substring(ii, html.Length-ii);
                 HtmlTableService ht = new HtmlTableService();
                 string[,] dt = ht.ToArray(html, Encoding.UTF8);
-                Range rng = WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["W1"].Resize[dt.GetLength(0), dt.GetLength(1)];
+                Range rng = WorkingPaper.Wb.Worksheets["地税、基本情况"].Range["A1"].Resize[dt.GetLength(0), dt.GetLength(1)];
                 rng.Value2 = dt;
 
                 return true;
@@ -889,7 +951,7 @@ namespace 百邦所得税汇算底稿工具
             HttpHelper http = new HttpHelper();
             HttpItem item = new HttpItem()
             {
-                URL = "http://wsbsdt.xm-n-tax.gov.cn:8001/res/js/Base64.js", //URL     必需项
+                URL = "http://wsbsfwt1.xmtax.gov.cn:8001/res/js/Base64.js", //URL     必需项
                 IsToLower = false, //得到的HTML代码是否转成小写     可选项默认转小写
                 UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)",
             };

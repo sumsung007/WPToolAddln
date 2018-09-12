@@ -1891,10 +1891,8 @@ namespace 百邦所得税汇算底稿工具
 
         private void Application_WorkbookActivate(Workbook wb)
         {
-
             if (CU.文件判断())
-            {
-                
+            {              
                 Contents con = new Contents();
                 if (Excel版本 == 13)
                 {
